@@ -1,0 +1,258 @@
+[
+  {
+    "id": 1,
+    "photos": [
+      "https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?.q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Single Bed",
+    "roomNumber": "Deluxe-Room - 215",
+    "description": "Habitación individual con una cama individual. Baño privado y vistas a la ciudad.",
+    "offer": "YES",
+    "priceNight": 189,
+    "discount": 30,
+    "cancellation": "Flexible",
+    "amenities": ["Vistas a la ciudad", "Baño privado", "Ventanas panorámicas", "Cama cómoda", "Mesa de trabajo", "Cafetera", "Armario espacioso"],
+    "status": "Available"
+  },
+  {
+    "id": 2,
+    "photos": [
+      "https://plus.unsplash.com/premium_photo-1661843652801-66305e3c980c?q=80&w=2037&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1595576508898-0ad5c879a061?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Double Bed",
+    "roomNumber": "Suite Junior - 402",
+    "description": "Habitación doble con una cama matrimonial. Ideal para parejas. Vistas al jardín.",
+    "offer": "NO",
+    "priceNight": 66,
+    "discount": null,
+    "cancellation": "Moderate",
+    "amenities": ["Vistas al jardín", "Baño amplio", "Ventilación natural", "Cama espaciosa", "Sala de estar", "Comedor privado", "Baño de lujo"],
+    "status": "Available"
+  },
+  {
+    "id": 3,
+    "photos": [
+      "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1681487479203-464a22302b27?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1594560913095-8cf34bab82ad?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Double Superior",
+    "roomNumber": "Overview Room - 601",
+    "description": "Habitación doble superior con cama king-size. Amplio espacio y baño de lujo.",
+    "offer": "YES",
+    "priceNight": 114,
+    "discount": 10,
+    "amenities": ["Vistas panorámicas", "Baño de lujo", "Amplio espacio", "Cama king-size", "Sala de estar", "Terraza privada", "Armario empotrado"],
+    "cancellation": "Strict",
+    "status": "Available"
+
+  },
+  {
+    "id": 4,
+    "photos": [
+      "https://images.unsplash.com/photo-1507038772120-7fff76f79d79?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1631049035182-249067d7618e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1605346576608-92f1346b67d6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Suite",
+    "roomNumber": "Executive Loft - 318",
+    "description": "Suite de lujo con dormitorio separado y sala de estar. Vistas panorámicas.",
+    "offer": "YES",
+    "priceNight": 101,
+    "discount": 20,
+    "cancellation": "Flexible",
+    "amenities": ["Vistas panorámicas", "Suite de lujo", "Dormitorio separado", "Sala de estar", "Baño de lujo", "Espacio amplio", "Ventanas panorámicas"],
+    "status": "Available"
+  },
+  {
+    "id": 5,
+    "photos": [
+      "https://images.unsplash.com/photo-1608198399988-341f712c3711?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1661962495669-d72424626bdc?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1592229505726-ca121723b8ef?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Single Bed",
+    "roomNumber": "Thermal Room - 124",
+    "description": "Habitación individual con cama individual. Perfecta para viajeros solitarios.",
+    "offer": "NO",
+    "priceNight": 85,
+    "discount": null,
+    "cancellation": "Moderate",
+    "amenities": ["Vistas relajantes", "Baño privado", "Cama cómoda", "Escritorio", "Espacio tranquilo", "Iluminación natural", "Armario espacioso"],
+    "status": "Available"
+  },
+  {
+    "id": 6,
+    "photos": [
+      "https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?.q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Double Bed",
+    "roomNumber": "Ocean View - 503",
+    "description": "Habitación doble con una cama matrimonial. Hermosas vistas al océano.",
+    "offer": "NO",
+    "priceNight": 120,
+    "discount": 15,
+    "cancellation": "Flexible",
+    "amenities": ["Vistas al océano", "Baño amplio", "Ventanas panorámicas", "Cama espaciosa", "Sala de estar", "Wi-Fi gratuito", "Armario empotrado"],
+    "status": "Booked"
+  },
+  {
+    "id": 7,
+    "photos": [
+      "https://plus.unsplash.com/premium_photo-1661843652801-66305e3c980c?q=80&w=2037&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1595576508898-0ad5c879a061?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Single Bed",
+    "roomNumber": "City View - 305",
+    "description": "Habitación individual con una cama individual. Vista panorámica de la ciudad.",
+    "offer": "YES",
+    "priceNight": 95,
+    "discount": 25,
+    "cancellation": "Moderate",
+    "amenities": ["Vistas a la ciudad", "Baño privado", "Ventanas panorámicas", "Cama cómoda", "Mesa de trabajo", "Cafetera", "Armario espacioso"],
+    "status": "Booked"
+  },
+  {
+    "id": 8,
+    "photos": [
+      "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1681487479203-464a22302b27?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1594560913095-8cf34bab82ad?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Double Superior",
+    "roomNumber": "Mountain Retreat - 810",
+    "description": "Habitación doble superior con cama king-size. Rodeada de montañas y lujo.",
+    "offer": "YES",
+    "priceNight": 150,
+    "discount": 12,
+    "amenities": ["Vistas a la montaña", "Baño de lujo", "Amplio espacio", "Cama king-size", "Sala de estar", "Terraza privada", "Armario empotrado"],
+    "cancellation": "Strict",
+    "status": "Booked"
+  },
+  {
+    "id": 9,
+    "photos": [
+      "https://images.unsplash.com/photo-1507038772120-7fff76f79d79?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1631049035182-249067d7618e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1605346576608-92f1346b67d6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Suite",
+    "roomNumber": "Skyline Haven - 512",
+    "description": "Suite de lujo con dormitorio separado y sala de estar. Vistas impresionantes del horizonte.",
+    "offer": "YES",
+    "priceNight": 180,
+    "discount": 18,
+    "cancellation": "Flexible",
+    "amenities": ["Vistas panorámicas", "Suite de lujo", "Dormitorio separado", "Sala de estar", "Baño de lujo", "Espacio amplio", "Ventanas panorámicas"],
+    "status": "Booked"
+  },
+  {
+    "id": 10,
+    "photos": [
+      "https://images.unsplash.com/photo-1608198399988-341f712c3711?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1661962495669-d72424626bdc?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1592229505726-ca121723b8ef?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Single Bed",
+    "roomNumber": "Sunrise Retreat - 210",
+    "description": "Habitación individual con cama individual. Amaneceres espectaculares desde la ventana.",
+    "offer": "NO",
+    "priceNight": 80,
+    "discount": null,
+    "cancellation": "Moderate",
+    "amenities": ["Vistas al amanecer", "Baño privado", "Cama cómoda", "Escritorio", "Espacio tranquilo", "Iluminación natural", "Armario espacioso"],
+    "status": "Booked"
+  },
+  {
+    "id": 11,
+    "photos": [
+      "https://images.unsplash.com/photo-1608198399988-341f712c3711?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1661962495669-d72424626bdc?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1592229505726-ca121723b8ef?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Double Bed",
+    "roomNumber": "Forest View - 301",
+    "description": "Habitación doble con una cama matrimonial. Vista encantadora del bosque.",
+    "offer": "YES",
+    "priceNight": 110,
+    "discount": 22,
+    "cancellation": "Strict",
+    "amenities": ["Vistas al bosque", "Baño amplio", "Ventanas panorámicas", "Cama espaciosa", "Sala de estar", "Wi-Fi gratuito", "Armario empotrado"],
+    "status": "Available"
+  },
+  {
+    "id": 12,
+    "photos": [
+      "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1681487479203-464a22302b27?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1594560913095-8cf34bab82ad?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "roomType": "Double Superior",
+    "roomNumber": "Garden Retreat - 710",
+    "description": "Habitación doble superior con cama king-size. Jardín privado y baño de lujo.",
+    "offer": "NO",
+    "priceNight": 130,
+    "discount": null,
+    "amenities": ["Jardín privado", "Baño de lujo", "Amplio espacio", "Cama king-size", "Sala de estar", "Terraza privada", "Armario empotrado"],
+    "cancellation": "Moderate",
+    "status": "Available"
+  },
+  {
+    "id": 13,
+    "photos": [
+      "https://example.com/photo1.jpg",
+      "https://example.com/photo2.jpg",
+      "https://example.com/photo3.jpg"
+    ],
+    "roomType": "Double Bed",
+    "roomNumber": "Standard-Room - 101",
+    "description": "Habitación doble con una cama doble. Baño privado y vistas al jardín.",
+    "offer": "NO",
+    "priceNight": 159,
+    "discount": 20,
+    "cancellation": "Moderate",
+    "amenities": ["Vistas al jardín", "Baño privado", "TV de pantalla plana", "Armario", "Escritorio", "Secador de pelo", "Wi-Fi"],
+    "status": "Booked"
+  },
+  {
+    "id": 14,
+    "photos": [
+      "https://example.com/photo4.jpg",
+      "https://example.com/photo5.jpg",
+      "https://example.com/photo6.jpg"
+    ],
+    "roomType": "Suite",
+    "roomNumber": "Luxury-Suite - 302",
+    "description": "Suite de lujo con cama king-size y sala de estar. Vistas panorámicas y jacuzzi privado.",
+    "offer": "YES",
+    "priceNight": 299,
+    "discount": 40,
+    "cancellation": "Strict",
+    "amenities": ["Vistas panorámicas", "Cama king-size", "Sala de estar", "Jacuzzi privado", "Cafetera Nespresso", "Mini bar", "Servicio a la habitación"],
+    "status": "Booked"
+  },
+  {
+    "id": 15,
+    "photos": [
+      "https://example.com/photo7.jpg",
+      "https://example.com/photo8.jpg",
+      "https://example.com/photo9.jpg"
+    ],
+    "roomType": "Twin Bed",
+    "roomNumber": "Standard-Room - 203",
+    "description": "Habitación con dos camas individuales. Baño privado y vistas a la montaña.",
+    "offer": "YES",
+    "priceNight": 179,
+    "discount": 25,
+    "cancellation": "Flexible",
+    "amenities": ["Vistas a la montaña", "Baño privado", "Aire acondicionado", "Escritorio", "Televisión", "Wi-Fi"],
+    "status": "Available"
+  }
+]

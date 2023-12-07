@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "fullName": "Diego Mompo",
+    "job": "Manager",
+    "email": "diego@gmail.com",
+    "phone": "+34 788128729",
+    "startDate": "2023-02-03",
+    "descriptionJob": "Responsable de la gestión operativa del hotel. Toma decisiones estratégicas y coordina las actividades de los diferentes departamentos.",
+    "status": "ACTIVE",
+    "password": "diego23"
+  },
+  {
+    "id": 2,
+    "photo": "https://plus.unsplash.com/premium_photo-1661964420608-ebe824c1990a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "fullName": "Elena Gómez",
+    "job": "Recepcionista",
+    "email": "elena.gomez@example.com",
+    "phone": "+34 648645815",
+    "startDate": "2023-12-11",
+    "descriptionJob": "Atiende a los huéspedes en la recepción, realiza check-ins y check-outs, y proporciona información sobre servicios del hotel y la zona.",
+    "status": "ACTIVE",
+    "password": "hotel123pass"
+  },
+  {
+    "id": 3,
+    "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "fullName": "Carlos Fernández",
+    "job": "Servicio de Habitaciones",
+    "email": "carlos.fernandez@example.com",
+    "phone": "+34 747047325",
+    "startDate": "2023-07-15",
+    "descriptionJob": "Encargado de asegurar un servicio impecable en las habitaciones. Atiende solicitudes de los huéspedes y mantiene la calidad del servicio.",
+    "status": "ACTIVE",
+    "password": "roomService456"
+  },
+  {
+    "id": 4,
+    "photo": "https://plus.unsplash.com/premium_photo-1658527049634-15142565537a?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "fullName": "Laura Martínez",
+    "job": "Recepcionista",
+    "email": "laura.martinez@example.com",
+    "phone": "+34 680752567",
+    "startDate": "2023-02-03",
+    "descriptionJob": "Responsable de la recepción. Realiza check-ins y check-outs, brinda información a los huéspedes y gestiona reservas.",
+    "status": "INACTIVE",
+    "password": "receptionist789"
+  },
+  {
+    "id": 5,
+    "photo": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "fullName": "Isabel Sánchez",
+    "job": "Servicio de Habitaciones",
+    "email": "isabel.sanchez@example.com",
+    "phone": "+34 682283754",
+    "startDate": "2023-07-28",
+    "descriptionJob": "Asegura que las habitaciones estén limpias y bien abastecidas. Atiende a las solicitudes de los huéspedes para garantizar una experiencia agradable.",
+    "status": "ACTIVE",
+    "password": "roomAttendantABC"
+  }
+]
