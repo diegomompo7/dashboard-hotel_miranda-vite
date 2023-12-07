@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
+import { TableContainer} from "@mui/material";
 
 export const StyledTableContainer= styled(TableContainer) `
     width:100%;

@@ -35,8 +35,6 @@ export const BookingPage = () => {
   const roomBoking = useSelector(getRoomsData)
   const roomsListStatus = useSelector(getRoomsStatus);
 
-  const bookingList = useSelector(getChangeData)
-
 
   const [currentView, setCurrentView] = useState("all");
 
@@ -45,7 +43,7 @@ export const BookingPage = () => {
 
     
   const now = new Date();
-  const nowDate = now.toISOString().split('T')[0];;
+  const nowDate = now.toISOString().split('T')[0];
 
   useEffect(
     () => {
