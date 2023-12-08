@@ -3,9 +3,7 @@ describe('template spec', () => {
     cy.visit('http://localhost:5173/')
     cy.wait(1000)
     cy.get('[data-cy="inputUserEmail"]').type("diego@gmail.com")
-    cy.wait(10000)
     cy.get('[data-cy="inputUserPassword"]').type("diego23")
-    cy.wait(10000);
     cy.get('[data-cy="loginButton"]').click();
     cy.location("pathname").should("include", "");
     cy.wait(1500);
@@ -14,9 +12,7 @@ describe('template spec', () => {
     cy.visit('http://localhost:5173/')
     cy.wait(1000)
     cy.get('[data-cy="inputUserEmail"]').type("paco@gmail.com")
-    cy.wait(10000)
     cy.get('[data-cy="inputUserPassword"]').type("paco24")
-    cy.wait(10000);
     cy.get('[data-cy="loginButton"]').click();
     cy.location("pathname").should("include", "");
     cy.wait(1500);

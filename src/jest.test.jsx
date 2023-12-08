@@ -8,9 +8,6 @@ describe('App', () => {
      render(<StyledButton  $color="#5AD07A">Check In</StyledButton>);
 
      const button = screen.getByText("Check In");
-
-     console.log(button)
-
      expect(button).toHaveStyle(`color: #5AD07A;`);
   });
 });
