@@ -11,7 +11,7 @@ import { Navigate } from "react-router-dom";
 
 
 
-export const LoginPage = ({handleOnSubmit, userLogin}) => {
+export const LoginPage = ({handleOnSubmit, userLogin, url}) => {
 
     
 
@@ -19,7 +19,7 @@ export const LoginPage = ({handleOnSubmit, userLogin}) => {
   
     <StyledBoxForm>
 
-      {userLogin!=="" && <Navigate to="/"/>}
+      {userLogin!=="" && <Navigate to={`${url}`}/>}
 
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer onSubmit={(e) => handleOnSubmit(e)}>

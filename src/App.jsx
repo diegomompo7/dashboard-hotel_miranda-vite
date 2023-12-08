@@ -19,12 +19,15 @@ import AuthContext from './AuthContext';
 import { NewBookingPage } from './pages/booking/NewBookingPage';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
+import RouteProtected from './RouteProtected';
 
 
 
 function App() {
 
 
+  const [initialPage, setInitialPage] = useState(window.location.pathname);
+  console.log(initialPage)
 
   let checkLogin = false
   const[userLogin , setUserLogin] = useState ("");
@@ -61,7 +64,9 @@ function App() {
 
     
         <Routes>
-        <Route path='/login' element={<LoginPage  handleOnSubmit={handleOnSubmit} checkLogin={checkLogin} userLogin={userLogin}/>}/>
+        <Route path='/login' element={<LoginPage  handleOnSubmit={handleOnSubmit} checkLogin={checkLogin} userLogin={userLogin} url={initialPage}/>}/>
+        
+        <Route path="/" element={<RouteProtected />}>
         <Route path="/createUser" element={<NewUserPage />} />
         <Route path="/createUser/:id" element={<EditUserPage />} />
         <Route path="/createRoom" element={<NewRoomPage />} />
@@ -74,6 +79,7 @@ function App() {
               <Route path="rooms" element={<RoomsListPage />} />
               <Route path="contact" element={<ContactPage />} />
               <Route path="users" element={<UserPage />} />
+            </Route>
             </Route>
         </Routes>
 
