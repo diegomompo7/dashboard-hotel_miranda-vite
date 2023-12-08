@@ -26,11 +26,12 @@ import RouteProtected from './RouteProtected';
 function App() {
 
 
-  const [initialPage, setInitialPage] = useState(window.location.pathname);
-  console.log(initialPage)
-
   let checkLogin = false
   const[userLogin , setUserLogin] = useState ("");
+
+    if(window.location.pathname !== "/login"){
+      localStorage.setItem('lastRoute', window.location.pathname);
+    }
 
 
   useEffect (() => {
@@ -64,7 +65,7 @@ function App() {
 
     
         <Routes>
-        <Route path='/login' element={<LoginPage  handleOnSubmit={handleOnSubmit} checkLogin={checkLogin} userLogin={userLogin} url={initialPage}/>}/>
+        <Route path='/login' element={<LoginPage  handleOnSubmit={handleOnSubmit} checkLogin={checkLogin} userLogin={userLogin}/>}/>
         
         <Route path="/" element={<RouteProtected />}>
         <Route path="/createUser" element={<NewUserPage />} />

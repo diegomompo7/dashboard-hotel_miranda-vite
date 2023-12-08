@@ -10,8 +10,10 @@ import { Navigate } from "react-router-dom";
 
 
 
-export const LoginPage = ({handleOnSubmit, userLogin, url}) => {
+export const LoginPage = ({handleOnSubmit, userLogin}) => {
 
+
+    const url = localStorage.getItem('lastRoute');
     
 
   return (
@@ -26,13 +28,15 @@ export const LoginPage = ({handleOnSubmit, userLogin, url}) => {
           placeholder="Email"
           type="email"
           variant="email"
+          data-cy="inputUserEmail"
         ></StyledInputForm>
         <StyledInputForm
           placeholder="Password"
           type="password"
           variant="password"
+          data-cy="inputUserPassword"
         ></StyledInputForm>
-        <StyledButton name="login" type="submit">LOGIN</StyledButton>
+        <StyledButton name="login" type="submit" data-cy="loginButton">LOGIN</StyledButton>
       </StyledFormContainer>
     </StyledBoxForm>
   );

@@ -6,6 +6,7 @@ describe('template spec', () => {
     cy.get('[data-cy="inputUserPassword"]').type("diego23")
     cy.get('[data-cy="loginButton"]').click();
     cy.location("pathname").should("include", "");
+    cy.contains('h1', 'Dashboard')
     cy.wait(1500);
   })
   it('Si los datosson incorrectos, devuelve a login', () => {
@@ -14,7 +15,7 @@ describe('template spec', () => {
     cy.get('[data-cy="inputUserEmail"]').type("paco@gmail.com")
     cy.get('[data-cy="inputUserPassword"]').type("paco24")
     cy.get('[data-cy="loginButton"]').click();
-    cy.location("pathname").should("include", "");
+    cy.location("pathname").should("include", "/");
     cy.wait(1500);
   })
 });

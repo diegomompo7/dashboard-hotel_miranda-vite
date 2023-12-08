@@ -45,7 +45,7 @@ export const Header = (props) => {
       </StyledLogo>
       <StyledMenuItem>
         <StyledDashboardIcon></StyledDashboardIcon>
-        <StyledLink to="/" activeClassName="active">Dashboard</StyledLink>
+        <StyledLink to="/" activeClassName="active" >Dashboard</StyledLink>
       </StyledMenuItem>
       <StyledMenuItem>
         <StyledRoomsIcon></StyledRoomsIcon>
@@ -78,7 +78,7 @@ export const Header = (props) => {
           setOpen(!open)
           props.setIsOpen(!open)
         }}></StyledMenuIcon>
-        <StyledTextHeader fontSize="1.7rem" color="#393939" fontFamily="'Poppins', sans-serif" weight="600">
+        <StyledTextHeader fontSize="1.7rem" color="#393939" fontFamily="'Poppins', sans-serif" weight="600" textarea="title">
           {props.title}
         </StyledTextHeader>
         <StyledHeartIcon></StyledHeartIcon>

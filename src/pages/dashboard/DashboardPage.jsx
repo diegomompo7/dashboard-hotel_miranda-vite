@@ -14,6 +14,7 @@ import { Navigate } from "react-router-dom";
 
 export const DashboardPage = () => {
 
+  const [isOpen, setIsOpen] = useState(false)
 
   const {userLogin} = useContext(AuthContext)
 
