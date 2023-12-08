@@ -13,11 +13,10 @@ import {
 } from "../../components/common/StyledSelect";
 import { MenuItem } from "@mui/material";
 import logo from "../../assets/img/logo.png";
-import {  createUser, getChangeData, getNewData, getUsersData, getUsersError, getUsersStatus} from "../../features/users/usersSlice";
+import {  createUser } from "../../features/users/usersSlice";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { getUsersFromApiTrunk } from "../../features/users/usersTrunk";
+import { useDispatch} from "react-redux";
+import { useState } from "react";
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,35 +25,8 @@ export const NewUserPage = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const usersListData = useSelector(getUsersData);
-  const usersListError = useSelector(getUsersError);
-  const usersListStatus = useSelector(getUsersStatus);
-  const [spinner, setSpinner] = useState(true);
-  let userCreate= useSelector(getChangeData)
-
-  useEffect(
-    () => {
-
-      if (usersListStatus === "idle") {
-        dispatch(getUsersFromApiTrunk());
-      } else if (usersListStatus === "pending") {
-        setSpinner(true);
-      } else if (usersListStatus === "fulfilled") {
-        setSpinner(false)
-      }
-    },[
-    dispatch,
-    usersListData,
-    usersListStatus]
-  );
-
-
-  let searchMax = usersListData.reduce(
-    (prev, cur) => (prev?.id > cur.id ? prev : cur),
-  );
 
   const [formData, setFormData] = useState({
-    id:  searchMax.id + 1,
     photo:"",
     fullName:"",
     job: "",
@@ -91,7 +63,6 @@ export const NewUserPage = () => {
 
   return (
     <StyledBoxForm name="createForm">
-      {spinner ? <p>Loading...</p> : <>
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
         name="createForm"
@@ -152,7 +123,6 @@ export const NewUserPage = () => {
           UPDATE EMPLOYEE
         </StyledButton>
       </StyledFormContainer>
-      </>}
-    </StyledBoxForm>
+     </StyledBoxForm>
   );
 };

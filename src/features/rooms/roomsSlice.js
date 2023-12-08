@@ -6,7 +6,7 @@ export const RoomsSlice = createSlice({
     name: "rooms",
     initialState: {
         data: [],
-        status: "idle", // | "fulfilled" | "rejected" | "pending"
+        status: "idle", // | "fulfilled" |"rejected" |"pending"
         error: null
     },
     reducers: {

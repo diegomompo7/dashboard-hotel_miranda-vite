@@ -6,7 +6,7 @@ export const BookingsSlice = createSlice({
     name: "bookings",
     initialState: {
         data: [],
-        status: "idle", // | "fulfilled" | "rejected" | "pending"
+        status: "idle", // | "fulfilled" ||"rejected" ||"pending"
         error: null
     },
     reducers: {

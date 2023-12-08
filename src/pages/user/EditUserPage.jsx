@@ -14,7 +14,7 @@ import {
 import { MenuItem } from "@mui/material";
 import logo from "../../assets/img/logo.png";
 import { useState, useEffect } from "react";
-import {  getChangeData, getNewData, getUsersData, getUsersError, getUsersStatus, updateUser } from "../../features/users/usersSlice";
+import { getUsersData, getUsersError, getUsersStatus, updateUser } from "../../features/users/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsersFromApiTrunk } from "../../features/users/usersTrunk";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +34,6 @@ export const EditUserPage = () => {
   const usersListError = useSelector(getUsersError);
   const usersListStatus = useSelector(getUsersStatus);
   const [spinner, setSpinner] = useState(true);
- let userUpdate= useSelector(getChangeData)
 
   
 

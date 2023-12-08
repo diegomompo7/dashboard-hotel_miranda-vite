@@ -15,19 +15,16 @@ import {
 import { MenuItem } from "@mui/material";
 import logo from "../../assets/img/logo.png";
 
-import {  getChangeData, getBookingsData, getBookingsError, getBookingsStatus, createBooking} from "../../features/bookings/bookingsSlice";
+import {getBookingsData, getBookingsError, getBookingsStatus, createBooking} from "../../features/bookings/bookingsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { store } from "../../app/store";
 
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { toPairs } from "lodash";
 
 
 export const NewBookingPage = () => {
@@ -36,7 +33,6 @@ export const NewBookingPage = () => {
   const dispatch = useDispatch();
   const bookingsListData = useSelector(getBookingsData);
   const bookingsListError = useSelector(getBookingsError);
-  const bookingsListStatus = useSelector(getBookingsStatus);
   const [spinner, setSpinner] = useState(true);
 
   const roomBoking = useSelector(getRoomsData)
@@ -64,31 +60,8 @@ export const NewBookingPage = () => {
     roomsListStatus]
   );
 
-  useEffect(
-    () => {
-  
-      if (bookingsListStatus === "idle") {
-        dispatch(getBookingsFromApiTrunk());
-      } else if (bookingsListStatus === "pending") {
-        setSpinner(true);
-      } else if (bookingsListStatus === "fulfilled") {
-        setSpinner(false)
-
-      }
-    },[
-    dispatch,
-    bookingsListData,
-    bookingsListStatus]
-  );
-
-  
-  
-  let searchMax = bookingsListData.reduce(
-    (prev, cur) => (prev?.id > cur.id ? prev : cur),
-  );
 
   const [formData, setFormData] = useState({
-    id:  searchMax.id + 1,
     name: "",
     orderDate: nowDate,
     check_in: "",
@@ -168,7 +141,6 @@ export const NewBookingPage = () => {
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
-        onSubmit={(e) => handleOnSubmit(e)}
         name="createForm"
         onChange={(e) => {handleChange(e)}}
       >

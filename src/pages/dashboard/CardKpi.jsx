@@ -1,4 +1,3 @@
-import React from "react";
 import { StyledCardContainer, StyledCardKpi, StyledKpiIconBed, StyledKpiTextContainer, StyledKpiText, StyledKpiIconCalendar, StyledKpiIconIn, StyledKpiIconOut } from "../../components/dashboard/StyledCardKpi";
 
 

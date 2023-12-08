@@ -1,9 +1,8 @@
-import React from "react";
+
 import {StyledSwiper, StyledSwiperSlide, StyledSSText, StyledSSImg } from "../../components/common/StyledCardContact";
 import { Keyboard,  Navigation } from "swiper/modules";
 import { useState } from "react";
 import { getFullMessage } from "../../features/contact/contactSlice";
-import {store} from "../../app/store"
 
 
 import "swiper/css";
@@ -16,7 +15,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 export const CardContact = (props) => {
 
-  const data = store.getState()
 
 
     const dispatch = useDispatch()

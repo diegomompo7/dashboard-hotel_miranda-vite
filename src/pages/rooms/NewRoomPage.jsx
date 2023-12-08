@@ -14,49 +14,19 @@ import {
 import { MenuItem } from "@mui/material";
 import logo from "../../assets/img/logo.png";
 
-import {  getChangeData, getNewData, getRoomsData, getRoomsError, getRoomsStatus, createRoom } from "../../features/rooms/roomsSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
+import { createRoom } from "../../features/rooms/roomsSlice";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { store } from "../../app/store";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 export const NewRoomPage = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const roomsListData = useSelector(getRoomsData);
-  const roomsListError = useSelector(getRoomsError);
-  const roomsListStatus = useSelector(getRoomsStatus);
-  const [spinner, setSpinner] = useState(true);
-  let roomCreate= useSelector(getChangeData)
-
-  useEffect(
-    () => {
   
-      if (roomsListStatus === "idle") {
-        dispatch(getRoomsFromApiTrunk());
-      } else if (roomsListStatus === "pending") {
-        setSpinner(true);
-      } else if (roomsListStatus === "fulfilled") {
-        setSpinner(false)
-
-      }
-    },[
-    dispatch,
-    roomsListData,
-    roomsListStatus]
-  );
-
-  
-  
-  let searchMax = roomsListData.reduce(
-    (prev, cur) => (prev?.id > cur.id ? prev : cur),
-  );
 
   const [formData, setFormData] = useState({
-    id:  searchMax.id + 1,
     roomType: "",
     offer: "",
     photos: "",
@@ -105,7 +75,6 @@ export const NewRoomPage = () => {
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
-        onSubmit={(e) => handleOnSubmit(e)}
         name="createForm"
         onChange={(e) => {handleChange(e)}}
       >

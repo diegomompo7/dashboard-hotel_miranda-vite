@@ -10,7 +10,7 @@ import { StyledButton } from "../../components/common/StyledButton";
 import { ModalComponent } from "../../components/ModalComponent/ModalComponent";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getBookingsData,  getBookingsError, getBookingsStatus, getChangeData, getClient, getSelect } from "../../features/bookings/bookingsSlice";
+import { getBookingsData,  getBookingsError, getBookingsStatus, getClient, getSelect } from "../../features/bookings/bookingsSlice";
 import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
@@ -27,7 +27,7 @@ export const BookingPage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   let bookingsListData = useSelector(getBookingsData)
-  const bookingsListError = useSelector(getBookingsError)
+
   const bookingsListStatus = useSelector(getBookingsStatus)
   const [spinner, setSpinner] = useState(true);
 

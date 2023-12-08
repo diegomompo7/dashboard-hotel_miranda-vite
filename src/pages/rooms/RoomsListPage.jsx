@@ -18,7 +18,6 @@ import {
 } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 
 
 export const RoomsListPage = () => {

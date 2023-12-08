@@ -1,6 +1,5 @@
 
 import { DataTableUsers } from "./DataTableUsers";
-import users from "../../data/users.json";
 import { TableHead, TableBody, TableRow, MenuItem } from "@mui/material";
 import { StyledTable, StyledTableCellRow, StyledTableContainer} from "../../components/common/StyledTable";
 import { useEffect, useState } from "react";
@@ -17,9 +16,7 @@ import {
   getEmployee,
   getSelect,
   getUsersDataActive,
-  getUsersDataInactive,
-  getNewData,
-
+  getUsersDataInactive
 } from "../../features/users/usersSlice";
 import { getUsersFromApiTrunk } from "../../features/users/usersTrunk";
 import { useNavigate } from "react-router-dom";

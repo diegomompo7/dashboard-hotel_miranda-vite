@@ -13,7 +13,7 @@ import {
 } from "../../components/common/StyledSelect";
 import { MenuItem } from "@mui/material";
 import logo from "../../assets/img/logo.png";
-import {  getChangeData, getNewData, getRoomsData, getRoomsError, getRoomsStatus, updateRoom } from "../../features/rooms/roomsSlice";
+import {  getChangeData, getRoomsData, getRoomsError, getRoomsStatus, updateRoom } from "../../features/rooms/roomsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,6 @@ export const EditRoomsPage = () => {
   const roomsListError = useSelector(getRoomsError);
   const roomsListStatus = useSelector(getRoomsStatus);
   const [spinner, setSpinner] = useState(true);
- let roomUpdate= useSelector(getChangeData)
 
  useEffect(
   () => {

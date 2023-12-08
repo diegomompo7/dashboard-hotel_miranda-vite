@@ -1,10 +1,9 @@
-import booking from "../../data/booking.json";
+
 import {
   StyledDetailContainer,
   StyledDetailSwiper,
   StyledDetailContent,
   StyledDetailContentPerson,
-  StyledDetailImg,
   StyledDetailPersonText,
   StyledDetailText,
   StyledDetailActions,

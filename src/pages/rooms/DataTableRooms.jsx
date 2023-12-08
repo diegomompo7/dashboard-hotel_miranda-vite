@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Menu, MenuItem, TableRow } from "@mui/material";
 import { StyledTableCellBody, StyledTableCellBodyText, StyledTableCellBodyImg } from "../../components/common/StyledTable";
 import { StyledButton } from "../../components/common/StyledButton";
 import { StyledMoreIcon } from "../../components/common/StyledIcons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteRoom, getNewData} from "../../features/rooms/roomsSlice";
+import { deleteRoom} from "../../features/rooms/roomsSlice";
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
