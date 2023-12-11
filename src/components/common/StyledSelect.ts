@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { FormControl, InputLabel, Select} from "@mui/material";
 
-export const StyledFormControl = styled(FormControl)`
+export const StyledFormControl = styled(FormControl)<{name:string}>`
   
     margin-left: auto;
     width: 15%;

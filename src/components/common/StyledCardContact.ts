@@ -25,7 +25,7 @@ export const StyledSwiper = styled(Swiper)`
     margin-bottom: 5.438em;
 `;
 
-export const StyledSSText = styled.p`
+export const StyledSSText = styled.p<{name:string}>`
   ${(props) =>
         props.name === "message" &&
         `

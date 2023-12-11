@@ -45,7 +45,7 @@ export const StyledKpiTextContainer = styled.div`
     
 
 `
-export const StyledKpiText = styled.p`
+export const StyledKpiText = styled.p<{typeStyle:string}>`
 
 ${props => props.typeStyle === "title" && `
     font-family: "Poppins", sans-serif;

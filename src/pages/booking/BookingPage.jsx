@@ -1,19 +1,19 @@
-import { DataTableBooking } from "./DataTableBooking";
+import { DataTableBooking } from "./DataTableBooking.jsx";
 import { TableHead, TableBody, TableRow, MenuItem } from "@mui/material";
-import { StyledTable, StyledTableCellRow, StyledTableContainer } from "../../components/common/StyledTable";
+import { StyledTable, StyledTableCellRow, StyledTableContainer } from "../../components/common/StyledTable.ts";
 import { useEffect, useState } from "react";
-import { StyledNav, StyledNavText } from "../../components/common/StyledNav";
-import { StyledTextField } from "../../components/common/StyledTextField";
-import { StyledFormControl, StyledInputLabel, StyledSelect } from "../../components/common/StyledSelect";
-import { StyledPagination, StyledPaginationText , StyledButtonPage, StyledTextPage} from "../../components/common/StyledPagination";
-import { StyledButton } from "../../components/common/StyledButton";
-import { ModalComponent } from "../../components/ModalComponent/ModalComponent";
+import { StyledNav, StyledNavText } from "../../components/common/StyledNav.ts";
+import { StyledTextField } from "../../components/common/StyledTextField.ts";
+import { StyledFormControl, StyledInputLabel, StyledSelect } from "../../components/common/StyledSelect.ts";
+import { StyledPagination, StyledPaginationText , StyledButtonPage, StyledTextPage} from "../../components/common/StyledPagination.ts";
+import { StyledButton } from "../../components/common/StyledButton.ts";
+import { ModalComponent } from "../../components/ModalComponent/ModalComponent.jsx";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getBookingsData,  getBookingsError, getBookingsStatus, getClient, getSelect } from "../../features/bookings/bookingsSlice";
-import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
-import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
-import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
+import { getBookingsData,  getBookingsStatus, getClient, getSelect } from "../../features/bookings/bookingsSlice.ts";
+import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk.ts";
+import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice.ts";
+import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk.ts";
 import { useNavigate } from "react-router";
   
 export const BookingPage = () => {
@@ -49,7 +49,7 @@ export const BookingPage = () => {
     () => {
 
       if (roomsListStatus === "idle") {
-        dispatch(getRoomsFromApiTrunk());
+        dispatch(getRoomsFromApiTrunk())
       } else if (roomsListStatus === "pending") {
         setSpinner(true);
       } else if (roomsListStatus === "fulfilled") {

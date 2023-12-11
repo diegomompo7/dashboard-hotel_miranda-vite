@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { TableContainer} from "@mui/material";
 
-export const StyledTableContainer= styled(TableContainer) `
+export const StyledTableContainer= styled(TableContainer)<{isOpen:boolean}>`
     width:100%;
     ${(props) => props.isOpen === true && `
         width: 100%;
@@ -30,7 +30,7 @@ export const StyledTableCellRow = styled.td`
         
 `
 
-export const StyledTableCellBodyText = styled.p`
+export const StyledTableCellBodyText = styled.p<{typeStyle:string}>`
 
 
         ${(props) => props.typeStyle === "title" && `
@@ -60,7 +60,7 @@ export const StyledTableCellBodyText = styled.p`
   
 
 `
-export const StyledTableCellBody = styled.td`
+export const StyledTableCellBody = styled.td<{typeStyle:string, name:string}>`
     font-size: 1rem;
     font-family: "Poppins", sans-serif;
     font-weight: 400; 
@@ -88,7 +88,7 @@ export const StyledTableCellBody = styled.td`
     `
 
 
-export const StyledTableCellBodyImg = styled.img `
+export const StyledTableCellBodyImg = styled.img<{typeImg:string}> `
 
     ${(props) => props.typeImg === "booking" && `
         width: 2.813em;

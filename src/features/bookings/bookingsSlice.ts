@@ -1,7 +1,7 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { getBookingsFromApiTrunk } from "./bookingsTrunk";
-import { BookingSliceInitialStateInterface } from "../../interfaces/BookingSliceInterface";
-import { BookingInterface } from "../../interfaces/BookingInterface";
+import { BookingSliceInitialStateInterface } from "../../interfaces/booking/BookingSliceInterface";
+import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 
  const initialState: BookingSliceInitialStateInterface = {
         data: [],

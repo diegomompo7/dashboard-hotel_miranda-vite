@@ -1,23 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getContactFromApiTrunk } from "./contactTrunk";
+import { ContactSliceInitialStateInterface } from "../../interfaces/contact/ContactSliceInterface";
+import { ContactInterface } from "../../interfaces/contact/ContactInterface";
+
+const initialState: ContactSliceInitialStateInterface = {
+    data: [],
+    status: "idle", // | "fulfilled" | "rejected" | "pending"
+    error: undefined
+}
 
 
 export const ContactSlice = createSlice({
     name: "contact",
-    initialState:{
-        data: [],
-        status: "idle", // | "fulfilled" | "rejected" | "pending"
-        error: null
-    },
+    initialState,
     reducers: {
 
-        getFullMessage:(state, action) => {
+        getFullMessage:(state, action):void => {
             
             const fullMessage = state.data.find((message) => message.id === action.payload)
             state.fullMessage = fullMessage;
             
         },
-        updateContact:(state, action) => {
+        updateContact:(state, action):void => {
             const data = state.data
             const index = data.findIndex((archived) => archived.id === action.payload.id)
             if(index !== -1){
@@ -28,22 +32,22 @@ export const ContactSlice = createSlice({
 },
 
     extraReducers: (builder) => {
-        builder.addCase(getContactFromApiTrunk.fulfilled, (state,action) => {
+        builder.addCase(getContactFromApiTrunk.fulfilled, (state,action):void=> {
             state.status = "fulfilled"
             state.data = action.payload;
         })
-        .addCase(getContactFromApiTrunk.rejected,(state,action)  => {
+        .addCase(getContactFromApiTrunk.rejected,(state,action):void  => {
             state.status = "rejected"
             state.error = action.error.message
         })
-        .addCase(getContactFromApiTrunk.pending,(state,action)  => {
+        .addCase(getContactFromApiTrunk.pending,(state,action):void  => {
             state.status = "pending"
         })
     }
 })
 
-export const {getFullMessage, getArchived, getAll, updateContact} = ContactSlice.actions;
-export const getContactData = state => state.contact.data
-export const getContactDataArchive = state => state.contact.data.filter((contact) => contact.is_archived === true)
+export const {getFullMessage, updateContact} = ContactSlice.actions;
+export const getContactData = (state): ContactInterface[] => state.contact.data
+export const getContactDataArchive = (state): ContactInterface[] => state.contact.data.filter((contact) => contact.is_archived === true)
 export const getContactStatus = state => state.contact.status;
 export const getContactError = state => state.contact.error;

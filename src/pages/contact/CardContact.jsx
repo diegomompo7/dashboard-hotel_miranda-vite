@@ -8,7 +8,7 @@ import { getFullMessage } from "../../features/contact/contactSlice";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { ModalComponent } from "../../components/ModalComponent/ModalComponent";
+import { ModalComponent } from "../../components/ModalComponent/ModalComponent.jsx";
 import { useDispatch, useSelector } from "react-redux";
 
 

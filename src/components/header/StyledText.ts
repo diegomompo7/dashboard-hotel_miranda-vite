@@ -31,7 +31,7 @@ export const StyledTextUserMenu = styled(Text)`
     margin-bottom: ${props => props.fontSize === "0.75rem" ? "1.333em" : '0.813em'};
 `
 
-export const StyledTextFooter = styled(Text)`
+export const StyledTextFooter = styled(Text)<{name:string}>`
     font-family: "Poppins", sans-serif;
     padding-left: 16.2%;
     ${props => props.name==="travl" && 

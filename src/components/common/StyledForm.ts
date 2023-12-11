@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { Box} from "@mui/material";
 
-export const StyledBoxForm = styled(Box)`
+export const StyledBoxForm = styled(Box)<{name:string}>`
 
 box-shadow: 0 0 28px 8px #E23428;
 height: auto;

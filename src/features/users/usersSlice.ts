@@ -1,32 +1,35 @@
 import { createSlice, current} from "@reduxjs/toolkit";
 import { getUsersFromApiTrunk } from "./usersTrunk";
+import { UserSliceInitialStateInterface } from "../../interfaces/user/UserSliceInterface";
+import { UserInterface } from "../../interfaces/user/UserInterface";
 
+const initialState: UserSliceInitialStateInterface = {
+    data: [],
+    status: "idle", // | "fulfilled" | "rejected" | "pending"
+    error: undefined
+}
 
 export const UsersSlice = createSlice({
     name: "users",
-    initialState: {
-        data: [],
-        status: "idle", // | "fulfilled" | "rejected" | "pending"
-        error: null
-    },
+    initialState,
     reducers: {
-        getEmployee: (state, action) => {
+        getEmployee: (state, action):void => {
 
             const searchEmployee = state.changeUser.filter((employee) => employee.fullName.includes(action.payload))
             state.data = searchEmployee;
 
         },
-        getSelect: (state, action) => {
+        getSelect: (state, action):void => {
 
             state.data = action.payload;
         },
 
-        deleteUser: (state, action) => {
+        deleteUser: (state, action):void => {
             const data = current(state.data)
             const delUser = data.filter((del) => del.id !== action.payload)
             state.data = delUser
         },
-        updateUser: (state, action) => {
+        updateUser: (state, action):void => {
 
             const data = state.data
             const index = data.findIndex((update) => update.id === action.payload.id)
@@ -48,7 +51,7 @@ export const UsersSlice = createSlice({
                 state.data = data.map((item, i) => (i === index ? updatedData : item));
             }
         },
-        createUser: (state, action) => {
+        createUser: (state, action):void => {
             state.data = [action.payload, ...state.data]
     },
 
@@ -56,25 +59,25 @@ export const UsersSlice = createSlice({
 },
 
     extraReducers: (builder) => {
-        builder.addCase(getUsersFromApiTrunk.fulfilled, (state, action) => {
+        builder.addCase(getUsersFromApiTrunk.fulfilled, (state, action):void => {
             state.status = "fulfilled"
             state.data = action.payload;
             state.changeUser = state.data
         })
-            .addCase(getUsersFromApiTrunk.rejected, (state, action) => {
+            .addCase(getUsersFromApiTrunk.rejected, (state, action):void => {
                 state.status = "rejected"
                 state.error = action.error.message
             })
-            .addCase(getUsersFromApiTrunk.pending, (state, action) => {
+            .addCase(getUsersFromApiTrunk.pending, (state, action):void => {
                 state.status = "pending"
             })
     }
 })
 
-export const {getEmployee, getSelect, updateUser, createUser, getNewData, deleteUser} = UsersSlice.actions
-export const getUsersDataActive = state => state.users.data.filter((active) => active.status === "ACTIVE")
-export const getUsersDataInactive = state => state.users.data.filter((inactive) => inactive.status === "INACTIVE")
-export const getUsersData = state => state.users.data
-export const getChangeData = state => state.users.changeUser
+export const {getEmployee, getSelect, updateUser, createUser, deleteUser} = UsersSlice.actions
+export const getUsersDataActive = (state): UserInterface[] => state.users.data.filter((active) => active.status === "ACTIVE")
+export const getUsersDataInactive = (state): UserInterface[] => state.users.data.filter((inactive) => inactive.status === "INACTIVE")
+export const getUsersData = (state): UserInterface[] => state.users.data
+export const getChangeData = (state): UserInterface[] => state.users.changeUser
 export const getUsersStatus = state => state.users.status;
 export const getUsersError = state => state.users.error;

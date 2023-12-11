@@ -9,7 +9,7 @@ export const StyledNav = styled.nav `
     border-bottom: 1px solid #D4D4D4;
   
 `
-export const StyledNavText = styled(Text) `
+export const StyledNavText = styled(Text)<{isActive:string}> `
     white-space: nowrap;
     width: 7.937em;
     font-size: 1rem;

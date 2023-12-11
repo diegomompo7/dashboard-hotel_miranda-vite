@@ -17,7 +17,7 @@ export const StyledButtonPage = styled.div`
     display: flex;
 `
 
-export const StyledTextPage= styled.div`
+export const StyledTextPage= styled.div<{isCurrentPage:string}>`
 
    font-size: 1rem;
    font-weight: 500;

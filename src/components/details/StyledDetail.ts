@@ -32,7 +32,7 @@ export const StyledDetailImg = styled.img`
 export const StyledDetailPersonText = styled(Box)`
     
 `
-export const StyledDetailText = styled(Text) `
+export const StyledDetailText = styled(Text)<{typeStyle:string}> `
 
     font-family: "Poppins", sans-serif;
 
@@ -229,7 +229,7 @@ export const StyledDetailSwiper = styled(Swiper)`
 
 
 
-export const StyledDetailSwiperImg = styled.div`
+export const StyledDetailSwiperImg = styled.div<{img:string}>`
 
     background-image: url(${props => props.img})
     position: absolute;
@@ -241,7 +241,7 @@ export const StyledDetailSwiperImg = styled.div`
     background-size: cover;
     background-position: center;`
 
-export const StyledDetailSwiperSlide = styled(SwiperSlide)`
+export const StyledDetailSwiperSlide = styled(SwiperSlide)<{img:string}>`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -257,7 +257,7 @@ export const StyledDetailSwiperSlide = styled(SwiperSlide)`
 export const StyledDetailTextContainer= styled.div`
 
 `
-export const StyleDetailStatus = styled.div`
+export const StyleDetailStatus = styled.div<{typeStyle:string}>`
     position: relative;
     margin-left: auto;
     left: 3.75em;

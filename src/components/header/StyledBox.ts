@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Box} from "@mui/material";
 
-export const StyledBox = styled(Box)`
+export const StyledBox = styled(Box)<{isOpen:boolean}>`
     height: 7.5rem;
     width: 100%;
     display: flex;
