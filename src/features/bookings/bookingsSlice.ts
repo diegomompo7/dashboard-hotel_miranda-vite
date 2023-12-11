@@ -1,30 +1,33 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { getBookingsFromApiTrunk } from "./bookingsTrunk";
+import { BookingSliceInitialStateInterface } from "../../interfaces/BookingSliceInterface";
+import { BookingInterface } from "../../interfaces/BookingInterface";
 
+ const initialState: BookingSliceInitialStateInterface = {
+        data: [],
+        status: "idle", // | "fulfilled" | "rejected" | "pending"
+        error: undefined
+}
 
 export const BookingsSlice = createSlice({
     name: "bookings",
-    initialState: {
-        data: [],
-        status: "idle", // | "fulfilled" ||"rejected" ||"pending"
-        error: null
-    },
+    initialState,
     reducers: {
 
-        getClient: (state, action) => {
+        getClient: (state, action):void => {
 
 
             const searchClient = state.changeBooking.filter((client) => client.name.includes(action.payload))
             state.data = searchClient;
 
         },
-        getSelect: (state, action) => {
+        getSelect: (state, action):void => {
 
             let data = current(state.data)
             data = action.payload;
 
         },
-        deleteBooking: (state, action) => {
+        deleteBooking: (state, action):void => {
             const data = current(state.changeBooking)
             const delBooking = data.filter((del) => del.id !== action.payload)
             state.data = delBooking
@@ -36,26 +39,26 @@ export const BookingsSlice = createSlice({
 },
 
     extraReducers: (builder) => {
-        builder.addCase(getBookingsFromApiTrunk.fulfilled, (state, action) => {
+        builder.addCase(getBookingsFromApiTrunk.fulfilled, (state, action):void => {
             state.status = "fulfilled"
             state.data = action.payload;
             state.changeBooking = state.data
         })
-            .addCase(getBookingsFromApiTrunk.rejected, (state, action) => {
+            .addCase(getBookingsFromApiTrunk.rejected, (state, action):void => {
                 state.status = "rejected"
                 state.error = action.error.message
             })
-            .addCase(getBookingsFromApiTrunk.pending, (state, action) => {
+            .addCase(getBookingsFromApiTrunk.pending, (state, action):void => {
                 state.status = "pending"
             })
     }
 })
 
-export const { getSelect, updateBooking, createBooking, deleteBooking, getNewData, getClient, updateRoomToBooking} = BookingsSlice.actions
+export const { getSelect, createBooking, deleteBooking, getClient} = BookingsSlice.actions
 
 
-export const getBookingsDataInProgress = state => state.bookings.data.filter((inProgress) => inProgress.status === "In Progress")
-export const getBookingsData = state => state.bookings.data
-export const getChangeData = state => state.bookings.changeBooking;
+export const getBookingsDataInProgress =  (state): BookingInterface[] => state.bookings.data.filter((inProgress) => inProgress.status === "In Progress")
+export const getBookingsData = (state): BookingInterface[] =>  state.bookings.data
+export const getChangeData = (state): BookingInterface[] =>  state.bookings.changeBooking;
 export const getBookingsStatus = state => state.bookings.status;
 export const getBookingsError = state => state.bookings.error;
