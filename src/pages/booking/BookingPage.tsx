@@ -1,4 +1,4 @@
-import { DataTableBooking } from "./DataTableBooking.jsx";
+import { DataTableBooking } from "./DataTableBooking.js";
 import { TableHead, TableBody, TableRow, MenuItem } from "@mui/material";
 import { StyledTable, StyledTableCellRow, StyledTableContainer } from "../../components/common/StyledTable.ts";
 import { useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import { StyledTextField } from "../../components/common/StyledTextField.ts";
 import { StyledFormControl, StyledInputLabel, StyledSelect } from "../../components/common/StyledSelect.ts";
 import { StyledPagination, StyledPaginationText , StyledButtonPage, StyledTextPage} from "../../components/common/StyledPagination.ts";
 import { StyledButton } from "../../components/common/StyledButton.ts";
-import { ModalComponent } from "../../components/ModalComponent/ModalComponent.jsx";
+import { ModalComponent } from "../../components/ModalComponent/ModalComponent.js";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getBookingsData,  getBookingsStatus, getClient, getSelect } from "../../features/bookings/bookingsSlice.ts";
@@ -15,35 +15,38 @@ import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk.t
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice.ts";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk.ts";
 import { useNavigate } from "react-router";
+import { Dispatch } from "@reduxjs/toolkit";
+import { BookingInterface } from "../../interfaces/booking/BookingInterface.ts";
+import { NavigateFunction } from "react-router-dom";
+import { RoomInterface } from "../../interfaces/room/RoomInterface.ts";
+import React from "react";
   
 export const BookingPage = () => {
 
-  const [isOpen] = useState(false)
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [specialRequest, setSpecialRequest] = useState("")
+  const [isOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
+  const handleOpen = ():void => setOpen(true);
+  const handleClose = ():void => setOpen(false);
+  const [specialRequest, setSpecialRequest] = useState<string>("")
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  let bookingsListData = useSelector(getBookingsData)
+  const navigate: NavigateFunction = useNavigate()
+  const dispatch: Dispatch = useDispatch()
+  let bookingsListData = useSelector<BookingInterface[]>(getBookingsData)
 
-  const bookingsListStatus = useSelector(getBookingsStatus)
-  const [spinner, setSpinner] = useState(true);
+  const bookingsListStatus = useSelector<string>(getBookingsStatus)
+  const [spinner, setSpinner] = useState<boolean>(true);
 
+  const roomBoking = useSelector<RoomInterface[]>(getRoomsData)
+  const roomsListStatus = useSelector<string>(getRoomsStatus);
 
-  const roomBoking = useSelector(getRoomsData)
-  const roomsListStatus = useSelector(getRoomsStatus);
+  const [currentView, setCurrentView] = useState<string>("all");
 
-
-  const [currentView, setCurrentView] = useState("all");
-
-  const [numberPage, setNumberPage] = useState([0, 10])
-  const [currentPage, setCurrentPage] = useState(1);
+  const [numberPage, setNumberPage] = useState<number[]>([0, 10])
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
     
-  const now = new Date();
-  const nowDate = now.toISOString().split('T')[0];
+  const now: Date = new Date();
+  const nowDate: string = now.toISOString().split('T')[0];
 
   useEffect(
     () => {
@@ -65,7 +68,7 @@ export const BookingPage = () => {
     () => {
 
       if (bookingsListStatus === "idle") {
-        dispatch(getBookingsFromApiTrunk());
+        dispatch(getBookingsFromApiTrunk()); 
       } else if (bookingsListStatus === "pending") {
         setSpinner(true);
       } else if (bookingsListStatus === "fulfilled") {
@@ -77,7 +80,7 @@ export const BookingPage = () => {
     bookingsListStatus]
   );
 
-  const bookingListRoom = 
+  const bookingListRoom: Array<BookingInterface> = 
   
      bookingsListData.map((booking) => {
 
