@@ -22,9 +22,7 @@ export const BookingsSlice = createSlice({
 
         },
         getSelect: (state, action):void => {
-
-            let data = current(state.data)
-            data = action.payload;
+            state.data = action.payload;
 
         },
         deleteBooking: (state, action):void => {
@@ -60,5 +58,5 @@ export const { getSelect, createBooking, deleteBooking, getClient} = BookingsSli
 export const getBookingsDataInProgress =  (state): BookingInterface[] => state.bookings.data.filter((inProgress) => inProgress.status === "In Progress")
 export const getBookingsData = (state): BookingInterface[] =>  state.bookings.data
 export const getChangeData = (state): BookingInterface[] =>  state.bookings.changeBooking;
-export const getBookingsStatus = state => state.bookings.status;
+export const getBookingsStatus = (state) => state.bookings.status;
 export const getBookingsError = state => state.bookings.error;

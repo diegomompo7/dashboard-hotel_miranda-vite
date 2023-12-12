@@ -1,7 +1,7 @@
-import { DataTableBooking } from "./DataTableBooking.js";
+import { DataTableBooking } from "./DataTableBooking";
 import { TableHead, TableBody, TableRow, MenuItem } from "@mui/material";
 import { StyledTable, StyledTableCellRow, StyledTableContainer } from "../../components/common/StyledTable.ts";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav.ts";
 import { StyledTextField } from "../../components/common/StyledTextField.ts";
 import { StyledFormControl, StyledInputLabel, StyledSelect } from "../../components/common/StyledSelect.ts";
@@ -15,15 +15,14 @@ import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk.t
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice.ts";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk.ts";
 import { useNavigate } from "react-router";
-import { Dispatch } from "@reduxjs/toolkit";
+import { Dispatch } from "redux";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface.ts";
 import { NavigateFunction } from "react-router-dom";
 import { RoomInterface } from "../../interfaces/room/RoomInterface.ts";
-import React from "react";
   
-export const BookingPage = () => {
+export const BookingPage = (): any => {
 
-  const [isOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = ():void => setOpen(true);
   const handleClose = ():void => setOpen(false);
@@ -31,12 +30,12 @@ export const BookingPage = () => {
 
   const navigate: NavigateFunction = useNavigate()
   const dispatch: Dispatch = useDispatch()
-  let bookingsListData = useSelector<BookingInterface[]>(getBookingsData)
+  const bookingsListData = useSelector<BookingInterface[]>(getBookingsData) as BookingInterface[]
 
   const bookingsListStatus = useSelector<string>(getBookingsStatus)
   const [spinner, setSpinner] = useState<boolean>(true);
 
-  const roomBoking = useSelector<RoomInterface[]>(getRoomsData)
+  const roomBoking = useSelector<RoomInterface[]>(getRoomsData) as RoomInterface[]
   const roomsListStatus = useSelector<string>(getRoomsStatus);
 
   const [currentView, setCurrentView] = useState<string>("all");
@@ -51,11 +50,11 @@ export const BookingPage = () => {
   useEffect(
     () => {
 
-      if (roomsListStatus === "idle") {
+      if (roomsListStatus == "idle") {
         dispatch(getRoomsFromApiTrunk())
-      } else if (roomsListStatus === "pending") {
+      } else if (roomsListStatus == "pending") {
         setSpinner(true);
-      } else if (roomsListStatus === "fulfilled") {
+      } else if (roomsListStatus == "fulfilled") {
         setSpinner(false)
       }
     },[
@@ -80,7 +79,7 @@ export const BookingPage = () => {
     bookingsListStatus]
   );
 
-  const bookingListRoom: Array<BookingInterface> = 
+  const bookingListRoom: BookingInterface[] = 
   
      bookingsListData.map((booking) => {
 
@@ -90,19 +89,17 @@ export const BookingPage = () => {
 
       if(nowDate > booking.check_in){
         if(nowDate >= booking.check_out){
-        return {...booking, roomId: room, status: "Check Out"}
+        return {...booking, room: room, status: "Check Out"}
         }
         else{
-          return {...booking, roomId: room, status: "In Progress"}
+          return {...booking, room: room, status: "In Progress"}
         }
       } else {
-        return {...booking, roomId: room, status: "Check In"}
+        return {...booking, room: room, status: "Check In"}
       }
     }
 
-  })
-
- 
+  }).filter((booking): booking is BookingInterface => booking !== null);
 
 
   const handleClick = (click) => {
@@ -122,18 +119,18 @@ export const BookingPage = () => {
 
    
 
-    let orderSelect =  []
+    let orderSelect: BookingInterface[] =  []
     setCurrentView("select")
 
     switch(e.target.value){
         case "orderDate":
-        orderSelect = [... bookingListRoom].sort((a,b) => new Date(`${b.orderDate}`) - new Date(`${a.orderDate}`))
+        orderSelect = [... bookingListRoom].sort((a,b) => new Date(`${b.orderDate}`).getTime() - new Date(`${a.orderDate}`).getTime())
         break;
         case "checkIn":
-          orderSelect = [... bookingListRoom].sort((a,b) => new Date(`${b.check_in}`) - new Date(`${a.check_in}`))
+          orderSelect = [... bookingListRoom].sort((a,b) => new Date(`${b.check_in}`).getTime() - new Date(`${a.check_in}`).getTime())
           break;
           case "checkOut":
-            orderSelect = [...bookingListRoom].sort((a,b) => new Date(`${b.check_out}`) - new Date(`${a.check_out}`))
+            orderSelect = [...bookingListRoom].sort((a,b) => new Date(`${b.check_out}`).getTime() - new Date(`${a.check_out}`).getTime())
             break;
         case "guest":
           orderSelect = [...bookingListRoom].sort((a,b) => {
@@ -150,6 +147,8 @@ export const BookingPage = () => {
           break;
       }
 
+      console.log(orderSelect)
+
       dispatch(getSelect(orderSelect))
       numberPage[0] = 0;
       numberPage[1] = 10;
@@ -158,14 +157,14 @@ export const BookingPage = () => {
 
   const currentBookingsListData = 
   currentView ==="checkIn" ? 
-    [...bookingListRoom].sort((a,b) => new Date(b.check_in) - new Date(a.check_in)) :
+    [...bookingListRoom].sort((a,b) => new Date(b.check_in).getTime() - new Date(a.check_in).getTime()) :
     currentView ==="checkOut" ? 
-    [...bookingListRoom].sort((a,b) => new Date(b.check_out) - new Date(a.check_out)) :
+    [...bookingListRoom].sort((a,b) => new Date(b.check_out).getTime() - new Date(a.check_out).getTime()) :
     currentView ==="inProgress" ? 
-    [...bookingListRoom].filter((inProgress) => inProgress.status === "In Progress").sort((a,b) => new Date(b.orderDate) - new Date(a.orderDate)) :
+    [...bookingListRoom].filter((inProgress) => inProgress.status === "In Progress").sort((a,b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()) :
     currentView ==="select" ? 
       bookingListRoom:
-    [...bookingListRoom].sort((a,b) => new Date(b.orderDate) - new Date(a.orderDate))
+    [...bookingListRoom].sort((a,b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime())
 
 
   return (
