@@ -3,6 +3,10 @@ import { ContactSlice } from "../features/contact/contactSlice";
 import { UsersSlice } from "../features/users/usersSlice";
 import { RoomsSlice } from "../features/rooms/roomsSlice";
 import { BookingsSlice } from "../features/bookings/bookingsSlice";
+import { BookingSliceInitialStateInterface } from "../interfaces/booking/BookingSliceInterface";
+import { ContactSliceInitialStateInterface } from "../interfaces/contact/ContactSliceInterface";
+import { UserSliceInitialStateInterface } from "../interfaces/user/UserSliceInterface";
+import { RoomSliceInitialStateInterface } from "../interfaces/room/RoomSliceInterface";
 
 export const store = configureStore({
     reducer: {
@@ -13,7 +17,10 @@ export const store = configureStore({
     }
 })
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+export interface RootState {
+    bookings: BookingSliceInitialStateInterface;
+    contact: ContactSliceInitialStateInterface;
+    users: UserSliceInitialStateInterface;
+    rooms: RoomSliceInitialStateInterface;
+  }
+

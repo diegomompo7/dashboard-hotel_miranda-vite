@@ -17,10 +17,12 @@ export const BookingsSlice = createSlice({
 
         getClient: (state, action):void => {
 
+            const data = current(state.changeBooking)
 
-            const searchClient = state.changeBooking.filter((client) => client.name.includes(action.payload))
-            state.data = searchClient;
-
+            if(data !== undefined){
+            const searchClient = data.filter((client) => client.name.includes(action.payload))
+            state.data = searchClient
+            }
         },
         getSelect: (state, action):void => {
             state.data = action.payload;
@@ -28,8 +30,10 @@ export const BookingsSlice = createSlice({
         },
         deleteBooking: (state, action):void => {
             const data = current(state.changeBooking)
+            if(data !== undefined){
             const delBooking = data.filter((del) => del.id !== action.payload)
             state.data = delBooking
+            }
     },
         createBooking: (state, action) => {
             
@@ -58,6 +62,6 @@ export const { getSelect, createBooking, deleteBooking, getClient} = BookingsSli
 
 export const getBookingsDataInProgress =  (state: RootState): BookingInterface[] => state.bookings.data.filter((inProgress) => inProgress.status === "In Progress")
 export const getBookingsData = (state: RootState): BookingInterface[] =>  state.bookings.data
-export const getChangeData = (state: RootState): BookingInterface[] =>  state.bookings.changeBooking;
+export const getChangeData = (state: RootState): BookingInterface[] | undefined=>  state.bookings.changeBooking;
 export const getBookingsStatus = (state: RootState) => state.bookings.status;
 export const getBookingsError = (state: RootState) => state.bookings.error;

@@ -13,11 +13,11 @@ export interface DataTableBookingProps {
     data: BookingInterface[];
     numberPage: number[];
     handleOpen: () => void;
-    setSpecialRequest: (value: string | undefined) => void;
+    setSpecialRequest: (request: string) => void;
   }
   export interface DataTableContactProps {
     data:ContactInterface[];
     numberPage: number[];
-    setCurrentView: (value: string | undefined) => void;
-    setCurrentPage: (value: number | undefined) => void
+    setCurrentView: (request: string) => void;
+    setCurrentPage: (request: number) => void
   }

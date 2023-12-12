@@ -89,7 +89,8 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
               name="view_notes"
               onClick={() => {
                 props.handleOpen(),
-                  props.setSpecialRequest(data.specialRequest);
+                data.specialRequest !== undefined &&
+                props.setSpecialRequest(data.specialRequest);
               }}
               disabled={data.specialRequest === ""}
             >
