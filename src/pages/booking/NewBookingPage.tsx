@@ -13,36 +13,39 @@ import {
   StyledSelect,
 } from "../../components/common/StyledSelect";
 import { MenuItem } from "@mui/material";
-import logo from "../../assets/img/logo.png";
 
-import {getBookingsData, getBookingsError, getBookingsStatus, createBooking} from "../../features/bookings/bookingsSlice";
+import {getBookingsData, getBookingsError,  createBooking} from "../../features/bookings/bookingsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { Dispatch } from "@reduxjs/toolkit";
+import { BookingInterface } from "../../interfaces/booking/BookingInterface";
+import { RoomInterface } from "../../interfaces/room/RoomInterface";
+
+import logo  from "../../assets/img/logo.png";
 
 
 export const NewBookingPage = () => {
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch();
-  const bookingsListData = useSelector(getBookingsData);
-  const bookingsListError = useSelector(getBookingsError);
-  const [spinner, setSpinner] = useState(true);
+  const navigate: NavigateFunction = useNavigate()
+  const dispatch: Dispatch = useDispatch()
+  const bookingsListData = useSelector <BookingInterface[]>(getBookingsData) as BookingInterface[]
+  const bookingsListError = useSelector<string>(getBookingsError);
+  const [spinner, setSpinner] = useState<boolean>(true);
 
-  const roomBoking = useSelector(getRoomsData)
-  const roomsListStatus = useSelector(getRoomsStatus);
+  const roomBoking = useSelector<RoomInterface[]>(getRoomsData) as RoomInterface[]
+  const roomsListStatus = useSelector<string>(getRoomsStatus);
 
-  const [roomAvailable, setRoomAvailable] = useState([])
+  const [roomAvailable, setRoomAvailable] = useState<string[]>([])
 
-  const now = new Date();
-  const nowDate = now.toISOString().slice(0, 16).replace("T", " ");
-
+  const now: Date = new Date();
+  const nowDate: string = now.toISOString().slice(0, 16).replace("T", " ");
 
   useEffect(
     () => {
@@ -102,7 +105,7 @@ export const NewBookingPage = () => {
     if(formData.check_in !== "" && formData.check_out !== "") {
 
     
-      roomBoking.map(room => {
+      roomBoking.forEach(room => {
   
         const idBook = bookingsListData.filter(booking => booking.roomId === room.id)
 
@@ -111,7 +114,7 @@ export const NewBookingPage = () => {
         }
         
   
-        idBook.map((checkDate) => {
+        idBook.forEach((checkDate) => {
         
           
         if(checkDate.check_in > formData.check_out || checkDate.check_out < formData.check_in){

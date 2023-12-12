@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import { Menu, MenuItem, TableRow } from "@mui/material";
 import {
   StyledTableCellBody,
@@ -6,36 +6,45 @@ import {
 } from "../../components/common/StyledTable";
 import { StyledButton } from "../../components/common/StyledButton";
 import { StyledMoreIcon } from "../../components/common/StyledIcons";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { deleteBooking } from "../../features/bookings/bookingsSlice";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { Dispatch } from "@reduxjs/toolkit";
+import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 
-export const DataTableBooking = (props) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+interface DataTableBookingProps {
+  data: BookingInterface[];
+  numberPage: number[];
+  handleOpen: () => void;
+  setSpecialRequest: (value: string | undefined) => void;
+}
+ 
+export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
+  const navigate: NavigateFunction = useNavigate()
+  const dispatch: Dispatch = useDispatch()
 
-  const dataPage = [...props.data].slice(
+  const dataPage: BookingInterface[] = [...props.data].slice(
     props.numberPage[0],
     props.numberPage[1]
   );
 
-  const [anchorEl, setAnchorEl] = useState(null);
-    const [menuId, setMenuId] = useState(null)
-    const open = Boolean(anchorEl);
-    const handleClick = (event, id) => {
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
+    const [menuId, setMenuId] = useState<number | null>(null)
+    const open: boolean = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<SVGElement, MouseEvent>, id: number) => {
         event.stopPropagation();
         setAnchorEl(event.currentTarget);
         setMenuId(id)
     };
-    const handleClose = () => {
+    const handleClose = ():void => {
         setAnchorEl(null);
         setMenuId(null)
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = (id: number| null) :void => {
       dispatch(deleteBooking(id));
       handleClose()
       toast.error('Booking deleted succesfull', {
@@ -93,7 +102,7 @@ export const DataTableBooking = (props) => {
             </StyledButton>
           </StyledTableCellBody>
           <StyledTableCellBody>
-              <StyledTableCellBodyText typeStyle="title">{data.roomId.roomNumber}</StyledTableCellBodyText>
+              <StyledTableCellBodyText typeStyle="title">{data.room.roomNumber}</StyledTableCellBodyText>
           </StyledTableCellBody>
           <StyledTableCellBody>
             <StyledButton name={data.status}>{data.status}</StyledButton>

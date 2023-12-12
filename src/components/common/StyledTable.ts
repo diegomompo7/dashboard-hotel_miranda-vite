@@ -60,7 +60,7 @@ export const StyledTableCellBodyText = styled.p<{typeStyle:string}>`
   
 
 `
-export const StyledTableCellBody = styled.td<{typeStyle:string, name:string}>`
+export const StyledTableCellBody = styled.td<{typeStyle?:string, name?:string}>`
     font-size: 1rem;
     font-family: "Poppins", sans-serif;
     font-weight: 400; 
@@ -77,7 +77,7 @@ export const StyledTableCellBody = styled.td<{typeStyle:string, name:string}>`
     ${props => props.typeStyle === "message" && `
             width: 30%;
     `}
-    ${props => props.name="menu" && `
+    ${props => props.name==="menu" && `
         position: relative
 
         &:active,  & div{

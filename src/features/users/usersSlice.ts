@@ -2,6 +2,7 @@ import { createSlice, current} from "@reduxjs/toolkit";
 import { getUsersFromApiTrunk } from "./usersTrunk";
 import { UserSliceInitialStateInterface } from "../../interfaces/user/UserSliceInterface";
 import { UserInterface } from "../../interfaces/user/UserInterface";
+import { RootState } from "../../app/store";
 
 const initialState: UserSliceInitialStateInterface = {
     data: [],
@@ -75,9 +76,9 @@ export const UsersSlice = createSlice({
 })
 
 export const {getEmployee, getSelect, updateUser, createUser, deleteUser} = UsersSlice.actions
-export const getUsersDataActive = (state): UserInterface[] => state.users.data.filter((active) => active.status === "ACTIVE")
-export const getUsersDataInactive = (state): UserInterface[] => state.users.data.filter((inactive) => inactive.status === "INACTIVE")
-export const getUsersData = (state): UserInterface[] => state.users.data
-export const getChangeData = (state): UserInterface[] => state.users.changeUser
-export const getUsersStatus = state => state.users.status;
-export const getUsersError = state => state.users.error;
+export const getUsersDataActive = (state: RootState): UserInterface[] => state.users.data.filter((active) => active.status === "ACTIVE")
+export const getUsersDataInactive = (state: RootState): UserInterface[] => state.users.data.filter((inactive) => inactive.status === "INACTIVE")
+export const getUsersData = (state: RootState): UserInterface[] => state.users.data
+export const getChangeData = (state: RootState): UserInterface[] => state.users.changeUser
+export const getUsersStatus = (state: RootState) => state.users.status;
+export const getUsersError = (state: RootState) => state.users.error;

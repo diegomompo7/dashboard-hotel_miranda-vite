@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getContactFromApiTrunk } from "./contactTrunk";
 import { ContactSliceInitialStateInterface } from "../../interfaces/contact/ContactSliceInterface";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
+import { RootState } from "../../app/store";
 
 const initialState: ContactSliceInitialStateInterface = {
     data: [],
@@ -47,7 +48,7 @@ export const ContactSlice = createSlice({
 })
 
 export const {getFullMessage, updateContact} = ContactSlice.actions;
-export const getContactData = (state): ContactInterface[] => state.contact.data
-export const getContactDataArchive = (state): ContactInterface[] => state.contact.data.filter((contact) => contact.is_archived === true)
-export const getContactStatus = state => state.contact.status;
-export const getContactError = state => state.contact.error;
+export const getContactData = (state: RootState): ContactInterface[] => state.contact.data
+export const getContactDataArchive = (state: RootState): ContactInterface[] => state.contact.data.filter((contact) => contact.is_archived === true)
+export const getContactStatus = (state: RootState) => state.contact.status;
+export const getContactError = (state: RootState)=> state.contact.error;

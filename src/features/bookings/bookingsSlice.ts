@@ -2,6 +2,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 import { getBookingsFromApiTrunk } from "./bookingsTrunk";
 import { BookingSliceInitialStateInterface } from "../../interfaces/booking/BookingSliceInterface";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
+import { RootState } from "../../app/store";
 
  const initialState: BookingSliceInitialStateInterface = {
         data: [],
@@ -55,8 +56,8 @@ export const BookingsSlice = createSlice({
 export const { getSelect, createBooking, deleteBooking, getClient} = BookingsSlice.actions
 
 
-export const getBookingsDataInProgress =  (state): BookingInterface[] => state.bookings.data.filter((inProgress) => inProgress.status === "In Progress")
-export const getBookingsData = (state): BookingInterface[] =>  state.bookings.data
-export const getChangeData = (state): BookingInterface[] =>  state.bookings.changeBooking;
-export const getBookingsStatus = (state) => state.bookings.status;
-export const getBookingsError = state => state.bookings.error;
+export const getBookingsDataInProgress =  (state: RootState): BookingInterface[] => state.bookings.data.filter((inProgress) => inProgress.status === "In Progress")
+export const getBookingsData = (state: RootState): BookingInterface[] =>  state.bookings.data
+export const getChangeData = (state: RootState): BookingInterface[] =>  state.bookings.changeBooking;
+export const getBookingsStatus = (state: RootState) => state.bookings.status;
+export const getBookingsError = (state: RootState) => state.bookings.error;

@@ -2,6 +2,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 import { getRoomsFromApiTrunk } from "./roomsTrunk";
 import { RoomSliceInitialStateInterface } from "../../interfaces/room/RoomSliceInterface";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
+import { RootState } from "../../app/store";
 
 const initialState: RoomSliceInitialStateInterface = {
     data: [],
@@ -87,10 +88,10 @@ export const RoomsSlice = createSlice({
 export const { getSelect, updateRoom, createRoom, deleteRoom, getNewData, updateStatus} = RoomsSlice.actions
 
 
-export const getRoomsDataAvailable = (state): RoomInterface[] => state.rooms.data.filter((available) => available.status === "Available")
-export const getRoomsDataBooked = (state): RoomInterface[] => state.rooms.data.filter((booked) => booked.status === "Booked")
-export const getRoomsData = (state): RoomInterface[] => state.rooms.data
-export const getChangeData = (state): RoomInterface[] => state.rooms.changeRoom;
-export const getRoomId = (state): RoomInterface[] => state.rooms.roomId
-export const getRoomsStatus = state => state.rooms.status;
-export const getRoomsError = state => state.rooms.error;
+export const getRoomsDataAvailable = (state: RootState): RoomInterface[] => state.rooms.data.filter((available) => available.status === "Available")
+export const getRoomsDataBooked = (state: RootState): RoomInterface[] => state.rooms.data.filter((booked) => booked.status === "Booked")
+export const getRoomsData = (state: RootState): RoomInterface[] => state.rooms.data
+export const getChangeData = (state: RootState): RoomInterface[] => state.rooms.changeRoom;
+export const getRoomId = (state: RootState): RoomInterface[] => state.rooms.roomId
+export const getRoomsStatus = (state: RootState) => state.rooms.status;
+export const getRoomsError = (state: RootState) => state.rooms.error;

@@ -7,7 +7,7 @@ import { StyledTextField } from "../../components/common/StyledTextField.ts";
 import { StyledFormControl, StyledInputLabel, StyledSelect } from "../../components/common/StyledSelect.ts";
 import { StyledPagination, StyledPaginationText , StyledButtonPage, StyledTextPage} from "../../components/common/StyledPagination.ts";
 import { StyledButton } from "../../components/common/StyledButton.ts";
-import { ModalComponent } from "../../components/ModalComponent/ModalComponent.js";
+import { ModalComponent } from "../../components/ModalComponent/ModalComponent.tsx";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getBookingsData,  getBookingsStatus, getClient, getSelect } from "../../features/bookings/bookingsSlice.ts";
@@ -20,7 +20,7 @@ import { BookingInterface } from "../../interfaces/booking/BookingInterface.ts";
 import { NavigateFunction } from "react-router-dom";
 import { RoomInterface } from "../../interfaces/room/RoomInterface.ts";
   
-export const BookingPage = (): any => {
+export const BookingPage = (): void => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false);
@@ -83,7 +83,7 @@ export const BookingPage = (): any => {
   
      bookingsListData.map((booking) => {
 
-    const room = roomBoking.find(room => room.id === booking.roomId)
+    const room  = roomBoking.find(room => room.id === booking.roomId)
 
     if(room){
 
@@ -102,7 +102,7 @@ export const BookingPage = (): any => {
   }).filter((booking): booking is BookingInterface => booking !== null);
 
 
-  const handleClick = (click) => {
+  const handleClick = (click: React.SetStateAction<string>):void => {
 
     setCurrentView(click)
 
@@ -111,11 +111,11 @@ export const BookingPage = (): any => {
     setCurrentPage(1)
   }
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>):void => {
     dispatch(getClient(e.target.value))
   }
 
-  const handleOnSelect = (e) => {
+  const handleOnSelect = (e: Element):void => {
 
    
 
