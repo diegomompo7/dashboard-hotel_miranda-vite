@@ -16,12 +16,6 @@ export const ContactSlice = createSlice({
     initialState,
     reducers: {
 
-        getFullMessage:(state, action):void => {
-            
-            const fullMessage = state.data.find((message) => message.id === action.payload)
-            state.fullMessage = fullMessage;
-            
-        },
         updateContact:(state, action):void => {
             const data = state.data
             const index = data.findIndex((archived) => archived.id === action.payload.id)
@@ -47,7 +41,7 @@ export const ContactSlice = createSlice({
     }
 })
 
-export const {getFullMessage, updateContact} = ContactSlice.actions;
+export const {updateContact} = ContactSlice.actions;
 export const getContactData = (state: RootState): ContactInterface[] => state.contact.data
 export const getContactDataArchive = (state: RootState): ContactInterface[] => state.contact.data.filter((contact) => contact.is_archived === true)
 export const getContactStatus = (state: RootState) => state.contact.status;

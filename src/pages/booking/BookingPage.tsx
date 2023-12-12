@@ -1,5 +1,5 @@
 import { DataTableBooking } from "./DataTableBooking";
-import { TableHead, TableBody, TableRow, MenuItem } from "@mui/material";
+import { TableHead, TableBody, TableRow, MenuItem, SelectChangeEvent } from "@mui/material";
 import { StyledTable, StyledTableCellRow, StyledTableContainer } from "../../components/common/StyledTable.ts";
 import React, { useEffect, useState } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav.ts";
@@ -20,7 +20,7 @@ import { BookingInterface } from "../../interfaces/booking/BookingInterface.ts";
 import { NavigateFunction } from "react-router-dom";
 import { RoomInterface } from "../../interfaces/room/RoomInterface.ts";
   
-export const BookingPage = (): void => {
+export const BookingPage = () => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false);
@@ -115,7 +115,7 @@ export const BookingPage = (): void => {
     dispatch(getClient(e.target.value))
   }
 
-  const handleOnSelect = (e: Element):void => {
+  const handleOnSelect = (e: SelectChangeEvent<unknown>):void => {
 
    
 
@@ -134,8 +134,8 @@ export const BookingPage = (): void => {
             break;
         case "guest":
           orderSelect = [...bookingListRoom].sort((a,b) => {
-            const nameA = a.name.toUpperCase();
-            const nameB = b.name.toUpperCase(); 
+            const nameA:string = a.name.toUpperCase();
+            const nameB:string = b.name.toUpperCase(); 
             if (nameA < nameB) {
               return -1;
             }
@@ -155,7 +155,7 @@ export const BookingPage = (): void => {
       setCurrentPage(1)
     }
 
-  const currentBookingsListData = 
+  const currentBookingsListData: BookingInterface[] = 
   currentView ==="checkIn" ? 
     [...bookingListRoom].sort((a,b) => new Date(b.check_in).getTime() - new Date(a.check_in).getTime()) :
     currentView ==="checkOut" ? 

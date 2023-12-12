@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from "react";
+import React, {useState } from "react";
 import { Menu, MenuItem, TableRow } from "@mui/material";
 import {
   StyledTableCellBody,
@@ -14,14 +14,9 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Dispatch } from "@reduxjs/toolkit";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
+import { DataTableBookingProps } from "../../interfaces/props/PropsInterface";
 
-interface DataTableBookingProps {
-  data: BookingInterface[];
-  numberPage: number[];
-  handleOpen: () => void;
-  setSpecialRequest: (value: string | undefined) => void;
-}
- 
+
 export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   const navigate: NavigateFunction = useNavigate()
   const dispatch: Dispatch = useDispatch()

@@ -7,16 +7,18 @@ import { StyledButton } from "../../components/common/StyledButton";
 import { StyledMoreIcon } from "../../components/common/StyledIcons";
 import { useDispatch } from "react-redux";
 import {updateContact } from "../../features/contact/contactSlice";
+import { DataTableContactProps } from "../../interfaces/props/PropsInterface";
+import React from "react";
 
-export const DataTableContact = (props) => {
+export const DataTableContact: React.FC<DataTableContactProps> = (props) => {
 
   const data = props.data
-  const orderContactDate = [...data].sort((a,b) => new Date(b.date) - new Date(a.date))
+  const orderContactDate = [...data].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   const dataPage = orderContactDate.slice(props.numberPage[0], props.numberPage[1])
 
     const dispatch = useDispatch()
 
-    const handleUpdate = (idContact, isArchived) => {
+    const handleUpdate = (idContact: number, isArchived: boolean) => {
 
       switch(isArchived){
         case true:

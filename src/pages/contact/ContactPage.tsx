@@ -2,7 +2,7 @@
 import { DataTableContact } from "./DataTableContact";
 import { TableHead, TableBody, TableRow } from "@mui/material";
 import { StyledTable, StyledTableCellRow, StyledTableContainer} from "../../components/common/StyledTable";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav";
 import { StyledPagination, StyledPaginationText , StyledButtonPage, StyledTextPage} from "../../components/common/StyledPagination";
 import { StyledButton } from "../../components/common/StyledButton";
@@ -15,24 +15,25 @@ import {
   getContactStatus
 } from "../../features/contact/contactSlice";
 import { getContactFromApiTrunk } from "../../features/contact/contactTrunk";
+import { Dispatch } from "@reduxjs/toolkit";
+import { ContactInterface } from "../../interfaces/contact/ContactInterface";
 
 
 export const ContactPage = () => {
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const dispatch = useDispatch();
-  let contactListData = useSelector(getContactData);
-  const contactListError = useSelector(getContactError);
-  const contactListStatus = useSelector(getContactStatus);
-  const currentContactListArchived = useSelector(getContactDataArchive)
+  const dispatch: Dispatch = useDispatch();
+  let contactListData = useSelector<ContactInterface[]>(getContactData) as ContactInterface[];
+  const contactListError = useSelector<string>(getContactError);
+  const contactListStatus = useSelector<boolean>(getContactStatus);
+  const currentContactListArchived = useSelector<ContactInterface[]>(getContactDataArchive) as ContactInterface[];
 
-  const [spinner, setSpinner] = useState(true);
+  const [spinner, setSpinner] = useState<boolean>(true);
 
-  const [numberPage, setNumberPage] = useState([0, 10])
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentView, setCurrentView] = useState("all");
+  const [numberPage, setNumberPage] = useState<number[]>([0, 10])
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentView, setCurrentView] = useState<string>("all");
 
   useEffect(
     () => {
@@ -50,7 +51,7 @@ export const ContactPage = () => {
     contactListStatus]
   );
 
-  const handleClick = (nav) => {
+  const handleClick = (nav: string) :void => {
 
     switch(nav){
       case "all":
@@ -67,7 +68,7 @@ export const ContactPage = () => {
     setCurrentPage(1)
   }
 
-  const currentContactListData = currentView === "archived" ? currentContactListArchived : contactListData;
+  const currentContactListData: ContactInterface[] = currentView === "archived" ? currentContactListArchived : contactListData;
 
 
 

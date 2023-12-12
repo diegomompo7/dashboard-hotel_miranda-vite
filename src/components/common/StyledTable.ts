@@ -30,7 +30,7 @@ export const StyledTableCellRow = styled.td`
         
 `
 
-export const StyledTableCellBodyText = styled.p<{typeStyle:string}>`
+export const StyledTableCellBodyText = styled.p<{typeStyle?:string}>`
 
 
         ${(props) => props.typeStyle === "title" && `

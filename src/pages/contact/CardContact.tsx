@@ -1,37 +1,21 @@
 
 import {StyledSwiper, StyledSwiperSlide, StyledSSText, StyledSSImg } from "../../components/common/StyledCardContact";
 import { Keyboard,  Navigation } from "swiper/modules";
-import { useState } from "react";
-import { getFullMessage } from "../../features/contact/contactSlice";
-
-
+import React, {useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { ModalComponent } from "../../components/ModalComponent/ModalComponent";
-import { useDispatch, useSelector } from "react-redux";
+import { ContactInterface } from "../../interfaces/contact/ContactInterface";
+import { CardContactProps } from "../../interfaces/props/PropsInterface";
 
 
+export const CardContact: React.FC<CardContactProps> = (props) => {
 
-export const CardContact = (props) => {
-
-
-
-    const dispatch = useDispatch()
-    const contact = props.contact
-    const orderContactDate = [...contact].sort((a,b) => new Date(b.date) - new Date(a.date))
+    const contact: ContactInterface[] = props.contact
+    const orderContactDate: ContactInterface[] = [...contact].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     const [open, setOpen] = useState(false);
-    const fullMessage = useSelector((state) => state.contact.fullMessage);
-
-    const handleOpen = (idContact) => {
-      
-      setOpen(true)
-      dispatch(getFullMessage(idContact));
-      
-    }
-    const handleClose = () => {
-      setOpen(false)
-    }
+    const [fullMessage, setFullMessage] = useState<string>("")
 
   
     return (
@@ -39,7 +23,7 @@ export const CardContact = (props) => {
 
     {  fullMessage !== undefined && 
 
-      <ModalComponent open={open} handleClose={handleClose} description={fullMessage.message}></ModalComponent> }
+      <ModalComponent open={open} handleClose={() => setOpen(false)} description={fullMessage}></ModalComponent> }
 
         <StyledSwiper
         slidesPerView={3}
@@ -55,7 +39,7 @@ export const CardContact = (props) => {
         {
             orderContactDate.map((contact) => (
             
-            <StyledSwiperSlide key={contact.id} onClick={() => {handleOpen(contact.id)}}>
+            <StyledSwiperSlide key={contact.id} onClick={() => {setOpen(true), setFullMessage(contact.message)}}>
                 <StyledSSText name="message">{contact.message}</StyledSSText>
                 <div style={{display: 'flex'}}>
                 <StyledSSImg src={contact.userImg}></StyledSSImg>
@@ -63,10 +47,10 @@ export const CardContact = (props) => {
                 <StyledSSText name="title">{contact.name} {contact.surname}</StyledSSText>
                 <StyledSSText name="subtitle">{
                 
-                Math.floor((Date.now() - new Date(contact.date)) / 1000 / 60 / 60)
+                Math.floor((Date.now() - new Date(contact.date).getTime()) / 1000 / 60 / 60)
                 }h {
                 
-                  Math.floor(((Date.now() - new Date(contact.date)) / 1000 / 60 / 60 ) % 60)
+                  Math.floor(((Date.now() - new Date(contact.date).getTime()) / 1000 / 60 / 60 ) % 60)
                   }m ago</StyledSSText>
                 </div>
                 

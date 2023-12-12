@@ -77,7 +77,7 @@ export const NewBookingPage = () => {
 
 
 
-  const handleChange = (e) => 
+  const handleChange = (e:any):void => 
   {
     const { name, value } = e.target;
 
@@ -128,7 +128,7 @@ export const NewBookingPage = () => {
   console.log(roomAvailable)
 
 
-  const handleOnCreate = (e) => {
+  const handleOnCreate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>):void => {
     e.preventDefault()
     dispatch(createBooking(formData));
     toast.success('Booking created succesfull', {
