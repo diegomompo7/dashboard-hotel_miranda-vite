@@ -1,7 +1,7 @@
 import { DataTableBooking } from "./DataTableBooking";
-import { TableHead, TableBody, TableRow, option, SelectChangeEvent } from "@mui/material";
-import { StyledTable, StyledTableCellRow, StyledTableContainer } from "../../components/common/StyledTable.ts";
-import React, { useEffect, useState } from "react";
+import { SelectChangeEvent } from "@mui/material";
+import { StyledTable, StyledTableCellRow } from "../../components/common/StyledTable.ts";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav.ts";
 import { StyledTextField } from "../../components/common/StyledTextField.ts";
 import { StyledSelect } from "../../components/common/StyledSelect.ts";
@@ -15,11 +15,11 @@ import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk.t
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice.ts";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk.ts";
 import { useNavigate } from "react-router";
-import { Dispatch } from "redux";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface.ts";
 import { NavigateFunction } from "react-router-dom";
 import { RoomInterface } from "../../interfaces/room/RoomInterface.ts";
 import { AppDispatch, useAppSelector } from "../../app/store.ts";
+import { StyledSpinner } from "../../components/spinner/StyledSpinner.ts";
 
   
 export const BookingPage = () => {
@@ -83,9 +83,9 @@ export const BookingPage = () => {
 
   const bookingListRoom: BookingInterface[] = 
   
-     bookingsListData.map((booking) => {
+     bookingsListData.map((booking: BookingInterface) => {
 
-    const room  = roomBoking.find((room) => room.id === booking.roomId)
+    const room  = roomBoking.find((room: RoomInterface) => room.id === booking.roomId)
 
     if(room){
 
@@ -103,7 +103,7 @@ export const BookingPage = () => {
 
     return booking
 
-  }).filter((booking) => booking !== null);
+  }).filter((booking: BookingInterface) => booking !== null);
 
 
   const handleClick = (click: React.SetStateAction<string>):void => {
@@ -119,7 +119,7 @@ export const BookingPage = () => {
     dispatch(getClient(e.target.value))
   }
 
-  const handleOnSelect = (e: SelectChangeEvent<unknown>):void => {
+  const handleOnSelect = (e: ChangeEvent<HTMLSelectElement>):void => {
 
    
 
@@ -151,7 +151,6 @@ export const BookingPage = () => {
           break;
       }
 
-      console.log(orderSelect)
 
       dispatch(getSelect(orderSelect))
       numberPage[0] = 0;
@@ -186,9 +185,9 @@ export const BookingPage = () => {
           <StyledNavText onClick={() =>handleClick("checkOut")} isActive={currentView === "checkOut"}>Checking Out</StyledNavText>
           <StyledNavText onClick={() =>handleClick("inProgress")} isActive={currentView === "inProgress"}>In Progress</StyledNavText>
         </StyledNav>
-        <StyledTextField label="Client" onChange={(e) => handleOnChange(e)}/>
+        <StyledTextField label="Client" onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleOnChange(e)}/>
         <StyledButton name="create" onClick={() => navigate("/createBooking")}>+ New Booking</StyledButton>
-        <StyledSelect  onChange={(e) => handleOnSelect(e)} >
+        <StyledSelect  onChange={(e: ChangeEvent<HTMLSelectElement>) => handleOnSelect(e)} >
                 <option value="guest" >Guest</option>
                 <option value="orderDate">Order Date</option>
                 <option value="checkIn">Check In</option>
@@ -209,7 +208,7 @@ export const BookingPage = () => {
               <StyledTableCellRow></StyledTableCellRow>
           </thead>
           <tbody>
-          {spinner ? <p>Loading...</p> : 
+          {spinner ? <StyledSpinner>Loading...</StyledSpinner> : 
             <DataTableBooking data={currentBookingsListData} numberPage={numberPage}handleOpen={handleOpen} setSpecialRequest={setSpecialRequest}></DataTableBooking>
           }
           </tbody>

@@ -48,7 +48,7 @@ export const StyledInputLabel = styled(InputLabel)`
 
 `
 
-export const StyledSelect =  styled.select<{name:string}>`
+export const StyledSelect =  styled.select<{name?:string}>`
     font-family: Poppins, sans-serif;
     color: #135846;
     font-weight: 600;
