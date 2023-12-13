@@ -8,39 +8,36 @@ import {
   StyledInputDate
 } from "../../components/common/StyledForm";
 import {
-  StyledFormControl,
-  StyledInputLabel,
   StyledSelect,
 } from "../../components/common/StyledSelect";
-import { MenuItem } from "@mui/material";
 
 import {getBookingsData, getBookingsError,  createBooking} from "../../features/bookings/bookingsSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { Dispatch } from "@reduxjs/toolkit";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
 
 import logo  from "../../assets/img/logo.png";
+import { AppDispatch, useAppSelector } from "../../app/store";
 
 
 export const NewBookingPage = () => {
 
   const navigate: NavigateFunction = useNavigate()
-  const dispatch: Dispatch = useDispatch()
-  const bookingsListData = useSelector <BookingInterface[]>(getBookingsData) as BookingInterface[]
-  const bookingsListError = useSelector<string>(getBookingsError);
+  const dispatch: AppDispatch = useDispatch()
+  const bookingsListData = useAppSelector <BookingInterface[]>(getBookingsData)
+  const bookingsListError = useAppSelector<string | undefined>(getBookingsError);
   const [spinner, setSpinner] = useState<boolean>(true);
 
-  const roomBoking = useSelector<RoomInterface[]>(getRoomsData) as RoomInterface[]
-  const roomsListStatus = useSelector<string>(getRoomsStatus);
+  const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData)
+  const roomsListStatus = useAppSelector<string>(getRoomsStatus);
 
   const [roomAvailable, setRoomAvailable] = useState<string[]>([])
 
@@ -64,7 +61,8 @@ export const NewBookingPage = () => {
   );
 
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<BookingInterface>({
+    id: null,
     name: "",
     orderDate: nowDate,
     check_in: "",
@@ -72,28 +70,31 @@ export const NewBookingPage = () => {
     check_out: "",
     hour_out: "",
     specialRequest: "",
-    roomId: "",
+    roomId: 0,
+    status: "Check In"
   });
 
 
 
-  const handleChange = (e:any):void => 
+  const handleChange = (e: ChangeEvent<HTMLFormElement | HTMLSelectElement>):void => 
   {
     const { name, value } = e.target;
 
-    setFormData((prevData) => {
-      if (name === "roomId") {
-        return {
-          ...prevData,
-          [name]: value,
-        };
-      } else {
-        return {
-          ...prevData,
-          [name]: value,
-        };
-      }
-    });
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) {
+      setFormData((prevData) => {
+        if (name === "roomId") {
+          return {
+            ...prevData,
+            [name]: parseInt(value),
+          };
+        } else {
+          return {
+            ...prevData,
+            [name]: value,
+          };
+        }
+      });
+    }
 
     if(name === "check_in" || name === "check_out"){
      setRoomAvailable([])
@@ -105,9 +106,9 @@ export const NewBookingPage = () => {
     if(formData.check_in !== "" && formData.check_out !== "") {
 
     
-      roomBoking.forEach(room => {
+      roomBoking.forEach((room: RoomInterface) => {
   
-        const idBook = bookingsListData.filter(booking => booking.roomId === room.id)
+        const idBook = bookingsListData.filter((booking: BookingInterface) => booking.roomId === room.id)
 
         if(idBook.length === 0){
           roomAvailable.push(room.roomNumber)
@@ -124,8 +125,6 @@ export const NewBookingPage = () => {
      })
     }
   }, [formData.check_in, formData.check_out])
-
-  console.log(roomAvailable)
 
 
   const handleOnCreate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>):void => {
@@ -145,19 +144,18 @@ export const NewBookingPage = () => {
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
         name="createForm"
-        onChange={(e) => {handleChange(e)}}
+        onChange={(e: ChangeEvent<HTMLFormElement>) => handleChange(e)}
       >
         <StyledInputForm
           placeholder="Name and surname"
           type="text"
+          alignInput = "center"
           name="name"
-          rows="5" cols="10"
         ></StyledInputForm>
 
         <StyledInputDate>
         <label htmlFor="">Check In:  </label>
         <StyledInputForm
-          label="Check In"
           placeholder="Check In"
           type="date"
           name="check_in"
@@ -183,31 +181,29 @@ export const NewBookingPage = () => {
         </StyledInputDate>
         <StyledTextAreaForm
           placeholder="Special Request"
-          type="specialRequest"
           name="specialRequest"
         ></StyledTextAreaForm>
-                <StyledFormControl name="selectRoom">
-          <StyledInputLabel>Rooms Available</StyledInputLabel>
-          <StyledSelect label="roomType" name="roomId" onChange={(e) => {handleChange(e)}}>
 
+
+          <StyledSelect placeholder="s" nameSelect="selectRoom" name="roomId" onChange={(e: ChangeEvent<HTMLSelectElement>)  => {handleChange(e)}}>
+          <option value="" disabled selected hidden>Choose a Room Available</option>
           {
       
             roomAvailable.length !== 0 &&
-               roomAvailable.map((roomAva) => {
+               roomAvailable.map((roomAva : string) => {
                 
-                const room = roomBoking.find(room => room.roomNumber === roomAva)
+                const room = roomBoking.find((room: RoomInterface) => room.roomNumber === roomAva)
 
                 return room !== undefined &&
-                <MenuItem key={room.id} value={room.id}>
+                <option key={room.id} value={room.id}>
                   {roomAva}
-                </MenuItem>
+                </option>
     
                })
           }
           </StyledSelect>
-        </StyledFormControl>
       
-        <StyledButton name="new" type="submit" onClick={(e) => {handleOnCreate(e), navigate("/booking")}}>
+        <StyledButton name="new" type="submit" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {handleOnCreate(e), navigate("/booking")}}>
           CREATE ROOM
         </StyledButton>
       </StyledFormContainer>

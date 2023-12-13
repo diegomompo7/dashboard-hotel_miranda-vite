@@ -14,7 +14,7 @@ export const CardContact: React.FC<CardContactProps> = (props) => {
 
     const contact: ContactInterface[] = props.contact
     const orderContactDate: ContactInterface[] = [...contact].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
     const [fullMessage, setFullMessage] = useState<string>("")
 
   
@@ -37,7 +37,7 @@ export const CardContact: React.FC<CardContactProps> = (props) => {
 
       >
         {
-            orderContactDate.map((contact) => (
+            orderContactDate.map((contact: ContactInterface) => (
             
             <StyledSwiperSlide key={contact.id} onClick={() => {setOpen(true), setFullMessage(contact.message)}}>
                 <StyledSSText name="message">{contact.message}</StyledSSText>

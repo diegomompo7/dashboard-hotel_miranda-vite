@@ -9,16 +9,18 @@ import { useDispatch } from "react-redux";
 import {updateContact } from "../../features/contact/contactSlice";
 import { DataTableContactProps } from "../../interfaces/props/PropsInterface";
 import React from "react";
+import { ContactInterface } from "../../interfaces/contact/ContactInterface";
+import { Dispatch } from "@reduxjs/toolkit";
 
 export const DataTableContact: React.FC<DataTableContactProps> = (props) => {
 
-  const data = props.data
-  const orderContactDate = [...data].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  const dataPage = orderContactDate.slice(props.numberPage[0], props.numberPage[1])
+  const data: ContactInterface[] = props.data
+  const orderContactDate: ContactInterface[] = [...data].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  const dataPage: ContactInterface[] = orderContactDate.slice(props.numberPage[0], props.numberPage[1])
 
-    const dispatch = useDispatch()
+    const dispatch: Dispatch = useDispatch()
 
-    const handleUpdate = (idContact: number, isArchived: boolean) => {
+    const handleUpdate = (idContact: number, isArchived: boolean):void => {
 
       switch(isArchived){
         case true:
@@ -40,7 +42,7 @@ export const DataTableContact: React.FC<DataTableContactProps> = (props) => {
 
   return (
     <>
-      {dataPage.map((data) => (
+      {dataPage.map((data: ContactInterface) => (
         <TableRow key={data.name}>
           <StyledTableCellBody>
           <StyledTableCellBodyText>{data.date}</StyledTableCellBodyText>

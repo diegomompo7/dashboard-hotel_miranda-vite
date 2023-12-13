@@ -21,3 +21,7 @@ export interface DataTableBookingProps {
     setCurrentView: (request: string) => void;
     setCurrentPage: (request: number) => void
   }
+
+  export interface AuthContextProps {
+    userLogin: string | null;
+  }

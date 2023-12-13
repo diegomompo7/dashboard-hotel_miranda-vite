@@ -1,5 +1,4 @@
 import { DataTableBooking } from "./DataTableBooking";
-import { SelectChangeEvent } from "@mui/material";
 import { StyledTable, StyledTableCellRow } from "../../components/common/StyledTable.ts";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav.ts";
@@ -24,7 +23,6 @@ import { StyledSpinner } from "../../components/spinner/StyledSpinner.ts";
   
 export const BookingPage = () => {
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = ():void => setOpen(true);
   const handleClose = ():void => setOpen(false);
@@ -188,6 +186,7 @@ export const BookingPage = () => {
         <StyledTextField label="Client" onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleOnChange(e)}/>
         <StyledButton name="create" onClick={() => navigate("/createBooking")}>+ New Booking</StyledButton>
         <StyledSelect  onChange={(e: ChangeEvent<HTMLSelectElement>) => handleOnSelect(e)} >
+                <option value="" disabled selected hidden>Choose a Order</option>
                 <option value="guest" >Guest</option>
                 <option value="orderDate">Order Date</option>
                 <option value="checkIn">Check In</option>

@@ -23,7 +23,7 @@ import RouteProtected from './RouteProtected';
 
 
 
-function App() {
+function App () {
 
 
   let checkLogin = false

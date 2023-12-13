@@ -15,19 +15,19 @@ export const Root = () =>  {
             title = "Dashboard"
         break;
         case "/booking":
-            title = "Guest List"
+            title = "Bookings List"
         break;
         case "/booking/:id":
-            title = "Guest Details"
+            title = "Booking Detail"
         break;
         case "/rooms":
             title = "Room List"
         break;
         case "/users":
-            title = "Concierge List"
+            title = "Users List"
         break;
         case "/contact":
-            title = "Review"
+            title = "Reviews"
         break;
 
     }

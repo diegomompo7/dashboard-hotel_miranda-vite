@@ -17,17 +17,18 @@ import {
 import { getContactFromApiTrunk } from "../../features/contact/contactTrunk";
 import { Dispatch } from "@reduxjs/toolkit";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
+import { AppDispatch, useAppSelector } from "../../app/store";
 
 
 export const ContactPage = () => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const dispatch: Dispatch = useDispatch();
-  let contactListData = useSelector<ContactInterface[]>(getContactData) as ContactInterface[];
-  const contactListError = useSelector<string>(getContactError);
-  const contactListStatus = useSelector<boolean>(getContactStatus);
-  const currentContactListArchived = useSelector<ContactInterface[]>(getContactDataArchive) as ContactInterface[];
+  const dispatch: AppDispatch = useDispatch();
+  let contactListData = useAppSelector<ContactInterface[]>(getContactData);
+  const contactListError = useAppSelector<string | undefined>(getContactError);
+  const contactListStatus = useAppSelector<string>(getContactStatus);
+  const currentContactListArchived = useAppSelector<ContactInterface[]>(getContactDataArchive);
 
   const [spinner, setSpinner] = useState<boolean>(true);
 
@@ -82,7 +83,7 @@ export const ContactPage = () => {
 
       <StyledNav>
           <StyledNavText onClick={() => handleClick("all")} isActive={currentView === "all"}>All Contacts</StyledNavText>
-          <StyledNavText name="last" onClick={() => setCurrentView("archived")} isActive={currentView === "archived"}>Archived</StyledNavText>
+          <StyledNavText  onClick={() => setCurrentView("archived")} isActive={currentView === "archived"}>Archived</StyledNavText>
         </StyledNav>
         <StyledTableContainer isOpen={isOpen}>
         <StyledTable>

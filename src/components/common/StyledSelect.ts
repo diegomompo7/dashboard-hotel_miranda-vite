@@ -48,7 +48,7 @@ export const StyledInputLabel = styled(InputLabel)`
 
 `
 
-export const StyledSelect =  styled.select<{name?:string}>`
+export const StyledSelect =  styled.select<{name?:string, nameSelect?:string}>`
     font-family: Poppins, sans-serif;
     color: #135846;
     font-weight: 600;
@@ -65,12 +65,9 @@ export const StyledSelect =  styled.select<{name?:string}>`
 
       
     `}
-    ${props => props.name==="selectRoom" && `
+    ${props => props.nameSelect==="selectRoom" && `
 
-    margin-left: 0;
-    margin-right: 1.25em;
-    margin-bottom: 1.875em;
-
-  
+    margin: 0 auto 1.875em auto;
+    
 `}
 `

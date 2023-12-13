@@ -44,7 +44,7 @@ export const StyledFormContainer = styled.form<{name:string}>`
 
 `}
 `
-export const StyledInputForm = styled.input`
+export const StyledInputForm = styled.input<{alignInput?:string}>`
     height: 1.687em;
     background: none;
     font-family: "Poppins", sans-serif;
@@ -53,6 +53,11 @@ export const StyledInputForm = styled.input`
     border-bottom: 1px solid #135846;
     color: #135846;
     margin-bottom: 1.875rem;
+
+    ${props => props.alignInput === "center" && `
+        margin: 0 30% 1.875rem 30%;
+    `}
+
 `
 export const StyledTextAreaForm = styled.textarea`
     width: 100%;

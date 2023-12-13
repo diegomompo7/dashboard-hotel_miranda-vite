@@ -29,7 +29,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
     const [menuId, setMenuId] = useState<number | null>(null)
     const open: boolean = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<SVGElement, MouseEvent>, id: number) => {
+    const handleClick = (event: React.MouseEvent<SVGElement, MouseEvent>, id: number | null) => {
         event.stopPropagation();
         setAnchorEl(event.currentTarget);
         setMenuId(id)
@@ -39,7 +39,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
         setMenuId(null)
     };
 
-    const handleDelete = (id: number| null) :void => {
+    const handleDelete = (id: number | null) :void => {
       dispatch(deleteBooking(id));
       handleClose()
       toast.error('Booking deleted succesfull', {
@@ -53,8 +53,8 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
 
   return (
     <>
-      {dataPage.map((data) => (
-        <tr>
+      {dataPage.map((data: BookingInterface) => (
+        <tr key={data.id}>
           <StyledTableCellBody
             style={{ display: "flex", alignItems: "center" }}
           >
@@ -104,7 +104,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
             <StyledButton name={data.status}>{data.status}</StyledButton>
           </StyledTableCellBody>
           <StyledTableCellBody>
-                        <StyledMoreIcon onClick={(e) => handleClick(e, data.id)}></StyledMoreIcon>
+                        <StyledMoreIcon onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) => handleClick(e, data.id)}></StyledMoreIcon>
                         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
                             <MenuItem onClick={ () => navigate(`/booking/${menuId}`)}>
                                 View details

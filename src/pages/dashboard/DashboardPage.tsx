@@ -11,19 +11,20 @@ import { getContactFromApiTrunk } from "../../features/contact/contactTrunk";
 import { useContext } from "react";
 import AuthContext from "../../AuthContext";
 import { Navigate } from "react-router-dom";
+import { AppDispatch, useAppSelector } from "../../app/store";
+import { ContactInterface } from "../../interfaces/contact/ContactInterface";
+import React from "react";
+import { AuthContextProps } from "../../interfaces/props/PropsInterface";
 
 export const DashboardPage = () => {
 
-  const [isOpen, setIsOpen] = useState(false)
-
   const {userLogin} = useContext(AuthContext)
 
-  const dispatch = useDispatch();
-  const contactListData = useSelector(getContactData);
-  const contactListError = useSelector(getContactError);
-  const contactListStatus = useSelector(getContactStatus);
-  const [spinner, setSpinner] = useState(true);
-  const [contactList, setContactList] = useState([]);
+  const dispatch : AppDispatch = useDispatch();
+  const contactListData = useAppSelector<ContactInterface[]>(getContactData);
+  const contactListError = useAppSelector<string | undefined>(getContactError);
+  const contactListStatus = useAppSelector<string>(getContactStatus);
+  const [spinner, setSpinner] = useState<boolean>(true);
 
   useEffect(
     () => {
@@ -34,7 +35,6 @@ export const DashboardPage = () => {
         setSpinner(true);
       } else if (contactListStatus === "fulfilled") {
         setSpinner(false)
-        setContactList(contactListData)
       }
     },
     [dispatch,
@@ -48,7 +48,7 @@ export const DashboardPage = () => {
     <> 
           {(userLogin === "") && <Navigate to="/login"/>}
         <CardKpi></CardKpi>
-      {spinner ? <p>Loading</p>:  <CardContact contact={contactList}></CardContact>}
+      {spinner ? <p>Loading</p>:  <CardContact contact={contactListData}></CardContact>}
     </>
   );
 };

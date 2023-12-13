@@ -113,6 +113,7 @@ export const StyledButton = styled.button<{name:string}>`
               color:#E23428;
               border-radius:  0.75em;
               padding: 0.813em 1.5em 0.75em 1.563em;
+              background-color: #FFFFFF;
        
            `
            }
@@ -162,6 +163,7 @@ export const StyledButton = styled.button<{name:string}>`
            ${props => props.name==="new" && 
            `
                width: 70.7%;
+               height: 3.062em;
               font-size: 1.25rem;
               font-family: 'Poppins', sans-serif;
               font-weight: 500;
