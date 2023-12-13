@@ -1,7 +1,14 @@
-import styled from "styled-components"
+import styled, { StyleFunction } from "styled-components"
 import { Text } from "@chakra-ui/react";
 
-export const StyledText = props => `
+interface StyledTextProps {
+    fontSize?: string;
+    color?: string;
+    fontFamily?: string;
+    weight?: string;
+  }
+
+export const StyledText: StyleFunction<StyledTextProps>= props => `
     font-size: ${props.fontSize};
     color: ${props.color};
     font-family: ${props.fontFamily};
@@ -9,14 +16,14 @@ export const StyledText = props => `
 `;
 
 
-export const StyledTextHeader = styled.h1`
+export const StyledTextHeader = styled.h1<StyledTextProps>`
     ${StyledText}
     margin-left: 1.786em;
     margin-top: 1.464em;
 
 `
 
-export const StyledTextLogo = styled.div`
+export const StyledTextLogo = styled.div<StyledTextProps>`
     padding-left: 8.9%;
     display: flex;
     flex-direction: column;
@@ -24,14 +31,14 @@ export const StyledTextLogo = styled.div`
     ${StyledText}
 `
 
-export const StyledTextUserMenu = styled(Text)`
+export const StyledTextUserMenu = styled.p<StyledTextProps>`
     ${StyledText};
     height: auto;
     margin-top: ${props => props.fontSize === "1rem" ? "1em" : '0'};
     margin-bottom: ${props => props.fontSize === "0.75rem" ? "1.333em" : '0.813em'};
 `
 
-export const StyledTextFooter = styled(Text)<{name:string}>`
+export const StyledTextFooter = styled.p<{name:string}>`
     font-family: "Poppins", sans-serif;
     padding-left: 16.2%;
     ${props => props.name==="travl" && 

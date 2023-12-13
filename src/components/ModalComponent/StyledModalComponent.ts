@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { Box } from "@mui/material";
 import { IoClose } from "react-icons/io5";
 
-export const StyledBoxModal = styled(Box)`
+export const StyledBoxModal = styled.div`
     background: #F8F8F8;
     width: 31.25em;
     height: auto;

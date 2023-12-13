@@ -54,7 +54,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   return (
     <>
       {dataPage.map((data) => (
-        <TableRow key="data.id">
+        <tr>
           <StyledTableCellBody
             style={{ display: "flex", alignItems: "center" }}
           >
@@ -98,7 +98,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
             </StyledButton>
           </StyledTableCellBody>
           <StyledTableCellBody>
-              <StyledTableCellBodyText typeStyle="title">{data.room.roomNumber}</StyledTableCellBodyText>
+              <StyledTableCellBodyText typeStyle="title">{typeof data.roomId !== "number" && data.roomId.roomNumber}</StyledTableCellBodyText>
           </StyledTableCellBody>
           <StyledTableCellBody>
             <StyledButton name={data.status}>{data.status}</StyledButton>
@@ -111,9 +111,9 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
                             </MenuItem>
                             <MenuItem onClick={() => handleDelete(menuId)}>Delete</MenuItem>
                         </Menu>
-                    </StyledTableCellBody>
-        </TableRow>
-      ))}
+          </StyledTableCellBody>
+          </tr>
+        ))}
     </>
   );
 };

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Text } from "@chakra-ui/react";
 
 export const StyledNav = styled.nav `
     display: flex;
@@ -9,7 +8,7 @@ export const StyledNav = styled.nav `
     border-bottom: 1px solid #D4D4D4;
   
 `
-export const StyledNavText = styled(Text)<{isActive:boolean}> `
+export const StyledNavText = styled.p<{isActive:boolean}> `
     white-space: nowrap;
     width: 7.937em;
     font-size: 1rem;

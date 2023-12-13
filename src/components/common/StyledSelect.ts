@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FormControl, InputLabel, Select} from "@mui/material";
+import { FormControl, InputLabel} from "@mui/material";
 
 export const StyledFormControl = styled(FormControl)<{name:string}>`
   
@@ -48,9 +48,29 @@ export const StyledInputLabel = styled(InputLabel)`
 
 `
 
-export const StyledSelect = styled(Select)`
+export const StyledSelect =  styled.select<{name:string}>`
     font-family: Poppins, sans-serif;
     color: #135846;
     font-weight: 600;
+    margin-left: auto;
+        border-color: #135846;
+        border-radius: 0.75em;
+        height: 50px;
+        padding-left:12px;
 
+    ${props => props.name==="selectCreate" && `
+        margin-left: 0;
+        margin-right: 1.25em;
+        margin-bottom: 1.875em;
+
+      
+    `}
+    ${props => props.name==="selectRoom" && `
+
+    margin-left: 0;
+    margin-right: 1.25em;
+    margin-bottom: 1.875em;
+
+  
+`}
 `

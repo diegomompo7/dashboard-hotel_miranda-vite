@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Box} from "@mui/material";
 
-export const StyledBox = styled(Box)<{isOpen:boolean}>`
+export const StyledBox = styled.div<{isOpen:boolean}>`
     height: 7.5rem;
     width: 100%;
     display: flex;
@@ -14,7 +14,7 @@ export const StyledBox = styled(Box)<{isOpen:boolean}>`
 `}
 `
 
-export const StyledMenuBox = styled(Box) `
+export const StyledMenuBox = styled.div `
     width: 18%;
     background-color: #FFFFFF;
     position: absolute;
@@ -22,11 +22,11 @@ export const StyledMenuBox = styled(Box) `
 
 `
 
-export const StyledLogo = styled(Box)`
+export const StyledLogo = styled.div`
     display: flex;
 `
 
-export const StyledBoxMenuProfile = styled(Box) `
+export const StyledBoxMenuProfile = styled.div `
     display: flex;
     flex-direction: column;
     width: 67.5%;

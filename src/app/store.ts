@@ -7,6 +7,7 @@ import { BookingSliceInitialStateInterface } from "../interfaces/booking/Booking
 import { ContactSliceInitialStateInterface } from "../interfaces/contact/ContactSliceInterface";
 import { UserSliceInitialStateInterface } from "../interfaces/user/UserSliceInterface";
 import { RoomSliceInitialStateInterface } from "../interfaces/room/RoomSliceInterface";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 export const store = configureStore({
     reducer: {
@@ -17,10 +18,7 @@ export const store = configureStore({
     }
 })
 
-export interface RootState {
-    bookings: BookingSliceInitialStateInterface;
-    contact: ContactSliceInitialStateInterface;
-    users: UserSliceInitialStateInterface;
-    rooms: RoomSliceInitialStateInterface;
-  }
-
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector:TypedUseSelectorHook<RootState> = useSelector

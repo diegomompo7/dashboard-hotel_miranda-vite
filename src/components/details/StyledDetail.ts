@@ -1,17 +1,16 @@
 import { Text } from "@chakra-ui/react";
-import { Box } from "@mui/material";
 import styled from "styled-components";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineMessage } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 
-export const StyledDetailContainer = styled(Box)`
+export const StyledDetailContainer = styled.div`
     display: flex;
     height: auto;
 
 `
-export const StyledDetailContent = styled(Box)`
+export const StyledDetailContent = styled.div`
     width: 50%;
 
     background: #FFFFFF;
@@ -29,10 +28,10 @@ export const StyledDetailImg = styled.img`
     width: 9.75em;
     height: 9.75em;
 `
-export const StyledDetailPersonText = styled(Box)`
+export const StyledDetailPersonText = styled.div`
     
 `
-export const StyledDetailText = styled(Text)<{typeStyle:string}> `
+export const StyledDetailText = styled.p<{typeStyle:string}> `
 
     font-family: "Poppins", sans-serif;
 
@@ -143,7 +142,7 @@ margin-bottom: 2.714em;
 
 `
 
-export const StyledDetailActions = styled(Box)`
+export const StyledDetailActions = styled.div`
 
  display: flex;
 
@@ -155,7 +154,7 @@ export const StyledDetailIconPhone = styled(FaPhoneAlt)`
     color: #135846;
 `
 
-export const StyledDetailMessage = styled(Box) `
+export const StyledDetailMessage = styled.div `
     background: #135846;
     display: flex;
     border-radius: 0.75em;
@@ -171,7 +170,7 @@ export const StyledDetailIconMessage = styled(MdOutlineMessage)`
 
 `
 
-export const StyleDetailCheck = styled(Box)`
+export const StyleDetailCheck = styled.div`
     display: flex;
 
 `
@@ -181,26 +180,26 @@ export const StyledDetailLine = styled.hr`
     width: 97%
 `
 
-export const StyledDetailInfo = styled(Box)`
+export const StyledDetailInfo = styled.div`
     display:flex;
     margin-top: 1.3125em;
 `
 
-export const StyledDetailInfoRoom = styled(Box)`
+export const StyledDetailInfoRoom = styled.div`
     margin-right: 13.1%
 `
-export const StyledDetailInfoPrice = styled(Box)`
+export const StyledDetailInfoPrice = styled.div`
 
 `
 
-export const StyledDetailAmeContainer= styled(Box)`
+export const StyledDetailAmeContainer= styled.div`
     margin-top: 2em;
  display: flex;
  flex-wrap: wrap;
  width: 78.8%;
 `
 
-export const StyledDetailAmenities= styled(Box)`
+export const StyledDetailAmenities= styled.div`
  display: flex;
  flex-wrap: wrap;
  margin-left: 0;

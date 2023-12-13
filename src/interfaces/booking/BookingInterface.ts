@@ -8,8 +8,7 @@ export interface BookingInterface {
     hour_in: string
     check_out: string
     hour_out: string
-    roomId: number
-    room: RoomInterface
+    roomId: number | RoomInterface
     specialRequest: string | undefined
     status: string
 }

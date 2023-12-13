@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
-import { Box} from "@mui/material";
 
-export const StyledBoxForm = styled(Box)<{name:string}>`
+export const StyledBoxForm = styled.div<{name:string}>`
 
 box-shadow: 0 0 28px 8px #E23428;
 height: auto;
@@ -26,7 +25,7 @@ export const StyledImgForm = styled.img`
     margin-bottom: 3.437em;
 `
 
-export const StyledFormContainer = styled.form`
+export const StyledFormContainer = styled.form<{name:string}>`
     display: flex;
     flex-direction: column;
     width: 84%;

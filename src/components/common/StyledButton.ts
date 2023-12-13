@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { Button } from "@mui/material";
 
 
-export const StyledButton = styled(Button)`
+export const StyledButton = styled.button<{name:string}>`
     text-transform: none;
+    border: none;
     ${props => props.name==="CONTACT_US" && 
         `
             margin: 0 auto;

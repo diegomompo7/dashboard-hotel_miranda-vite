@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { TableContainer} from "@mui/material";
 
-export const StyledTableContainer= styled(TableContainer)<{isOpen:boolean}>`
+export const StyledTableContainer= styled.table<{isOpen:boolean}>`
     width:100%;
     ${(props) => props.isOpen === true && `
         width: 100%;
@@ -21,7 +21,7 @@ export const StyledTableBody = styled.tbody`
     border: none;
     table-layout: auto;
 `
-export const StyledTableCellRow = styled.td`
+export const StyledTableCellRow = styled.th`
         font-size: 1rem;
         font-family: "Poppins", sans-serif;
         font-weight: 600;

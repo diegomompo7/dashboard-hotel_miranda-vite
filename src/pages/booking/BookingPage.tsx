@@ -1,14 +1,14 @@
 import { DataTableBooking } from "./DataTableBooking";
-import { TableHead, TableBody, TableRow, MenuItem, SelectChangeEvent } from "@mui/material";
+import { TableHead, TableBody, TableRow, option, SelectChangeEvent } from "@mui/material";
 import { StyledTable, StyledTableCellRow, StyledTableContainer } from "../../components/common/StyledTable.ts";
 import React, { useEffect, useState } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav.ts";
 import { StyledTextField } from "../../components/common/StyledTextField.ts";
-import { StyledFormControl, StyledInputLabel, StyledSelect } from "../../components/common/StyledSelect.ts";
+import { StyledSelect } from "../../components/common/StyledSelect.ts";
 import { StyledPagination, StyledPaginationText , StyledButtonPage, StyledTextPage} from "../../components/common/StyledPagination.ts";
 import { StyledButton } from "../../components/common/StyledButton.ts";
 import { ModalComponent } from "../../components/ModalComponent/ModalComponent.tsx";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { getBookingsData,  getBookingsStatus, getClient, getSelect } from "../../features/bookings/bookingsSlice.ts";
 import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk.ts";
@@ -19,6 +19,8 @@ import { Dispatch } from "redux";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface.ts";
 import { NavigateFunction } from "react-router-dom";
 import { RoomInterface } from "../../interfaces/room/RoomInterface.ts";
+import { AppDispatch, useAppSelector } from "../../app/store.ts";
+
   
 export const BookingPage = () => {
 
@@ -29,14 +31,14 @@ export const BookingPage = () => {
   const [specialRequest, setSpecialRequest] = useState<string>("")
 
   const navigate: NavigateFunction = useNavigate()
-  const dispatch: Dispatch = useDispatch()
-  const bookingsListData = useSelector<BookingInterface[]>(getBookingsData) as BookingInterface[]
+  const dispatch: AppDispatch = useDispatch()
+  const bookingsListData = useAppSelector<BookingInterface[]>(getBookingsData)
 
-  const bookingsListStatus = useSelector<string>(getBookingsStatus)
+  const bookingsListStatus = useAppSelector<string>(getBookingsStatus)
   const [spinner, setSpinner] = useState<boolean>(true);
 
-  const roomBoking = useSelector<RoomInterface[]>(getRoomsData) as RoomInterface[]
-  const roomsListStatus = useSelector<string>(getRoomsStatus);
+  const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData)
+  const roomsListStatus = useAppSelector<string>(getRoomsStatus);
 
   const [currentView, setCurrentView] = useState<string>("all");
 
@@ -83,23 +85,25 @@ export const BookingPage = () => {
   
      bookingsListData.map((booking) => {
 
-    const room  = roomBoking.find(room => room.id === booking.roomId)
+    const room  = roomBoking.find((room) => room.id === booking.roomId)
 
     if(room){
 
       if(nowDate > booking.check_in){
         if(nowDate >= booking.check_out){
-        return {...booking, room: room, status: "Check Out"}
+        return {...booking, roomId: room, status: "Check Out"}
         }
         else{
-          return {...booking, room: room, status: "In Progress"}
+          return {...booking, roomId: room, status: "In Progress"}
         }
       } else {
-        return {...booking, room: room, status: "Check In"}
+        return {...booking, roomId: room, status: "Check In"}
       }
     }
 
-  }).filter((booking): booking is BookingInterface => booking !== null);
+    return booking
+
+  }).filter((booking) => booking !== null);
 
 
   const handleClick = (click: React.SetStateAction<string>):void => {
@@ -184,21 +188,17 @@ export const BookingPage = () => {
         </StyledNav>
         <StyledTextField label="Client" onChange={(e) => handleOnChange(e)}/>
         <StyledButton name="create" onClick={() => navigate("/createBooking")}>+ New Booking</StyledButton>
-        <StyledFormControl>
-        <StyledInputLabel>Order</StyledInputLabel>
-        <StyledSelect label="Order" onChange={(e) => handleOnSelect(e)} >
-                <MenuItem value="guest" >Guest</MenuItem>
-                <MenuItem value="orderDate">Order Date</MenuItem>
-                <MenuItem value="checkIn">Check In</MenuItem>
-                <MenuItem value="checkOut">Check Out</MenuItem>
+        <StyledSelect  onChange={(e) => handleOnSelect(e)} >
+                <option value="guest" >Guest</option>
+                <option value="orderDate">Order Date</option>
+                <option value="checkIn">Check In</option>
+                <option value="checkOut">Check Out</option>
 
         </StyledSelect>
-        </StyledFormControl>
       </div>
-      <StyledTableContainer isOpen={isOpen}>
         <StyledTable>
-          <TableHead>
-            <TableRow>
+          <thead>
+            
               <StyledTableCellRow >Guest</StyledTableCellRow>
               <StyledTableCellRow>OrderDate</StyledTableCellRow>
               <StyledTableCellRow>Check In</StyledTableCellRow>
@@ -207,15 +207,13 @@ export const BookingPage = () => {
               <StyledTableCellRow>Room Type</StyledTableCellRow>
               <StyledTableCellRow>Status</StyledTableCellRow>
               <StyledTableCellRow></StyledTableCellRow>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+          </thead>
+          <tbody>
           {spinner ? <p>Loading...</p> : 
             <DataTableBooking data={currentBookingsListData} numberPage={numberPage}handleOpen={handleOpen} setSpecialRequest={setSpecialRequest}></DataTableBooking>
           }
-          </TableBody>
+          </tbody>
         </StyledTable>
-        </StyledTableContainer>
         <StyledPagination>
           <StyledPaginationText> Showing {currentBookingsListData.length !== 0 ? numberPage[0]+1 : numberPage[0]} of { currentBookingsListData.length >= numberPage[1] ? numberPage[1] : currentBookingsListData.length} data</StyledPaginationText>
           <StyledButtonPage>
