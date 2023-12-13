@@ -26,31 +26,35 @@ import { IoIosArrowRoundForward, IoIosArrowRoundBack } from "react-icons/io";
 import { Navigation } from "swiper/modules";
 import { StyledMoreIcon } from "../../components/common/StyledIcons";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 
 import { getBookingsData, getBookingsError, getBookingsStatus } from "../../features/bookings/bookingsSlice";
 import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
 import { getRoomId, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 import { useEffect, useState } from "react";
+import { AppDispatch, useAppSelector } from "../../app/store";
+import { BookingInterface } from "../../interfaces/booking/BookingInterface";
+import { RoomInterface } from "../../interfaces/room/RoomInterface";
+import React from "react";
 
 export const BookingDetailPage = () => {
-  const url = new URL(window.location.href);
-  const id = url.pathname.split("/").slice(2, 3).join("");
+  const url:URL = new URL(window.location.href);
+  const id: string = url.pathname.split("/").slice(2, 3).join("");
 
 
 
-  const dispatch = useDispatch()
-  let bookingsListData = useSelector(getBookingsData)
-  const bookingsListError = useSelector(getBookingsError)
-  const bookingsListStatus = useSelector(getBookingsStatus)
-  const [spinner, setSpinner] = useState(true);
+  const dispatch: AppDispatch = useDispatch()
+  const bookingsListData = useAppSelector<BookingInterface[]>(getBookingsData)
+  const bookingsListError = useAppSelector<string | undefined>(getBookingsError)
+  const bookingsListStatus = useAppSelector<string>(getBookingsStatus)
+  const [spinner, setSpinner] = useState<boolean>(true);
 
-  const roomBoking = useSelector(getRoomId)
-  const roomsListStatus = useSelector(getRoomsStatus);
+  const roomBoking = useAppSelector<RoomInterface[]>(getRoomId)
+  const roomsListStatus = useAppSelector<string>(getRoomsStatus);
 
-  const now = new Date();
-  const nowDate = now.toISOString().split('T')[0];;
+  const now:Date = new Date();
+  const nowDate:string = now.toISOString().split('T')[0];;
 
   useEffect(
     () => {
@@ -84,33 +88,40 @@ export const BookingDetailPage = () => {
     bookingsListStatus]
   );
 
-  const bookingId = bookingsListData.find((book) => parseInt(book.id) == id);
+  const bookingId: BookingInterface = bookingsListData.find((book: BookingInterface) => book.id == parseInt(id))!;
+
+  let bookingListRoom: BookingInterface = bookingId
+
+
+  if(bookingId) {
+
+  const room: RoomInterface[] = roomBoking.filter(room => room.id === bookingId.roomId)!
   
-  const room = roomBoking.find(room => room.id === bookingId.roomId)
-
-  let bookingListRoom = {}
-
       if(nowDate > bookingId.check_in){
         if(nowDate >= bookingId.check_out){
-        bookingListRoom = {...bookingId, roomId: room, status: "Check Out"}
+        bookingListRoom = {...bookingId, roomId : room[0], status: "Check Out"}
         }
         else{
-          bookingListRoom = {...bookingId, roomId: room, status: "In Progress"}
+          bookingListRoom = {...bookingId, roomId: room[0], status: "In Progress"}
         }
       } else {
-        bookingListRoom = {...bookingId, roomId: room, status: "Check In"}
+        bookingListRoom = {...bookingId, roomId: room[0], status: "Check In"}
       }
+    
+  }
+
   
 
   return (
     <>
-      {
+      { 
+       bookingListRoom.roomId instanceof Object && <>
         <StyledDetailContainer key={bookingListRoom.id}>
           <StyledDetailContent>
             <StyledDetailContentPerson>
               <StyledDetailPersonText>
                 <StyledDetailText typeStyle="semibold">
-                  {bookingListRoom.name} {bookingListRoom.surname}
+                  {bookingListRoom.name} {bookingListRoom.name}
                 </StyledDetailText>
                 <StyledDetailText typeStyle="id">
                   ID {bookingListRoom.id}
@@ -220,7 +231,7 @@ export const BookingDetailPage = () => {
             </div>
           </StyledDetailSwiper>
         </StyledDetailContainer>
-      }
+      </>}
     </>
   );
 };

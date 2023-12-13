@@ -30,7 +30,7 @@ export const BookingPage = () => {
 
   const navigate: NavigateFunction = useNavigate()
   const dispatch: AppDispatch = useDispatch()
-  const bookingsListData = useAppSelector<BookingInterface[]>(getBookingsData)
+  let bookingsListData = useAppSelector<BookingInterface[]>(getBookingsData)
 
   const bookingsListStatus = useAppSelector<string>(getBookingsStatus)
   const [spinner, setSpinner] = useState<boolean>(true);
@@ -97,11 +97,13 @@ export const BookingPage = () => {
       } else {
         return {...booking, roomId: room, status: "Check In"}
       }
+
     }
 
     return booking
 
   }).filter((booking: BookingInterface) => booking !== null);
+
 
 
   const handleClick = (click: React.SetStateAction<string>):void => {
