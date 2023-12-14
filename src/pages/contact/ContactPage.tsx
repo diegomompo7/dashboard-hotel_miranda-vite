@@ -18,6 +18,7 @@ import { getContactFromApiTrunk } from "../../features/contact/contactTrunk";
 import { Dispatch } from "@reduxjs/toolkit";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
 import { AppDispatch, useAppSelector } from "../../app/store";
+import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
 
 export const ContactPage = () => {
@@ -79,7 +80,7 @@ export const ContactPage = () => {
       { currentContactListData !== undefined &&
 
         <>
-      {spinner ? <p>Loading...</p> :<CardContact contact={contactListData}></CardContact> }
+      {spinner ? <StyledSpinner>Loading...</StyledSpinner> :<CardContact contact={contactListData}></CardContact> }
 
       <StyledNav>
           <StyledNavText onClick={() => handleClick("all")} isActive={currentView === "all"}>All Contacts</StyledNavText>
@@ -95,7 +96,7 @@ export const ContactPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-          {spinner ? <p>Loading...</p> :
+          {spinner ? <StyledSpinner>Loading...</StyledSpinner> :
            <DataTableContact data={currentContactListData} numberPage={numberPage} setCurrentPage={setCurrentPage} setCurrentView={setCurrentView}></DataTableContact>
            
            }

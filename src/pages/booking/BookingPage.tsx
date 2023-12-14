@@ -83,19 +83,19 @@ export const BookingPage = () => {
   
      bookingsListData.map((booking: BookingInterface) => {
 
-    const room  = roomBoking.find((room: RoomInterface) => room.id === booking.roomId)
+    const room  = roomBoking.find((room: RoomInterface) => room.id === booking.room.id)
 
     if(room){
 
       if(nowDate > booking.check_in){
         if(nowDate >= booking.check_out){
-        return {...booking, roomId: room, status: "Check Out"}
+        return {...booking, room: room, status: "Check Out"}
         }
         else{
-          return {...booking, roomId: room, status: "In Progress"}
+          return {...booking, room: room, status: "In Progress"}
         }
       } else {
-        return {...booking, roomId: room, status: "Check In"}
+        return {...booking, room: room, status: "Check In"}
       }
 
     }

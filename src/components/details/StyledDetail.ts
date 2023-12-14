@@ -258,9 +258,9 @@ export const StyledDetailTextContainer= styled.div`
 `
 export const StyleDetailStatus = styled.div<{typeStyle:string}>`
     position: relative;
+    left:10%;
     margin-left: auto;
-    left: 3.75em;
-    top: 1.25em;
+    top: 1em;
     transform: rotate(40deg);
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
@@ -268,7 +268,7 @@ export const StyleDetailStatus = styled.div<{typeStyle:string}>`
     margin-right: 0;
     padding: 18px 0;
     text-align: center;
-    width:30%;
+    width:220px;
 
 ${props => props.typeStyle==="Check In" && 
 `

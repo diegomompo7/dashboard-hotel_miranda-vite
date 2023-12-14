@@ -32,11 +32,10 @@ import { getBookingsData, getBookingsError, getBookingsStatus } from "../../feat
 import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
 import { getRoomId, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
-import React from "react";
 
 export const BookingDetailPage = () => {
   const url:URL = new URL(window.location.href);
@@ -95,17 +94,17 @@ export const BookingDetailPage = () => {
 
   if(bookingId) {
 
-  const room: RoomInterface[] = roomBoking.filter(room => room.id === bookingId.roomId)!
+  const room: RoomInterface[] = roomBoking.filter(room => room.id === bookingId.room.id)!
   
       if(nowDate > bookingId.check_in){
         if(nowDate >= bookingId.check_out){
-        bookingListRoom = {...bookingId, roomId : room[0], status: "Check Out"}
+        bookingListRoom = {...bookingId, room : room[0], status: "Check Out"}
         }
         else{
-          bookingListRoom = {...bookingId, roomId: room[0], status: "In Progress"}
+          bookingListRoom = {...bookingId, room: room[0], status: "In Progress"}
         }
       } else {
-        bookingListRoom = {...bookingId, roomId: room[0], status: "Check In"}
+        bookingListRoom = {...bookingId, room: room[0], status: "Check In"}
       }
     
   }
@@ -113,10 +112,7 @@ export const BookingDetailPage = () => {
   
 
   return (
-    <>
-      { 
-       bookingListRoom.roomId instanceof Object && <>
-        <StyledDetailContainer key={bookingListRoom.id}>
+    <StyledDetailContainer key={bookingListRoom.id}>
           <StyledDetailContent>
             <StyledDetailContentPerson>
               <StyledDetailPersonText>
@@ -166,7 +162,7 @@ export const BookingDetailPage = () => {
                   Room Info
                 </StyledDetailText>
                 <StyledDetailText typeStyle="infoMedium">
-                  {bookingListRoom.roomId.roomNumber}
+                  {bookingListRoom.room.roomNumber}
                 </StyledDetailText>
               </StyledDetailInfoRoom>
               <StyledDetailInfoPrice>
@@ -174,7 +170,7 @@ export const BookingDetailPage = () => {
 
                 <div style={{ display: "flex" }}>
                   <StyledDetailText typeStyle="infoMedium">
-                    ${bookingListRoom.roomId.priceNight}
+                    ${bookingListRoom.room.priceNight}
                   </StyledDetailText>
                   <StyledDetailText typeStyle="perNight">
                     {" "}
@@ -191,7 +187,7 @@ export const BookingDetailPage = () => {
                 Facilites
               </StyledDetailText>
               <StyledDetailAmenities>
-                {bookingListRoom.roomId.amenities.map((amenities) => (
+                {bookingListRoom.room.amenities.map((amenities) => (
                   <StyledDetailText key={amenities} typeStyle="amenities">
                     {amenities}
                   </StyledDetailText>
@@ -207,17 +203,17 @@ export const BookingDetailPage = () => {
             modules={[Navigation]}
             className="mySwiper"
           >
-            {bookingListRoom.roomId.photos.map((element) => (
+            {bookingListRoom.room.photos.map((element) => (
               <StyledDetailSwiperSlide key={element} img={element}>
                 <StyleDetailStatus typeStyle={bookingListRoom.status}>
                   {bookingListRoom.status}
                 </StyleDetailStatus>
                 <StyledDetailTextContainer>
                   <StyledDetailText typeStyle="roomType">
-                    {bookingListRoom.roomId.roomType}
+                    {bookingListRoom.room.roomType}
                   </StyledDetailText>
                   <StyledDetailText typeStyle="roomDescription">
-                    {bookingListRoom.roomId.description}
+                    {bookingListRoom.room.description}
                   </StyledDetailText>
                 </StyledDetailTextContainer>
               </StyledDetailSwiperSlide>
@@ -231,7 +227,5 @@ export const BookingDetailPage = () => {
             </div>
           </StyledDetailSwiper>
         </StyledDetailContainer>
-      </>}
-    </>
   );
 };

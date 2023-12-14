@@ -19,7 +19,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
@@ -70,22 +70,36 @@ export const NewBookingPage = () => {
     check_out: "",
     hour_out: "",
     specialRequest: "",
-    roomId: 0,
+    room: {
+      id: 0,
+      photos: [],
+      roomType: "",
+      roomNumber: "",
+      description: "",
+      offer: "",
+      priceNight: 0,
+      discount: null,
+      cancellation: "",
+      amenities: [],
+      status: ""
+    },
     status: "Check In"
   });
 
+  console.log(bookingsListData)
 
 
   const handleChange = (e: ChangeEvent<HTMLFormElement | HTMLSelectElement>):void => 
   {
     const { name, value } = e.target;
 
+
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) {
       setFormData((prevData) => {
-        if (name === "roomId") {
+        if (name === "room") {
           return {
             ...prevData,
-            [name]: parseInt(value),
+            [name]: JSON.parse(value),
           };
         } else {
           return {
@@ -108,7 +122,7 @@ export const NewBookingPage = () => {
     
       roomBoking.forEach((room: RoomInterface) => {
   
-        const idBook = bookingsListData.filter((booking: BookingInterface) => booking.roomId === room.id)
+        const idBook = bookingsListData.filter((booking: BookingInterface) => booking.room.id === room.id)
 
         if(idBook.length === 0){
           roomAvailable.push(room.roomNumber)
@@ -129,6 +143,31 @@ export const NewBookingPage = () => {
 
   const handleOnCreate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>):void => {
     e.preventDefault()
+
+    const hasEmptyFieldsExceptSpecialRequest = Object.entries(formData).some(
+      ([key, value]) => key !== 'specialRequest' && (value === null || value === undefined || value === '')
+    );
+
+
+     if (new Date(formData.check_in) <= new Date(nowDate) || new Date(formData.check_out) <= new Date(nowDate)){
+
+        toast.error(`The Date must be elderly than actual Date`, {
+          position: "bottom-center",
+          autoClose: 5000,
+          closeOnClick: true,
+          theme: "colored",
+          });
+    } else if(hasEmptyFieldsExceptSpecialRequest || formData.room.id === 0){
+
+      toast.error(`All fileds must be completed`, {
+        position: "bottom-center",
+        autoClose: 5000,
+        closeOnClick: true,
+        theme: "colored",
+        });
+    
+    } else{
+
     dispatch(createBooking(formData));
     toast.success('Booking created succesfull', {
       position: "bottom-center",
@@ -136,11 +175,14 @@ export const NewBookingPage = () => {
       closeOnClick: true,
       theme: "colored",
       });
+      navigate("/booking")
   }
+}
 
 
   return (
     <StyledBoxForm name="createForm">
+      <ToastContainer />
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
         name="createForm"
@@ -185,7 +227,7 @@ export const NewBookingPage = () => {
         ></StyledTextAreaForm>
 
 
-          <StyledSelect placeholder="s" nameSelect="selectRoom" name="roomId" onChange={(e: ChangeEvent<HTMLSelectElement>)  => {handleChange(e)}}>
+          <StyledSelect placeholder="s" nameSelect="selectRoom" name="room" onChange={(e: ChangeEvent<HTMLSelectElement>)  => {handleChange(e)}}>
           <option value="" disabled selected hidden>Choose a Room Available</option>
           {
       
@@ -195,7 +237,7 @@ export const NewBookingPage = () => {
                 const room = roomBoking.find((room: RoomInterface) => room.roomNumber === roomAva)
 
                 return room !== undefined &&
-                <option key={room.id} value={room.id}>
+                <option key={room.id} value={JSON.stringify(room)}>
                   {roomAva}
                 </option>
     
@@ -203,7 +245,7 @@ export const NewBookingPage = () => {
           }
           </StyledSelect>
       
-        <StyledButton name="new" type="submit" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {handleOnCreate(e), navigate("/booking")}}>
+        <StyledButton name="new" type="submit" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {handleOnCreate(e)}}>
           CREATE ROOM
         </StyledButton>
       </StyledFormContainer>

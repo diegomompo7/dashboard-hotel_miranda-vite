@@ -27,6 +27,12 @@ export const StyledButton = styled.button<{name:string}>`
        border-radius:  0.75em;
        padding: 0.813em 2.188em 0.75em 2.25em;
 
+       &:disabled{
+         border: 1px solid #799283;
+         background-color: #FFFFFF;
+         color: #799283;
+       }
+
     `}
 
     ${props => props.name==="Check In" && 

@@ -98,7 +98,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
             </StyledButton>
           </StyledTableCellBody>
           <StyledTableCellBody>
-              <StyledTableCellBodyText typeStyle="title">{typeof data.roomId !== "number" && data.roomId.roomNumber}</StyledTableCellBodyText>
+              <StyledTableCellBodyText typeStyle="title">{data.room.roomNumber}</StyledTableCellBodyText>
           </StyledTableCellBody>
           <StyledTableCellBody>
             <StyledButton name={data.status}>{data.status}</StyledButton>

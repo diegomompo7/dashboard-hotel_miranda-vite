@@ -37,7 +37,8 @@ export const BookingsSlice = createSlice({
     },
         createBooking: (state, action) => {
             
-            state.data = [action.payload, ...state.data]
+            state.data = [...state.data, action.payload]
+            console.log(state.data)
         },
 },
 

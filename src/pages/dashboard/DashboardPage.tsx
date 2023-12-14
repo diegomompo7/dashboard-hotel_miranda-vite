@@ -15,6 +15,7 @@ import { AppDispatch, useAppSelector } from "../../app/store";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
 import React from "react";
 import { AuthContextProps } from "../../interfaces/props/PropsInterface";
+import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
 export const DashboardPage = () => {
 
@@ -48,7 +49,7 @@ export const DashboardPage = () => {
     <> 
           {(userLogin === "") && <Navigate to="/login"/>}
         <CardKpi></CardKpi>
-      {spinner ? <p>Loading</p>:  <CardContact contact={contactListData}></CardContact>}
+      {spinner ? <StyledSpinner>Loading...</StyledSpinner>:  <CardContact contact={contactListData}></CardContact>}
     </>
   );
 };
