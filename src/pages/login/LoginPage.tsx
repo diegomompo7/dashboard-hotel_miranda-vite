@@ -7,13 +7,15 @@ import {
 import logo from "../../assets/img/logo.png";
 import { StyledButton } from "../../components/common/StyledButton";
 import { Navigate } from "react-router-dom";
+import React from "react";
+import { LoginProps } from "../../interfaces/props/PropsInterface";
 
 
 
-export const LoginPage = ({handleOnSubmit, userLogin}) => {
+export const LoginPage: React.FC<LoginProps> = ({handleOnSubmit, userLogin}) => {
 
 
-    const url = localStorage.getItem('lastRoute');
+    const url: string | null= localStorage.getItem('lastRoute');
     
 
   return (
@@ -27,13 +29,11 @@ export const LoginPage = ({handleOnSubmit, userLogin}) => {
         <StyledInputForm
           placeholder="Email"
           type="email"
-          variant="email"
           data-cy="inputUserEmail"
         ></StyledInputForm>
         <StyledInputForm
           placeholder="Password"
           type="password"
-          variant="password"
           data-cy="inputUserPassword"
         ></StyledInputForm>
         <StyledButton name="login" type="submit" data-cy="loginButton">LOGIN</StyledButton>

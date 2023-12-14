@@ -1,4 +1,4 @@
-import { S } from "vitest/dist/reporters-3OMQDZar"
+
 
 export interface UserInterface {
     id: number,

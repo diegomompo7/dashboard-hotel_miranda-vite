@@ -58,16 +58,11 @@ export const StyledSelect =  styled.select<{name?:string, nameSelect?:string}>`
         height: 50px;
         padding-left:12px;
 
-    ${props => props.name==="selectCreate" && `
-        margin-left: 0;
-        margin-right: 1.25em;
-        margin-bottom: 1.875em;
+    ${props => props.nameSelect==="selectCreate" && `
+        margin: 0 auto 1.875em auto;
+
 
       
     `}
-    ${props => props.nameSelect==="selectRoom" && `
 
-    margin: 0 auto 1.875em auto;
-    
-`}
 `

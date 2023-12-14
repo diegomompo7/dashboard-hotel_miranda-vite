@@ -1,42 +1,65 @@
 import { DataTableRooms } from "./DataTableRooms";
 import { TableHead, TableBody, TableRow, MenuItem} from "@mui/material";
 import { StyledTable, StyledTableCellRow, StyledTableContainer } from "../../components/common/StyledTable";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav";
 import { StyledFormControl, StyledInputLabel, StyledSelect } from "../../components/common/StyledSelect";
 import { StyledPagination, StyledPaginationText , StyledButtonPage, StyledTextPage} from "../../components/common/StyledPagination";
 import { StyledButton } from "../../components/common/StyledButton";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   getRoomsData,
   getRoomsError,
   getRoomsStatus,
   getSelect,
-  getRoomsDataAvailable,
-  getRoomsDataBooked,
 
 } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import { getBookingsData, getBookingsStatus } from "../../features/bookings/bookingsSlice";
+import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
+import { AppDispatch, useAppSelector } from "../../app/store";
+import { RoomInterface } from "../../interfaces/room/RoomInterface";
+import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 
 
 export const RoomsListPage = () => {
 
-  const [isOpen, setIsOpen] = useState(false)
-  const navigate = useNavigate()
-  const dispatch = useDispatch();
-const roomsListData = useSelector(getRoomsData);
-const roomsListError = useSelector(getRoomsError);
-const roomsListStatus = useSelector(getRoomsStatus);
-const [spinner, setSpinner] = useState(true);
-const roomsListAvailable = useSelector(getRoomsDataAvailable)
-const roomsListBooked = useSelector(getRoomsDataBooked)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const navigate: NavigateFunction = useNavigate()
+  const dispatch: AppDispatch = useDispatch();
+  const roomsListData = useAppSelector <RoomInterface[]>(getRoomsData);
+  const roomsListError =  useAppSelector <string | undefined>(getRoomsError);
+  const roomsListStatus =  useAppSelector <string>(getRoomsStatus);
+  const [spinner, setSpinner] = useState(true);
+
+  const bookingRoom =  useAppSelector <BookingInterface[]>(getBookingsData)
+  const bookingsListStatus =  useAppSelector <string>(getBookingsStatus)
 
 
-  const [currentView, setCurrentView] = useState("all");
+  const [currentView, setCurrentView] = useState<string>("all");
 
-  const [numberPage, setNumberPage] = useState([0, 10])
-  const [currentPage, setCurrentPage] = useState(1);
+  const [numberPage, setNumberPage] = useState<number[]>([0, 10])
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const now = new Date();
+  const nowDate = now.toISOString().split('T')[0];
+
+  useEffect(
+    () => {
+
+      if (bookingsListStatus === "idle") {
+        dispatch(getBookingsFromApiTrunk()); 
+      } else if (bookingsListStatus === "pending") {
+        setSpinner(true);
+      } else if (bookingsListStatus === "fulfilled") {
+        setSpinner(false)
+      }
+    },[
+    dispatch,
+    bookingRoom,
+    bookingsListStatus]
+  );
 
 
   useEffect(
@@ -55,18 +78,53 @@ const roomsListBooked = useSelector(getRoomsDataBooked)
     roomsListStatus]
   );
 
-  const handleClick = (click) => {
+  const roomListAva: RoomInterface[] = 
+  
+  roomsListData.map((room) => {
 
+ const booking: BookingInterface[]  = bookingRoom.filter((booking) => room.id === booking.room.id)
+
+ console.log(booking)
+
+ if(booking){
+
+    let checkAva: boolean  = true
+
+     booking.every((element) => {
+
+    if(nowDate >= element.check_in && nowDate <= element.check_out){
+     return checkAva = false
+    } else{
+      checkAva = true
+    }
+
+    })
+
+    if(checkAva){
+      return {...room, status: "Available"}
+    } else{
+      return {...room, status: "Booked"}
+    }
+
+
+  } else {
+    return {...room, status: "Available"}
+  }
+
+}).filter(room => room !== null);
+
+const handleClick = (click: React.SetStateAction<string>):void => {
     setCurrentView(click)
 
     numberPage[0] = 0
     numberPage[1] = 10
     setCurrentPage(1)
   }
-  
-  const handleOnSelect = (e) => {
 
-    let orderSelect =  []
+  
+  const handleOnSelect = (e: ChangeEvent<HTMLSelectElement>):void => {
+
+    let orderSelect: RoomInterface[]=  []
 
     switch(e.target.value){
       case "priceLess":
@@ -82,7 +140,17 @@ const roomsListBooked = useSelector(getRoomsDataBooked)
       setCurrentPage(1)
     }
 
-    const currentUsersListData = currentView ==="available" ? roomsListAvailable : currentView === "booked" ? roomsListBooked : roomsListData
+    const currentUsersListData: RoomInterface[] = currentView ==="available" ? 
+    
+    roomListAva.filter((available) => available.status === "Available")
+    
+    : currentView === "booked" ? 
+    
+    roomListAva.filter((booked) => booked.status === "Booked")
+    
+    : roomListAva
+
+    console.log(currentUsersListData)
 
   return (
     <>
@@ -96,13 +164,11 @@ const roomsListBooked = useSelector(getRoomsDataBooked)
           <StyledNavText  onClick={() => handleClick("booked")} isActive={currentView === "booked"}>Booked</StyledNavText>
         </StyledNav>
         <StyledButton name="create" onClick={() => navigate("/createRoom")}>+ New Room</StyledButton>
-        <StyledFormControl>
-        <StyledInputLabel>Order</StyledInputLabel>
-        <StyledSelect label="Order"  onChange={(e) => handleOnSelect(e)}>
-                <MenuItem value="priceLess" >Price less</MenuItem>
-                <MenuItem value="priceHigher">Price High</MenuItem>
+        <StyledSelect onChange={(e: ChangeEvent<HTMLSelectElement>) => handleOnSelect(e)} >
+            <option value="" disabled selected hidden>Choose a Order</option>
+            <option value="priceLess" >Price less</option>
+          < option value="priceHigher">Price High</option>
         </StyledSelect>
-        </StyledFormControl>
       </div>
            
       <StyledTableContainer isOpen={isOpen}>

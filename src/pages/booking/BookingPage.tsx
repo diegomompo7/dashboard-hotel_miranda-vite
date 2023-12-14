@@ -19,6 +19,7 @@ import { NavigateFunction } from "react-router-dom";
 import { RoomInterface } from "../../interfaces/room/RoomInterface.ts";
 import { AppDispatch, useAppSelector } from "../../app/store.ts";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner.ts";
+import { StyledBoxDefault } from "../../components/root/StyledBody.ts";
 
   
 export const BookingPage = () => {
@@ -178,7 +179,7 @@ export const BookingPage = () => {
 
     <ModalComponent open={open} handleClose={handleClose} description={specialRequest}></ModalComponent>
 
-      <div style={{display: 'flex'}}>
+      <StyledBoxDefault>
       <StyledNav>
           <StyledNavText onClick={() =>handleClick("all")} isActive={currentView === "all"}>All Bookings</StyledNavText>
           <StyledNavText onClick={() =>handleClick("checkIn")} isActive={currentView === "checkIn"}>Checking In</StyledNavText>
@@ -195,7 +196,7 @@ export const BookingPage = () => {
                 <option value="checkOut">Check Out</option>
 
         </StyledSelect>
-      </div>
+      </StyledBoxDefault>
         <StyledTable>
           <thead>
             

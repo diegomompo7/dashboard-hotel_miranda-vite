@@ -30,7 +30,7 @@ import { useDispatch} from "react-redux";
 
 import { getBookingsData, getBookingsError, getBookingsStatus } from "../../features/bookings/bookingsSlice";
 import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
-import { getRoomId, getRoomsStatus } from "../../features/rooms/roomsSlice";
+import { getRoomId, getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 import React, { useEffect, useState } from "react";
 import { AppDispatch, useAppSelector } from "../../app/store";
@@ -49,7 +49,7 @@ export const BookingDetailPage = () => {
   const bookingsListStatus = useAppSelector<string>(getBookingsStatus)
   const [spinner, setSpinner] = useState<boolean>(true);
 
-  const roomBoking = useAppSelector<RoomInterface[]>(getRoomId)
+  const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData)
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
 
   const now:Date = new Date();

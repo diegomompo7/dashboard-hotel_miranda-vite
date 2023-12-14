@@ -6,8 +6,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { ModalComponent } from "../../components/ModalComponent/ModalComponent";
-import { ContactInterface } from "../../interfaces/contact/ContactInterface";
-import { CardContactProps } from "../../interfaces/props/PropsInterface";
+import { ContactInterface } from "../..//interfaces/contact/ContactInterface";
+import { CardContactProps } from "../..//interfaces/props/PropsInterface";
 
 
 export const CardContact: React.FC<CardContactProps> = (props) => {

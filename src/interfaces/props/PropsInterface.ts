@@ -1,5 +1,6 @@
 import { BookingInterface } from "../booking/BookingInterface";
 import { ContactInterface } from "../contact/ContactInterface";
+import { RoomInterface } from "../room/RoomInterface";
 
 export interface CardContactProps {
     contact: ContactInterface[]
@@ -22,6 +23,23 @@ export interface DataTableBookingProps {
     setCurrentPage: (request: number) => void
   }
 
+  export interface DataTableRoomsProps {
+    data: RoomInterface[];
+    numberPage: number[];
+  }
+
   export interface AuthContextProps {
     userLogin: string | null;
+  }
+
+  export interface HeaderProps {
+    isActive?: boolean;
+    activeClassName?: string;
+    title: string
+    setIsOpen: (request: boolean) => void;
+  }
+
+  export interface LoginProps {
+    handleOnSubmit: () => void
+    userLogin: string
   }

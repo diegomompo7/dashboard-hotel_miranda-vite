@@ -21,14 +21,16 @@ import { StyledButton } from "../../components/common/StyledButton";
 import { StyledLink } from "../../components/header/StyledLink";
 import users from "../../data/users.json"
 import AuthContext from "../../AuthContext";
+import {HeaderProps} from "../../interfaces/props/PropsInterface"
+import {UserInterface} from "../../interfaces/user/UserInterface"
+
  
-export const Header = (props) => {
-  const [open, setOpen] = React.useState(false);
+export const Header: React.FC<HeaderProps> = (props) => {
+  const [open, setOpen] = React.useState<boolean>(false);
   const {userLogin} = useContext(AuthContext)
 
 
-  const user =  users.filter(user => user.email == userLogin)
-
+  const user: UserInterface[] =  users.filter(user => user.email == userLogin)
 
 
   return (
@@ -45,23 +47,23 @@ export const Header = (props) => {
       </StyledLogo>
       <StyledMenuItem>
         <StyledDashboardIcon></StyledDashboardIcon>
-        <StyledLink to="/" activeClassName="active" >Dashboard</StyledLink>
+        <StyledLink to="/" activeClassName="active" {...props}>Dashboard</StyledLink>
       </StyledMenuItem>
       <StyledMenuItem>
         <StyledRoomsIcon></StyledRoomsIcon>
-        <StyledLink to="/booking" activeClassName="active">Bookings</StyledLink>
+        <StyledLink to="/booking" activeClassName="active" {...props}>Bookings</StyledLink>
       </StyledMenuItem>
       <StyledMenuItem>
         <StyledBookingIcon></StyledBookingIcon>
-        <StyledLink to="/rooms" activeClassName="active">Room</StyledLink>
+        <StyledLink to="/rooms" activeClassName="active" {...props}>Room</StyledLink>
       </StyledMenuItem>
       <StyledMenuItem>
         <StyledContactIcon></StyledContactIcon>
-        <StyledLink to="/contact" activeClassName="activeId">Contact</StyledLink>
+        <StyledLink to="/contact" activeClassName="activeId" {...props}>Contact</StyledLink>
       </StyledMenuItem>
       <StyledMenuItem>
         <StyledUsersIcon></StyledUsersIcon>
-        <StyledLink to="/users" activeClassName="active">Users</StyledLink>
+        <StyledLink to="/users" activeClassName="active" {...props}>Users</StyledLink>
       </StyledMenuItem>
       <StyledBoxMenuProfile>
         <StyledImgProfileMenu src={user[0].photo} width="70px" height="70px"></StyledImgProfileMenu>

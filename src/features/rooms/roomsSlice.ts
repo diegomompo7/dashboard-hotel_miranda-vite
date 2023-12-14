@@ -23,9 +23,11 @@ export const RoomsSlice = createSlice({
         
         deleteRoom: (state, action):void => {
             const data = current(state.changeRoom)
+            if(data !== undefined){
             const delRoom = data.filter((del) => del.id !== action.payload)
             state.data = delRoom
-    },
+            }
+        },
 
         updateRoom: (state, action):void => {
 
@@ -85,13 +87,11 @@ export const RoomsSlice = createSlice({
     }
 })
 
-export const { getSelect, updateRoom, createRoom, deleteRoom, getNewData, updateStatus} = RoomsSlice.actions
+export const { getSelect, updateRoom, createRoom, deleteRoom} = RoomsSlice.actions
 
 
-export const getRoomsDataAvailable = (state: RootState): RoomInterface[] => state.rooms.data.filter((available) => available.status === "Available")
-export const getRoomsDataBooked = (state: RootState): RoomInterface[] => state.rooms.data.filter((booked) => booked.status === "Booked")
 export const getRoomsData = (state: RootState): RoomInterface[] => state.rooms.data
-export const getChangeData = (state: RootState): RoomInterface[] => state.rooms.changeRoom;
-export const getRoomId = (state: RootState): RoomInterface[] => state.rooms.roomId
+export const getChangeData = (state: RootState): RoomInterface[] | undefined => state.rooms.changeRoom;
+export const getRoomId = (state: RootState): RoomInterface[] | undefined => state.rooms.roomId
 export const getRoomsStatus = (state: RootState) => state.rooms.status;
 export const getRoomsError = (state: RootState) => state.rooms.error;
