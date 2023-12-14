@@ -4,38 +4,33 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineMessage } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-
 export const StyledDetailContainer = styled.div`
-    display: flex;
-    height: auto;
-
-`
+  display: flex;
+  height: auto;
+`;
 export const StyledDetailContent = styled.div`
-    width: 50%;
+  width: 50%;
 
-    background: #FFFFFF;
-    border-radius: 0.75em;
-    padding-left: 5.4%;
-    
-`
+  background: #ffffff;
+  border-radius: 0.75em;
+  padding-left: 5.4%;
+`;
 export const StyledDetailContentPerson = styled.div`
-    display: flex;
-    padding-top: 2.5em;
-    margin-bottom: 2em;
-    
-`
+  display: flex;
+  padding-top: 2.5em;
+  margin-bottom: 2em;
+`;
 export const StyledDetailImg = styled.img`
-    width: 9.75em;
-    height: 9.75em;
-`
-export const StyledDetailPersonText = styled.div`
-    
-`
-export const StyledDetailText = styled.p<{typeStyle:string}> `
+  width: 9.75em;
+  height: 9.75em;
+`;
+export const StyledDetailPersonText = styled.div``;
+export const StyledDetailText = styled.p<{ typeStyle: string }>`
+  font-family: "Poppins", sans-serif;
 
-    font-family: "Poppins", sans-serif;
-
-    ${props => props.typeStyle === "semibold" && `
+  ${(props) =>
+    props.typeStyle === "semibold" &&
+    `
     
         font-size: 1.875rem;
         font-weight: 600;
@@ -43,7 +38,9 @@ export const StyledDetailText = styled.p<{typeStyle:string}> `
         margin-bottom: 0.433em;
         
     `}
-    ${props => props.typeStyle === "id" && `
+  ${(props) =>
+    props.typeStyle === "id" &&
+    `
     
     font-size: 0.875rem;
     font-weight: 400;
@@ -52,7 +49,9 @@ export const StyledDetailText = styled.p<{typeStyle:string}> `
     margin-bottom: 1.5em;
     
 `}
-${props => props.typeStyle === "message" && `
+${(props) =>
+    props.typeStyle === "message" &&
+    `
     
 font-size: 1rem;
 font-weight: 500;
@@ -62,7 +61,9 @@ padding-right: 1.625em;
 
 `}
 
-${props => props.typeStyle === "normal" && `
+${(props) =>
+    props.typeStyle === "normal" &&
+    `
     
 font-size: 0.875rem;
 font-weight: 400;
@@ -70,7 +71,9 @@ color: #6E6E6E;
 margin-bottom 0.714em;
 `}
 
-${props => props.typeStyle === "normalFacilities" && `
+${(props) =>
+    props.typeStyle === "normalFacilities" &&
+    `
     
 font-size: 0.875rem;
 font-weight: 500;
@@ -78,7 +81,9 @@ color: #6E6E6E;
 margin: 0;
 `}
 
-${props => props.typeStyle === "checkMedium" && `
+${(props) =>
+    props.typeStyle === "checkMedium" &&
+    `
     
 font-size: 1rem;
 font-weight: 500;
@@ -87,7 +92,9 @@ margin: 0;
 padding-right: 4.5em;
 `}
 
-${props => props.typeStyle === "infoMedium" && `
+${(props) =>
+    props.typeStyle === "infoMedium" &&
+    `
     
 font-size: 1.5rem;
 font-weight: 500;
@@ -95,14 +102,18 @@ color: #212121;
 margin: 0;
 `}
 
-${props => props.typeStyle === "perNight" && `
+${(props) =>
+    props.typeStyle === "perNight" &&
+    `
     
 font-size: 0.875rem;
 font-weight: 400;
 color: #799283;
 padding-left: 0.857em;
 `}
-${props => props.typeStyle === "normalDesc" && `
+${(props) =>
+    props.typeStyle === "normalDesc" &&
+    `
     
 font-size: 0.875rem;
 font-weight: 400;
@@ -111,7 +122,9 @@ line-height: 1.5em;
 margin-top: 2.142em;
 width: 93.7%;
 `}
-${props => props.typeStyle === "amenities" && `
+${(props) =>
+    props.typeStyle === "amenities" &&
+    `
     
 font-size: 1rem;
 font-weight: 600;
@@ -121,7 +134,9 @@ padding: 0.812em 0.937em  0.812em 0.937em;
 margin-right: 0.812em;
 `}
 
-${props => props.typeStyle === "roomType" && `
+${(props) =>
+    props.typeStyle === "roomType" &&
+    `
     
 font-size: 1rem;
 font-weight: 500;
@@ -130,7 +145,9 @@ padding-left: 3.375em;
 margin-top: 0;
 margin-bottom: 1.187em;
 `}
-${props => props.typeStyle === "roomDescription" && `
+${(props) =>
+    props.typeStyle === "roomDescription" &&
+    `
     
 font-size: 0.875rem;
 font-weight: 400;
@@ -139,98 +156,90 @@ padding-left: 3.857em;
 margin-top: 0;
 margin-bottom: 2.714em;
 `}
-
-`
+`;
 
 export const StyledDetailActions = styled.div`
-
- display: flex;
-
-`
+  display: flex;
+`;
 export const StyledDetailIconPhone = styled(FaPhoneAlt)`
-    width: 1.25em;
-    width: 1.25em;
-    padding: 1.25em 1.25em 1.25em 1.04%;
-    color: #135846;
-`
+  width: 1.25em;
+  width: 1.25em;
+  padding: 1.25em 1.25em 1.25em 1.04%;
+  color: #135846;
+`;
 
-export const StyledDetailMessage = styled.div `
-    background: #135846;
-    display: flex;
-    border-radius: 0.75em;
-    width: 100%
-`
+export const StyledDetailMessage = styled.div`
+  background: #135846;
+  display: flex;
+  border-radius: 0.75em;
+  width: 100%;
+`;
 
 export const StyledDetailIconMessage = styled(MdOutlineMessage)`
-    color: #FFFFFF;
-    width: 1.5em;
-    height: 1.5em;
-    padding-top: 1.063em;
-    padding-left: 1.125em;
-
-`
+  color: #ffffff;
+  width: 1.5em;
+  height: 1.5em;
+  padding-top: 1.063em;
+  padding-left: 1.125em;
+`;
 
 export const StyleDetailCheck = styled.div`
-    display: flex;
-
-`
+  display: flex;
+`;
 
 export const StyledDetailLine = styled.hr`
-    margin: 1.25em 0 0;
-    width: 97%
-`
+  margin: 1.25em 0 0;
+  width: 97%;
+`;
 
 export const StyledDetailInfo = styled.div`
-    display:flex;
-    margin-top: 1.3125em;
-`
+  display: flex;
+  margin-top: 1.3125em;
+`;
 
 export const StyledDetailInfoRoom = styled.div`
-    margin-right: 13.1%
-`
-export const StyledDetailInfoPrice = styled.div`
+  margin-right: 13.1%;
+`;
+export const StyledDetailInfoPrice = styled.div``;
 
-`
+export const StyledDetailAmeContainer = styled.div`
+  margin-top: 2em;
+  display: flex;
+  flex-wrap: wrap;
+  width: 78.8%;
+`;
 
-export const StyledDetailAmeContainer= styled.div`
-    margin-top: 2em;
- display: flex;
- flex-wrap: wrap;
- width: 78.8%;
-`
-
-export const StyledDetailAmenities= styled.div`
- display: flex;
- flex-wrap: wrap;
- margin-left: 0;
-`
+export const StyledDetailAmenities = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 0;
+`;
 
 export const StyledDetailSwiper = styled(Swiper)`
-    width: 50%;
-    border-radius: 0.75em;
+  width: 50%;
+  border-radius: 0.75em;
 
-    & .swiper-button-next, .swiper-button-prev {
-        color: #ffffff;
-        background: #c8c8c8;
-        border-radius: 0.7em;
-        border: 5px solid #d2d2d2;
-        top: 40.625em;
-        margin-left: 3.375em;
-        margin-right: 2.062em;
-        width: 2.5em;
-        height: 2.5em;
-        
-        &::after{
-            font-size: 0;
-        }
+  & .swiper-button-next,
+  .swiper-button-prev {
+    color: #ffffff;
+    background: #c8c8c8;
+    border-radius: 0.7em;
+    border: 5px solid #d2d2d2;
+    top: 40.625em;
+    margin-left: 3.375em;
+    margin-right: 2.062em;
+    width: 2.5em;
+    height: 2.5em;
+
+    &::after {
+      font-size: 0;
     }
-`
+  }
+`;
 
+export const StyledDetailSwiperImg = styled.div<{ img: string }>`
 
-
-export const StyledDetailSwiperImg = styled.div<{img:string}>`
-
-    background-image: url(${props => props.img})
+    background-image: url(${(props) => props.img})
     position: absolute;
     left: 0;
     top: 0;
@@ -238,58 +247,55 @@ export const StyledDetailSwiperImg = styled.div<{img:string}>`
     height: 100%;
     -webkit-background-size: cover;
     background-size: cover;
-    background-position: center;`
+    background-position: center;`;
 
-export const StyledDetailSwiperSlide = styled(SwiperSlide)<{img:string}>`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+export const StyledDetailSwiperSlide = styled(SwiperSlide)<{ img: string }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border-radius: 1.25em;
   width: 22.4%;
   height: auto;
-  background-image: url(${props => props.img});
+  background-image: url(${(props) => props.img});
   background-repeat: no-repeat;
   background-size: 100% 100%;
   z-index: -1;
 `;
 
-export const StyledDetailTextContainer= styled.div`
+export const StyledDetailTextContainer = styled.div``;
+export const StyleDetailStatus = styled.div<{ typeStyle: string }>`
+  position: relative;
+  left: 10%;
+  margin-left: auto;
+  top: 1em;
+  transform: rotate(40deg);
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-right: 0;
+  padding: 1.125em 0;
+  text-align: center;
+  width: 12.75em;
 
-`
-export const StyleDetailStatus = styled.div<{typeStyle:string}>`
-    position: relative;
-    left:10%;
-    margin-left: auto;
-    top: 1em;
-    transform: rotate(40deg);
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    font-size: 1rem;
-    margin-right: 0;
-    padding: 1.125em 0;
-    text-align: center;
-    width:12.75em;
-
-${props => props.typeStyle==="Check In" && 
-`
+  ${(props) =>
+    props.typeStyle === "Check In" &&
+    `
    background-color: #5AD07A;
    color: #FFFFFF;
    
-   `
-}
-${props => props.typeStyle==="Check Out" && 
-`
+   `}
+  ${(props) =>
+    props.typeStyle === "Check Out" &&
+    `
     background-color: #E23428;
     color: #FFFFFF;
 
-`
-}
-${props => props.typeStyle==="In Progress" && 
-`
+`}
+${(props) =>
+    props.typeStyle === "In Progress" &&
+    `
     background-color: #e2dc28;
     color: #000000;
 
-`
-}
-
-`
+`}
+`;

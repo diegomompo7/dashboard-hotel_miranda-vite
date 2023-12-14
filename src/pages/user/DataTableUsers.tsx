@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, MenuItem} from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
 import {
   StyledTableCellBody,
   StyledTableCellBodyText,
@@ -7,13 +7,16 @@ import {
   StyledTableRow,
 } from "../../components/common/StyledTable";
 import { StyledButton } from "../../components/common/StyledButton";
-import { StyledMoreIcon, StyledPhone } from "../../components/common/StyledIcons";
+import {
+  StyledMoreIcon,
+  StyledPhone,
+} from "../../components/common/StyledIcons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteUser } from "../../features/users/usersSlice";
 
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { DataTableUserProps } from "../../interfaces/props/PropsInterface";
 
 export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
@@ -25,29 +28,31 @@ export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
   );
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-    const [menuId, setMenuId] = useState<number | null>(null)
-    const open: boolean = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<SVGElement, MouseEvent>, id: number | null) => {
-        event.stopPropagation();
-        setAnchorEl(event.currentTarget);
-        setMenuId(id)
-    };
-    const handleClose = ():void => {
-        setAnchorEl(null);
-        setMenuId(null)
-    };
+  const [menuId, setMenuId] = useState<number | null>(null);
+  const open: boolean = Boolean(anchorEl);
+  const handleClick = (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    id: number | null
+  ) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+    setMenuId(id);
+  };
+  const handleClose = (): void => {
+    setAnchorEl(null);
+    setMenuId(null);
+  };
 
-    const handleDelete = (id: number | null) :void => {
-      dispatch(deleteUser(id));
-      handleClose()
-      toast.error('Booking deleted succesfull', {
-          position: "bottom-center",
-          autoClose: 5000,
-          closeOnClick: true,
-          theme: "colored",
-          });
-    
-  }
+  const handleDelete = (id: number | null): void => {
+    dispatch(deleteUser(id));
+    handleClose();
+    toast.error("Booking deleted succesfull", {
+      position: "bottom-center",
+      autoClose: 5000,
+      closeOnClick: true,
+      theme: "colored",
+    });
+  };
 
   return (
     <>
@@ -83,7 +88,9 @@ export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
           </StyledTableCellBody>
           <StyledTableCellBody name="menu">
             <StyledMoreIcon
-              onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) => handleClick(e, data.id!)}
+              onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) =>
+                handleClick(e, data.id!)
+              }
             ></StyledMoreIcon>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
               <MenuItem onClick={() => navigate(`/createUser/${menuId}`)}>

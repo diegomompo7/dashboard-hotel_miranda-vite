@@ -9,26 +9,25 @@ export const StyledSwiperSlide = styled(SwiperSlide)`
 `;
 
 export const StyledSwiper = styled(Swiper)`
-
-& .swiper-button-next, .swiper-button-prev {
+  & .swiper-button-next,
+  .swiper-button-prev {
     color: #ffffff;
     background: #135846;
     border-radius: 0.7em;
     width: 3.5em;
     height: 3.5em;
-    
-    &::after{
-        font-size: 1rem;
 
+    &::after {
+      font-size: 1rem;
     }
-}
-    margin-bottom: 5.438em;
+  }
+  margin-bottom: 5.438em;
 `;
 
-export const StyledSSText = styled.p<{name:string}>`
+export const StyledSSText = styled.p<{ name: string }>`
   ${(props) =>
-        props.name === "message" &&
-        `
+    props.name === "message" &&
+    `
     
         font-size: 1rem;
         font-family: "Poppins", sans-serif;
@@ -42,8 +41,8 @@ export const StyledSSText = styled.p<{name:string}>`
         overflow: hidden;
     `}
   ${(props) =>
-        props.name === "title" &&
-        `
+    props.name === "title" &&
+    `
     
     font-size: 1rem;
     font-family: "Poppins", sans-serif;
@@ -53,8 +52,8 @@ export const StyledSSText = styled.p<{name:string}>`
     margin:0;
 `}
     ${(props) =>
-        props.name === "subtitle" &&
-        `
+    props.name === "subtitle" &&
+    `
     
     font-size: 0.875rem;
 font-family: "Poppins", sans-serif;

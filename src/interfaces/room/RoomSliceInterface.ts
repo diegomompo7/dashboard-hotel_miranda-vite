@@ -1,11 +1,16 @@
 import { RoomInterface } from "./RoomInterface";
 
-export const statusOptions = <const>["fulfilled","rejected","idle","pending"];
+export const statusOptions = <const>[
+  "fulfilled",
+  "rejected",
+  "idle",
+  "pending",
+];
 
 export interface RoomSliceInitialStateInterface {
-    data: RoomInterface[],
-    status: 'idle' | 'pending' | 'fulfilled' | 'rejected',
-    error: string | undefined,
-    changeRoom?: RoomInterface[],
-    roomId?: RoomInterface[]
+  data: RoomInterface[];
+  status: "idle" | "pending" | "fulfilled" | "rejected";
+  error: string | undefined;
+  changeRoom?: RoomInterface[];
+  roomId?: RoomInterface[];
 }

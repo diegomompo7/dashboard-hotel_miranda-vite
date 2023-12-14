@@ -4,78 +4,76 @@ import {
   StyledFormContainer,
   StyledImgForm,
   StyledInputForm,
-  StyledTextAreaForm
+  StyledTextAreaForm,
 } from "../../components/common/StyledForm";
-import {
-  StyledSelect,
-} from "../../components/common/StyledSelect";
+import { StyledSelect } from "../../components/common/StyledSelect";
 import logo from "../../assets/img/logo.png";
-import {  createUser } from "../../features/users/usersSlice";
+import { createUser } from "../../features/users/usersSlice";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
 
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch } from "../../app/store";
 
 export const NewUserPage = () => {
-
-  const navigate: NavigateFunction = useNavigate()
+  const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
   const [formData, setFormData] = useState({
-    photo:"",
-    fullName:"",
+    photo: "",
+    fullName: "",
     job: "",
     email: "",
     phone: "",
     startDate: "",
     descriptionJob: "",
     status: "",
-    password: ""
+    password: "",
   });
 
-
-  const handleChange = (e: ChangeEvent<HTMLFormElement | HTMLSelectElement>):void => 
-  {
+  const handleChange = (
+    e: ChangeEvent<HTMLFormElement | HTMLSelectElement>
+  ): void => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  }
+  };
 
-
-
-  const handleOnCreate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>):void => {
-
+  const handleOnCreate = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
     const hasEmptyFieldsExceptSpecialRequest = Object.entries(formData).some(
-      ([key, value]) => (value === null || value === undefined || value === '' || value.length === 0)
+      ([key, value]) =>
+        value === null ||
+        value === undefined ||
+        value === "" ||
+        value.length === 0
     );
 
-    if(hasEmptyFieldsExceptSpecialRequest){
-      e.preventDefault()
+    if (hasEmptyFieldsExceptSpecialRequest) {
+      e.preventDefault();
       toast.error(`All fileds must be completed`, {
         position: "bottom-center",
         autoClose: 5000,
         closeOnClick: true,
         theme: "colored",
-        });
-
-    
-    } else {
-    e.preventDefault()
-    dispatch(createUser(formData));
-    toast.success('User created succesfull', {
-      position: "bottom-center",
-      autoClose: 5000,
-      closeOnClick: true,
-      theme: "colored",
       });
-      navigate("/users")
+    } else {
+      e.preventDefault();
+      dispatch(createUser(formData));
+      toast.success("User created succesfull", {
+        position: "bottom-center",
+        autoClose: 5000,
+        closeOnClick: true,
+        theme: "colored",
+      });
+      navigate("/users");
     }
-  }
+  };
 
   return (
     <StyledBoxForm name="createForm">
@@ -83,7 +81,9 @@ export const NewUserPage = () => {
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
         name="createForm"
-        onChange={(e: ChangeEvent<HTMLFormElement>) => {handleChange(e)}}
+        onChange={(e: ChangeEvent<HTMLFormElement>) => {
+          handleChange(e);
+        }}
       >
         <StyledTextAreaForm
           placeholder="Photo"
@@ -126,22 +126,46 @@ export const NewUserPage = () => {
           name="descriptionJob"
           rows={2}
         ></StyledTextAreaForm>
-          <StyledSelect nameSelect="selectCreate" name= "status"  value={formData.status} onChange={(e: ChangeEvent<HTMLSelectElement>) => {handleChange(e)}}>
-            <option value="" disabled selected hidden>Choose a Status</option>
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="INACTIVE">INACTIVE</option>
-          </StyledSelect>
-          <StyledSelect nameSelect="selectCreate" name= "job"  value={formData.job} onChange={(e: ChangeEvent<HTMLSelectElement>) => {handleChange(e)}}>
-            <option value="" disabled selected hidden>Choose a Job</option>
-            <option value="Manager">Manager</option>
-            <option value="Receptionist">Receptionist</option>
-            <option value="Room Service">Room Service</option>
-          </StyledSelect>
+        <StyledSelect
+          nameSelect="selectCreate"
+          name="status"
+          value={formData.status}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            handleChange(e);
+          }}
+        >
+          <option value="" disabled selected hidden>
+            Choose a Status
+          </option>
+          <option value="ACTIVE">ACTIVE</option>
+          <option value="INACTIVE">INACTIVE</option>
+        </StyledSelect>
+        <StyledSelect
+          nameSelect="selectCreate"
+          name="job"
+          value={formData.job}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            handleChange(e);
+          }}
+        >
+          <option value="" disabled selected hidden>
+            Choose a Job
+          </option>
+          <option value="Manager">Manager</option>
+          <option value="Receptionist">Receptionist</option>
+          <option value="Room Service">Room Service</option>
+        </StyledSelect>
 
-        <StyledButton name="new" type="submit" onClick={(e) => {handleOnCreate(e)}}>
+        <StyledButton
+          name="new"
+          type="submit"
+          onClick={(e) => {
+            handleOnCreate(e);
+          }}
+        >
           UPDATE EMPLOYEE
         </StyledButton>
       </StyledFormContainer>
-     </StyledBoxForm>
+    </StyledBoxForm>
   );
 };

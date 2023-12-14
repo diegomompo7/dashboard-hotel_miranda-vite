@@ -6,9 +6,7 @@ import {
   StyledInputForm,
   StyledTextAreaForm,
 } from "../../components/common/StyledForm";
-import {
-  StyledSelect,
-} from "../../components/common/StyledSelect";
+import { StyledSelect } from "../../components/common/StyledSelect";
 import logo from "../../assets/img/logo.png";
 import React, { useState, ChangeEvent } from "react";
 import {
@@ -17,7 +15,7 @@ import {
   getUsersStatus,
   updateUser,
 } from "../../features/users/usersSlice";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 import { toast } from "react-toastify";
@@ -75,98 +73,100 @@ export const EditUserPage = () => {
 
   return (
     <StyledBoxForm name="createForm">
-          <StyledImgForm src={logo}></StyledImgForm>
-          <StyledFormContainer
-            name="createForm"
-            onChange={(e: ChangeEvent<HTMLFormElement>) => {
-              handleChange(e);
-            }}
-          >
-            <StyledTextAreaForm
-              value={formData.photo}
-              placeholder="Photo"
-              name="photo"
-              rows={2}
-              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-                handleChange(e);
-              }}
-            ></StyledTextAreaForm>
-            <StyledInputForm
-              value={formData.fullName}
-              placeholder="Full Name"
-              type="text"
-              name="fullName"
-            ></StyledInputForm>
-            <StyledInputForm
-              value={formData.password}
-              placeholder="Password"
-              type="Password"
-              name="password"
-            ></StyledInputForm>
-            <StyledInputForm
-              value={formData.email}
-              placeholder="Email"
-              type="email"
-              name="email"
-            ></StyledInputForm>
-            <StyledInputForm
-              value={formData.phone}
-              placeholder="123456789"
-              type="tel"
-              name="phone"
-              pattern="[0-9]{3}[0-9]{3}[0-9]{3}"
-            ></StyledInputForm>
-            <StyledInputForm
-              value={formData.startDate}
-              placeholder="YYYY/MM/DD"
-              type="text"
-              name="startDate"
-            ></StyledInputForm>
-            <StyledTextAreaForm
-              value={formData.descriptionJob}
-              placeholder="Description about job"
-              name="descriptionJob"
-              rows={2}
-            ></StyledTextAreaForm>
-            <StyledSelect
-              nameSelect="selectCreate"
-              name="status"
-              value={formData.status}
-              onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                handleChange(e);
-              }}
-            >
-              <option value="" disabled selected hidden>
-                Choose a Status
-              </option>
-              <option value="ACTIVE">ACTIVE</option>
-              <option value="INACTIVE">INACTIVE</option>
-            </StyledSelect>
+      <StyledImgForm src={logo}></StyledImgForm>
+      <StyledFormContainer
+        name="createForm"
+        onChange={(e: ChangeEvent<HTMLFormElement>) => {
+          handleChange(e);
+        }}
+      >
+        <StyledTextAreaForm
+          value={formData.photo}
+          placeholder="Photo"
+          name="photo"
+          rows={2}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+            handleChange(e);
+          }}
+        ></StyledTextAreaForm>
+        <StyledInputForm
+          value={formData.fullName}
+          placeholder="Full Name"
+          type="text"
+          name="fullName"
+        ></StyledInputForm>
+        <StyledInputForm
+          value={formData.password}
+          placeholder="Password"
+          type="Password"
+          name="password"
+        ></StyledInputForm>
+        <StyledInputForm
+          value={formData.email}
+          placeholder="Email"
+          type="email"
+          name="email"
+        ></StyledInputForm>
+        <StyledInputForm
+          value={formData.phone}
+          placeholder="123456789"
+          type="tel"
+          name="phone"
+          pattern="[0-9]{3}[0-9]{3}[0-9]{3}"
+        ></StyledInputForm>
+        <StyledInputForm
+          value={formData.startDate}
+          placeholder="YYYY/MM/DD"
+          type="text"
+          name="startDate"
+        ></StyledInputForm>
+        <StyledTextAreaForm
+          value={formData.descriptionJob}
+          placeholder="Description about job"
+          name="descriptionJob"
+          rows={2}
+        ></StyledTextAreaForm>
+        <StyledSelect
+          nameSelect="selectCreate"
+          name="status"
+          value={formData.status}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            handleChange(e);
+          }}
+        >
+          <option value="" disabled selected hidden>
+            Choose a Status
+          </option>
+          <option value="ACTIVE">ACTIVE</option>
+          <option value="INACTIVE">INACTIVE</option>
+        </StyledSelect>
 
-            <StyledSelect
-              nameSelect="selectCreate"
-              name="job"
-              value={formData.job}
-              onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                handleChange(e);
-              }}
-            >
-            <option value="" disabled selected hidden>Choose a Job</option>
-            <option value="Manager">Manager</option>
-            <option value="Receptionist">Receptionist</option>
-            <option value="Room Service">Room Service</option>
-            </StyledSelect>
+        <StyledSelect
+          nameSelect="selectCreate"
+          name="job"
+          value={formData.job}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            handleChange(e);
+          }}
+        >
+          <option value="" disabled selected hidden>
+            Choose a Job
+          </option>
+          <option value="Manager">Manager</option>
+          <option value="Receptionist">Receptionist</option>
+          <option value="Room Service">Room Service</option>
+        </StyledSelect>
 
-            <StyledButton
-              name="new"
-              type="submit"
-              onClick={(e) => {
-                handleOnSubmit(e), navigate("/users");
-              }}
-            >
-              UPDATE EMPLOYEE
-            </StyledButton>
-          </StyledFormContainer>
+        <StyledButton
+          name="new"
+          type="submit"
+          onClick={(e) => {
+            handleOnSubmit(e), navigate("/users");
+          }}
+        >
+          UPDATE EMPLOYEE
+        </StyledButton>
+      </StyledFormContainer>
     </StyledBoxForm>
   );
 };

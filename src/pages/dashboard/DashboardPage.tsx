@@ -15,38 +15,33 @@ import { ContactInterface } from "../../interfaces/contact/ContactInterface";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
 export const DashboardPage = () => {
+  const { userLogin } = useContext(AuthContext);
 
-  const {userLogin} = useContext(AuthContext)
-
-  const dispatch : AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const contactListData = useAppSelector<ContactInterface[]>(getContactData);
   const contactListError = useAppSelector<string | undefined>(getContactError);
   const contactListStatus = useAppSelector<string>(getContactStatus);
   const [spinner, setSpinner] = useState<boolean>(true);
 
-  useEffect(
-    () => {
-
-      if (contactListStatus === "idle") {
-        dispatch(getContactFromApiTrunk());
-      } else if (contactListStatus === "pending") {
-        setSpinner(true);
-      } else if (contactListStatus === "fulfilled") {
-        setSpinner(false)
-      }
-    },
-    [dispatch,
-    contactListData,
-    contactListStatus]
-  );
-  
-
+  useEffect(() => {
+    if (contactListStatus === "idle") {
+      dispatch(getContactFromApiTrunk());
+    } else if (contactListStatus === "pending") {
+      setSpinner(true);
+    } else if (contactListStatus === "fulfilled") {
+      setSpinner(false);
+    }
+  }, [dispatch, contactListData, contactListStatus]);
 
   return (
-    <> 
-          {(userLogin === "") && <Navigate to="/login"/>}
-        <CardKpi></CardKpi>
-      {spinner ? <StyledSpinner>Loading...</StyledSpinner>:  <CardContact contact={contactListData}></CardContact>}
+    <>
+      {userLogin === "" && <Navigate to="/login" />}
+      <CardKpi></CardKpi>
+      {spinner ? (
+        <StyledSpinner>Loading...</StyledSpinner>
+      ) : (
+        <CardContact contact={contactListData}></CardContact>
+      )}
     </>
   );
 };

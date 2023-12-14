@@ -1,5 +1,5 @@
-import React, {useState } from "react";
-import { Menu, MenuItem} from "@mui/material";
+import React, { useState } from "react";
+import { Menu, MenuItem } from "@mui/material";
 import {
   StyledTableCellBody,
   StyledTableCellBodyText,
@@ -12,15 +12,14 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteBooking } from "../../features/bookings/bookingsSlice";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { Dispatch } from "@reduxjs/toolkit";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { DataTableBookingProps } from "../../interfaces/props/PropsInterface";
 
-
 export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
-  const navigate: NavigateFunction = useNavigate()
-  const dispatch: Dispatch = useDispatch()
+  const navigate: NavigateFunction = useNavigate();
+  const dispatch: Dispatch = useDispatch();
 
   const dataPage: BookingInterface[] = [...props.data].slice(
     props.numberPage[0],
@@ -28,29 +27,31 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   )!;
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-    const [menuId, setMenuId] = useState<number | null>(null)
-    const open: boolean = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<SVGElement, MouseEvent>, id: number | null) => {
-        event.stopPropagation();
-        setAnchorEl(event.currentTarget);
-        setMenuId(id)
-    };
-    const handleClose = ():void => {
-        setAnchorEl(null);
-        setMenuId(null)
-    };
+  const [menuId, setMenuId] = useState<number | null>(null);
+  const open: boolean = Boolean(anchorEl);
+  const handleClick = (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    id: number | null
+  ) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+    setMenuId(id);
+  };
+  const handleClose = (): void => {
+    setAnchorEl(null);
+    setMenuId(null);
+  };
 
-    const handleDelete = (id: number | null) :void => {
-      dispatch(deleteBooking(id));
-      handleClose()
-      toast.error('Booking deleted succesfull', {
-          position: "bottom-center",
-          autoClose: 5000,
-          closeOnClick: true,
-          theme: "colored",
-          });
-    
-  }
+  const handleDelete = (id: number | null): void => {
+    dispatch(deleteBooking(id));
+    handleClose();
+    toast.error("Booking deleted succesfull", {
+      position: "bottom-center",
+      autoClose: 5000,
+      closeOnClick: true,
+      theme: "colored",
+    });
+  };
 
   return (
     <>
@@ -90,8 +91,8 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
               name="view_notes"
               onClick={() => {
                 props.handleOpen(),
-                data.specialRequest !== undefined &&
-                props.setSpecialRequest(data.specialRequest);
+                  data.specialRequest !== undefined &&
+                    props.setSpecialRequest(data.specialRequest);
               }}
               disabled={data.specialRequest === ""}
             >
@@ -99,22 +100,28 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
             </StyledButton>
           </StyledTableCellBody>
           <StyledTableCellBody>
-              <StyledTableCellBodyText typeStyle="title">{data.room.roomNumber}</StyledTableCellBodyText>
+            <StyledTableCellBodyText typeStyle="title">
+              {data.room.roomNumber}
+            </StyledTableCellBodyText>
           </StyledTableCellBody>
           <StyledTableCellBody>
             <StyledButton name={data.status}>{data.status}</StyledButton>
           </StyledTableCellBody>
           <StyledTableCellBody>
-                        <StyledMoreIcon onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) => handleClick(e, data.id!)}></StyledMoreIcon>
-                        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                            <MenuItem onClick={ () => navigate(`/booking/${menuId}`)}>
-                                View details
-                            </MenuItem>
-                            <MenuItem onClick={() => handleDelete(menuId)}>Delete</MenuItem>
-                        </Menu>
+            <StyledMoreIcon
+              onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) =>
+                handleClick(e, data.id!)
+              }
+            ></StyledMoreIcon>
+            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+              <MenuItem onClick={() => navigate(`/booking/${menuId}`)}>
+                View details
+              </MenuItem>
+              <MenuItem onClick={() => handleDelete(menuId)}>Delete</MenuItem>
+            </Menu>
           </StyledTableCellBody>
-          </StyledTableRow>
-        ))}
+        </StyledTableRow>
+      ))}
     </>
   );
 };
