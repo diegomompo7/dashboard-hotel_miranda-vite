@@ -7,11 +7,8 @@ import {
   StyledTextAreaForm
 } from "../../components/common/StyledForm";
 import {
-  StyledFormControl,
-  StyledInputLabel,
   StyledSelect,
 } from "../../components/common/StyledSelect";
-import { MenuItem } from "@mui/material";
 import logo from "../../assets/img/logo.png";
 import {  createUser } from "../../features/users/usersSlice";
 import { NavigateFunction, useNavigate } from "react-router-dom";

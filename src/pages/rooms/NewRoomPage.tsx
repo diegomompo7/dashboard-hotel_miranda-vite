@@ -7,22 +7,18 @@ import {
   StyledTextAreaForm
 } from "../../components/common/StyledForm";
 import {
-  StyledFormControl,
-  StyledInputLabel,
   StyledSelect,
 } from "../../components/common/StyledSelect";
-import { MenuItem } from "@mui/material";
 import logo from "../../assets/img/logo.png";
 
 import { createRoom } from "../../features/rooms/roomsSlice";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch } from "../../app/store";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
-import React from "react";
 export const NewRoomPage = () => {
 
   const navigate: NavigateFunction = useNavigate()

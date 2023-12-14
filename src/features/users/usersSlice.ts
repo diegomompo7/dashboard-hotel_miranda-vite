@@ -16,8 +16,13 @@ export const UsersSlice = createSlice({
     reducers: {
         getEmployee: (state, action):void => {
 
-            const searchEmployee = state.changeUser.filter((employee) => employee.fullName.includes(action.payload))
+            const data = current(state.changeUser)
+
+            if(data !== undefined){
+
+            const searchEmployee = state.data.filter((employee) => employee.fullName.includes(action.payload))
             state.data = searchEmployee;
+            }
 
         },
         getSelect: (state, action):void => {
@@ -79,6 +84,6 @@ export const {getEmployee, getSelect, updateUser, createUser, deleteUser} = User
 export const getUsersDataActive = (state: RootState): UserInterface[] => state.users.data.filter((active) => active.status === "ACTIVE")
 export const getUsersDataInactive = (state: RootState): UserInterface[] => state.users.data.filter((inactive) => inactive.status === "INACTIVE")
 export const getUsersData = (state: RootState): UserInterface[] => state.users.data
-export const getChangeData = (state: RootState): UserInterface[] => state.users.changeUser
+export const getChangeData = (state: RootState): UserInterface[] | undefined => state.users.changeUser
 export const getUsersStatus = (state: RootState) => state.users.status;
 export const getUsersError = (state: RootState) => state.users.error;

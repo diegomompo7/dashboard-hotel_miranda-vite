@@ -1,9 +1,9 @@
 import { DataTableRooms } from "./DataTableRooms";
-import { TableHead, TableBody, TableRow, MenuItem} from "@mui/material";
-import { StyledTable, StyledTableCellRow, StyledTableContainer } from "../../components/common/StyledTable";
+import {TableBody} from "@mui/material";
+import { StyledTable, StyledTableCellRow} from "../../components/common/StyledTable";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav";
-import { StyledFormControl, StyledInputLabel, StyledSelect } from "../../components/common/StyledSelect";
+import {  StyledSelect } from "../../components/common/StyledSelect";
 import { StyledPagination, StyledPaginationText , StyledButtonPage, StyledTextPage} from "../../components/common/StyledPagination";
 import { StyledButton } from "../../components/common/StyledButton";
 import { useDispatch } from "react-redux";
@@ -25,7 +25,6 @@ import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 
 export const RoomsListPage = () => {
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
   const navigate: NavigateFunction = useNavigate()
   const dispatch: AppDispatch = useDispatch();
   const roomsListData = useAppSelector <RoomInterface[]>(getRoomsData);

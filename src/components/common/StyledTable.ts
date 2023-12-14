@@ -1,13 +1,5 @@
 import styled from "styled-components";
-import { TableContainer} from "@mui/material";
 
-export const StyledTableContainer= styled.table<{isOpen:boolean}>`
-    width:100%;
-    ${(props) => props.isOpen === true && `
-        width: 100%;
-        max-height: 45rem;
-    `}
-`
 
 export const StyledTable = styled.table`
     background: #FFFFFF;
@@ -66,7 +58,7 @@ export const StyledTableCellBody = styled.td<{typeStyle?:string, name?:string}>`
     font-family: "Poppins", sans-serif;
     font-weight: 400; 
     color: #393939;
-    height: 121px;
+    height: 7.56em;
     margin: 0 auto;
     border-bottom: 1px solid #F8F8F8;
 

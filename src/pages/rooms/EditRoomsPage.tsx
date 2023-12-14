@@ -7,17 +7,13 @@ import {
   StyledTextAreaForm,
 } from "../../components/common/StyledForm";
 import {
-  StyledFormControl,
-  StyledInputLabel,
   StyledSelect,
 } from "../../components/common/StyledSelect";
-import { MenuItem } from "@mui/material";
 import logo from "../../assets/img/logo.png";
-import {  getChangeData, getRoomsData, getRoomsError, getRoomsStatus, updateRoom } from "../../features/rooms/roomsSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
+import {getRoomsData,  updateRoom } from "../../features/rooms/roomsSlice";
+import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';

@@ -1,5 +1,5 @@
 import React, {useState } from "react";
-import { Menu, MenuItem, TableRow } from "@mui/material";
+import { Menu, MenuItem} from "@mui/material";
 import {
   StyledTableCellBody,
   StyledTableCellBodyText,
@@ -25,7 +25,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   const dataPage: BookingInterface[] = [...props.data].slice(
     props.numberPage[0],
     props.numberPage[1]
-  );
+  )!;
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
     const [menuId, setMenuId] = useState<number | null>(null)

@@ -25,7 +25,7 @@ export const LoginPage: React.FC<LoginProps> = ({handleOnSubmit, userLogin}) => 
       {userLogin!=="" && <Navigate to={`${url}`}/>}
 
       <StyledImgForm src={logo}></StyledImgForm>
-      <StyledFormContainer onSubmit={(e) => handleOnSubmit(e)}>
+      <StyledFormContainer onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleOnSubmit(e)}>
         <StyledInputForm
           placeholder="Email"
           type="email"

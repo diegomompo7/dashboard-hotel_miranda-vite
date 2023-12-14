@@ -12,7 +12,7 @@ import {RoomsListPage} from "./pages/rooms/RoomsListPage"
 import { Root } from './pages/root/Root';
 import {UserPage} from "./pages/user/UserPage";
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
-import {useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import users from "./data/users.json"
 import { EditRoomsPage } from './pages/rooms/EditRoomsPage';
 import AuthContext from './AuthContext';
@@ -26,8 +26,8 @@ import RouteProtected from './RouteProtected';
 function App () {
 
 
-  let checkLogin = false
-  const[userLogin , setUserLogin] = useState ("");
+  let checkLogin:boolean = false
+  const[userLogin , setUserLogin] = useState<string>("");
 
     if(window.location.pathname !== "/login"){
       localStorage.setItem('lastRoute', window.location.pathname);
@@ -35,15 +35,15 @@ function App () {
 
 
   useEffect (() => {
-    const userLogged = localStorage.getItem("email")
+    const userLogged: string | null = localStorage.getItem("email")
     userLogged && setUserLogin(userLogged), checkLogin=true
   }, [])
 
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     users.forEach(user => {
 
-      if(user.email === e.target[0].value && user.password === e.target[1].value){
+      if(user.email === (e.target as any)[0].value && user.password === (e.target as any)[1].value){
         localStorage.setItem("email", user.email)
         return checkLogin = true
 

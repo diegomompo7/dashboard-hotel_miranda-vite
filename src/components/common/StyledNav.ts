@@ -16,7 +16,7 @@ export const StyledNavText = styled.p<{isActive:boolean}> `
     font-weight: 500;
     margin-right: auto;
     margin-bottom: auto;
-    padding-bottom: 20px;
+    padding-bottom: 1.25em;
     text-align: center;
     color: #6E6E6E;
 

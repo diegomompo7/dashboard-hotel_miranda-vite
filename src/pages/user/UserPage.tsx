@@ -1,14 +1,14 @@
 
 import { DataTableUsers } from "./DataTableUsers";
-import { TableHead, TableBody, TableRow, MenuItem } from "@mui/material";
-import { StyledTable, StyledTableCellRow, StyledTableContainer} from "../../components/common/StyledTable";
+import {  TableBody } from "@mui/material";
+import { StyledTable, StyledTableCellRow} from "../../components/common/StyledTable";
 import React , { ChangeEvent, useEffect, useState } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav";
 import { StyledTextField } from "../../components/common/StyledTextField";
-import { StyledFormControl, StyledInputLabel, StyledSelect } from "../../components/common/StyledSelect";
+import {StyledSelect } from "../../components/common/StyledSelect";
 import { StyledPagination, StyledPaginationText , StyledButtonPage, StyledTextPage} from "../../components/common/StyledPagination";
 import { StyledButton } from "../../components/common/StyledButton";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   getUsersData,
   getUsersError,
@@ -27,7 +27,7 @@ import { UserInterface } from "../../interfaces/user/UserInterface";
 
 export const UserPage = () => {
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+
   
   const navigate: NavigateFunction = useNavigate()
   const dispatch: AppDispatch = useDispatch();

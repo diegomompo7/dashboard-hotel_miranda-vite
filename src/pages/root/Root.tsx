@@ -1,9 +1,8 @@
 import { Outlet, useLocation } from "react-router-dom"
-import { useState } from "react";
+import React, { useState } from "react";
 import {Header} from "../header/Header"
 import { StyledBody } from "../../components/root/StyledBody";
 import { ToastContainer } from "react-toastify";
-import React from "react";
 
 export const Root = () =>  {
     const [isOpen, setIsOpen] = useState<boolean>(false)

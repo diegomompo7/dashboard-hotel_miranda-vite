@@ -7,21 +7,17 @@ import {
   StyledTextAreaForm,
 } from "../../components/common/StyledForm";
 import {
-  StyledFormControl,
-  StyledInputLabel,
   StyledSelect,
 } from "../../components/common/StyledSelect";
-import { MenuItem } from "@mui/material";
 import logo from "../../assets/img/logo.png";
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import {
   getUsersData,
   getUsersError,
   getUsersStatus,
   updateUser,
 } from "../../features/users/usersSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getUsersFromApiTrunk } from "../../features/users/usersTrunk";
+import { useDispatch} from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 import { toast } from "react-toastify";
@@ -36,8 +32,6 @@ export const EditUserPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const usersListData = useAppSelector<UserInterface[]>(getUsersData);
-  const usersListError = useAppSelector<string | undefined>(getUsersError);
-  const usersListStatus = useAppSelector<string>(getUsersStatus);
 
   const userId: UserInterface = usersListData.find(
     (user) => user.id == parseInt(id)

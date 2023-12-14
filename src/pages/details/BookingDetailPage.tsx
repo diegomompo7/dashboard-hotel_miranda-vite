@@ -30,7 +30,7 @@ import { useDispatch} from "react-redux";
 
 import { getBookingsData, getBookingsError, getBookingsStatus } from "../../features/bookings/bookingsSlice";
 import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
-import { getRoomId, getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
+import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 import React, { useEffect, useState } from "react";
 import { AppDispatch, useAppSelector } from "../../app/store";

@@ -1,7 +1,7 @@
 
 import { DataTableContact } from "./DataTableContact";
-import { TableHead, TableBody, TableRow } from "@mui/material";
-import { StyledTable, StyledTableCellRow, StyledTableContainer} from "../../components/common/StyledTable";
+import { TableBody} from "@mui/material";
+import { StyledTable, StyledTableCellRow} from "../../components/common/StyledTable";
 import React, { useState, useEffect } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav";
 import { StyledPagination, StyledPaginationText , StyledButtonPage, StyledTextPage} from "../../components/common/StyledPagination";
@@ -15,7 +15,6 @@ import {
   getContactStatus
 } from "../../features/contact/contactSlice";
 import { getContactFromApiTrunk } from "../../features/contact/contactTrunk";
-import { Dispatch } from "@reduxjs/toolkit";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner";
@@ -23,7 +22,6 @@ import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
 export const ContactPage = () => {
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const dispatch: AppDispatch = useDispatch();
   let contactListData = useAppSelector<ContactInterface[]>(getContactData);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, MenuItem, TableRow } from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
 import { StyledTableCellBody, StyledTableCellBodyText, StyledTableCellBodyImg, StyledTableRow } from "../../components/common/StyledTable";
 import { StyledButton } from "../../components/common/StyledButton";
 import { StyledMoreIcon } from "../../components/common/StyledIcons";

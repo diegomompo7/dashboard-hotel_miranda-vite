@@ -46,6 +46,7 @@ export interface DataTableBookingProps {
   }
 
   export interface LoginProps {
-    handleOnSubmit: () => void
+    handleOnSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+    checkLogin: boolean
     userLogin: string
   }

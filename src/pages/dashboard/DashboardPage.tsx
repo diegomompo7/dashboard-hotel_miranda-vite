@@ -1,20 +1,17 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { CardContact } from "../contact/CardContact";
 import { CardKpi } from "./CardKpi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   getContactData,
   getContactError,
   getContactStatus,
 } from "../../features/contact/contactSlice";
 import { getContactFromApiTrunk } from "../../features/contact/contactTrunk";
-import { useContext } from "react";
 import AuthContext from "../../AuthContext";
 import { Navigate } from "react-router-dom";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
-import React from "react";
-import { AuthContextProps } from "../../interfaces/props/PropsInterface";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
 export const DashboardPage = () => {

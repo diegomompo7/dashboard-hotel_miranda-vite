@@ -266,9 +266,9 @@ export const StyleDetailStatus = styled.div<{typeStyle:string}>`
     font-weight: 500;
     font-size: 1rem;
     margin-right: 0;
-    padding: 18px 0;
+    padding: 1.125em 0;
     text-align: center;
-    width:220px;
+    width:12.75em;
 
 ${props => props.typeStyle==="Check In" && 
 `
