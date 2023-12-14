@@ -2,6 +2,7 @@ import { TableRow } from "@mui/material";
 import {
   StyledTableCellBody,
   StyledTableCellBodyText,
+  StyledTableRow,
 } from "../../components/common/StyledTable";
 import { StyledButton } from "../../components/common/StyledButton";
 import { StyledMoreIcon } from "../../components/common/StyledIcons";
@@ -43,7 +44,7 @@ export const DataTableContact: React.FC<DataTableContactProps> = (props) => {
   return (
     <>
       {dataPage.map((data: ContactInterface) => (
-        <TableRow key={data.name}>
+        <StyledTableRow key={data.name}>
           <StyledTableCellBody>
           <StyledTableCellBodyText>{data.date}</StyledTableCellBodyText>
            <StyledTableCellBodyText>#{data.id}</StyledTableCellBodyText>
@@ -62,7 +63,7 @@ export const DataTableContact: React.FC<DataTableContactProps> = (props) => {
           <StyledTableCellBody>
             <StyledMoreIcon></StyledMoreIcon>
           </StyledTableCellBody>
-        </TableRow>
+        </StyledTableRow>
       ))}
     </>
   );

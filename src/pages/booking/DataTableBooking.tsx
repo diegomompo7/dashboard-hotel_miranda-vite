@@ -3,6 +3,7 @@ import { Menu, MenuItem, TableRow } from "@mui/material";
 import {
   StyledTableCellBody,
   StyledTableCellBodyText,
+  StyledTableRow,
 } from "../../components/common/StyledTable";
 import { StyledButton } from "../../components/common/StyledButton";
 import { StyledMoreIcon } from "../../components/common/StyledIcons";
@@ -54,7 +55,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   return (
     <>
       {dataPage.map((data: BookingInterface) => (
-        <tr key={data.id}>
+        <StyledTableRow key={data.id}>
           <StyledTableCellBody
             style={{ display: "flex", alignItems: "center" }}
           >
@@ -104,7 +105,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
             <StyledButton name={data.status}>{data.status}</StyledButton>
           </StyledTableCellBody>
           <StyledTableCellBody>
-                        <StyledMoreIcon onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) => handleClick(e, data.id)}></StyledMoreIcon>
+                        <StyledMoreIcon onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) => handleClick(e, data.id!)}></StyledMoreIcon>
                         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
                             <MenuItem onClick={ () => navigate(`/booking/${menuId}`)}>
                                 View details
@@ -112,7 +113,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
                             <MenuItem onClick={() => handleDelete(menuId)}>Delete</MenuItem>
                         </Menu>
           </StyledTableCellBody>
-          </tr>
+          </StyledTableRow>
         ))}
     </>
   );

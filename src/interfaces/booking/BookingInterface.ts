@@ -1,7 +1,7 @@
 import { RoomInterface } from "../room/RoomInterface"
 
 export interface BookingInterface {
-    id: number
+    id?: number
     name: string
     orderDate: string
     check_in: string

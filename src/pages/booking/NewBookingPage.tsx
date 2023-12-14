@@ -62,7 +62,6 @@ export const NewBookingPage = () => {
 
 
   const [formData, setFormData] = useState<BookingInterface>({
-    id: bookingsListData[bookingsListData.length-1].id + 1,
     name: "",
     orderDate: nowDate,
     check_in: "",

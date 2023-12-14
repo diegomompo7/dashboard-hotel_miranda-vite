@@ -39,7 +39,7 @@ export const RoomsSlice = createSlice({
             if (index !== -1) {
                 const updatedData = {
                     ...data[index],
-                    photos: action.payload.formData.photos.split("\n"),
+                    photos: action.payload.formData.photos,
                     roomType: action.payload.formData.roomType,
                     roomNumber: action.payload.formData.roomNumber,
                     description: action.payload.formData.description,
@@ -47,7 +47,7 @@ export const RoomsSlice = createSlice({
                     priceNight: action.payload.formData.priceNight,
                     discount: action.payload.formData.discount,
                     cancellation: action.payload.formData.cancellation,
-                    amenities: action.payload.formData.amenities.split("\n"),
+                    amenities: action.payload.formData.amenities,
 
                 }
 

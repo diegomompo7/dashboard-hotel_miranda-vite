@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Menu, MenuItem} from "@mui/material";
 import {
   StyledTableCellBody,
@@ -14,8 +14,9 @@ import { deleteUser } from "../../features/users/usersSlice";
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { DataTableUserProps } from "../../interfaces/props/PropsInterface";
 
-export const DataTableUsers = (props) => {
+export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const dataPage = [...props.data].slice(
@@ -23,33 +24,35 @@ export const DataTableUsers = (props) => {
     props.numberPage[1]
   );
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const [menuId, setMenuId] = useState(null);
-  const handleClick = (event, id) => {
-    setAnchorEl(event.currentTarget);
-    setMenuId(id);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-    setMenuId(null);
-  };
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
+    const [menuId, setMenuId] = useState<number | null>(null)
+    const open: boolean = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<SVGElement, MouseEvent>, id: number | null) => {
+        event.stopPropagation();
+        setAnchorEl(event.currentTarget);
+        setMenuId(id)
+    };
+    const handleClose = ():void => {
+        setAnchorEl(null);
+        setMenuId(null)
+    };
 
-  const handleDelete = (id) => {
-    dispatch(deleteUser(id));
-    handleClose()
-    toast.error('User deleted succesfull', {
-      position: "bottom-center",
-      autoClose: 5000,
-      closeOnClick: true,
-      theme: "colored",
-      });
-  };
+    const handleDelete = (id: number | null) :void => {
+      dispatch(deleteUser(id));
+      handleClose()
+      toast.error('Booking deleted succesfull', {
+          position: "bottom-center",
+          autoClose: 5000,
+          closeOnClick: true,
+          theme: "colored",
+          });
+    
+  }
 
   return (
     <>
       {dataPage.map((data) => (
-        <StyledTableRow key={data.name}>
+        <StyledTableRow key={data.id}>
           <StyledTableCellBody>
             <StyledTableCellBodyImg
               src={data.photo}
@@ -80,7 +83,7 @@ export const DataTableUsers = (props) => {
           </StyledTableCellBody>
           <StyledTableCellBody name="menu">
             <StyledMoreIcon
-              onClick={(e) => handleClick(e, data.id)}
+              onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) => handleClick(e, data.id!)}
             ></StyledMoreIcon>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
               <MenuItem onClick={() => navigate(`/createUser/${menuId}`)}>

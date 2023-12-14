@@ -3,11 +3,12 @@ import { useState } from "react";
 import {Header} from "../header/Header"
 import { StyledBody } from "../../components/root/StyledBody";
 import { ToastContainer } from "react-toastify";
+import React from "react";
 
 export const Root = () =>  {
-    const [isOpen, setIsOpen] = useState(false)
-    let title = ""
-    let location = useLocation();
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    let title: string = ""
+    let location: any = useLocation();
 
     switch(location.pathname){
         

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Menu, MenuItem, TableRow } from "@mui/material";
-import { StyledTableCellBody, StyledTableCellBodyText, StyledTableCellBodyImg } from "../../components/common/StyledTable";
+import { StyledTableCellBody, StyledTableCellBodyText, StyledTableCellBodyImg, StyledTableRow } from "../../components/common/StyledTable";
 import { StyledButton } from "../../components/common/StyledButton";
 import { StyledMoreIcon } from "../../components/common/StyledIcons";
 import { NavigateFunction, useNavigate } from "react-router-dom";
@@ -11,13 +11,14 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { DataTableRoomsProps } from "../../interfaces/props/PropsInterface";
 import { AppDispatch } from "../../app/store";
+import { RoomInterface } from "../../interfaces/room/RoomInterface";
 
 
 
 export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
     const navigate: NavigateFunction = useNavigate()
     const dispatch: AppDispatch = useDispatch()
-    const dataPage = [...props.data].slice(props.numberPage[0], props.numberPage[1])
+    const dataPage: RoomInterface[] = [...props.data].slice(props.numberPage[0], props.numberPage[1])
 
     const [anchorEl, setAnchorEl] = useState<Element | null>(null);
     const [menuId, setMenuId] = useState<number | null>(null)
@@ -47,7 +48,7 @@ export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
     return (
         <>{
             dataPage.map((data) => (
-                <TableRow
+                <StyledTableRow
                     key={data.id}
                 >
 
@@ -82,7 +83,7 @@ export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
                         <StyledButton name={data.status}>{data.status}</StyledButton>
                     </StyledTableCellBody>
                     <StyledTableCellBody>
-                        <StyledMoreIcon onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) => handleClick(e, data.id)}></StyledMoreIcon>
+                        <StyledMoreIcon onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) => handleClick(e, data.id!)}></StyledMoreIcon>
                         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
                             <MenuItem onClick={() => navigate(`/createRoom/${menuId}`)}>
                                 Edit
@@ -90,7 +91,7 @@ export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
                             <MenuItem onClick={() => handleDelete(menuId)}>Delete</MenuItem>
                         </Menu>
                     </StyledTableCellBody>
-                </TableRow>
+                </StyledTableRow>
 
             ))
         }</>

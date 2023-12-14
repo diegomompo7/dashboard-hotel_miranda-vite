@@ -13,6 +13,8 @@ export const StyledButton = styled.button<{name:string}>`
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
             color: #135846;
+            background-color: #EBF1EF;
+            border-radius: 8px;
             padding: 1em 0 0.929em 0;
             margin-bottom: 2.5em;
         `
@@ -127,7 +129,7 @@ export const StyledButton = styled.button<{name:string}>`
            ${props => props.name==="ACTIVE" && 
            `
               font-size: 0.875rem;
-   
+              background-color: #FFFFFF;
               font-family: 'Poppins', sans-serif;
               font-weight: 500;
               color:#5AD07A;
@@ -142,6 +144,7 @@ export const StyledButton = styled.button<{name:string}>`
               font-family: 'Poppins', sans-serif;
               font-weight: 500;
               color:#E23428;
+              background-color: #FFFFFF;
               border-radius:  0.75em;
               padding: 0.813em 1.5em 0.75em 1.563em;
            `

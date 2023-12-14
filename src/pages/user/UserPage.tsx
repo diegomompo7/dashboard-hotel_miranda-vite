@@ -2,7 +2,7 @@
 import { DataTableUsers } from "./DataTableUsers";
 import { TableHead, TableBody, TableRow, MenuItem } from "@mui/material";
 import { StyledTable, StyledTableCellRow, StyledTableContainer} from "../../components/common/StyledTable";
-import { useEffect, useState } from "react";
+import React , { ChangeEvent, useEffect, useState } from "react";
 import { StyledNav, StyledNavText } from "../../components/common/StyledNav";
 import { StyledTextField } from "../../components/common/StyledTextField";
 import { StyledFormControl, StyledInputLabel, StyledSelect } from "../../components/common/StyledSelect";
@@ -19,27 +19,30 @@ import {
   getUsersDataInactive
 } from "../../features/users/usersSlice";
 import { getUsersFromApiTrunk } from "../../features/users/usersTrunk";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import { AppDispatch, useAppSelector } from "../../app/store";
+import { UserInterface } from "../../interfaces/user/UserInterface";
+
 
 
 export const UserPage = () => {
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   
-  const navigate = useNavigate()
-  const dispatch = useDispatch();
-  const usersListData = useSelector(getUsersData);
-  const usersListError = useSelector(getUsersError);
-  const usersListStatus = useSelector(getUsersStatus);
-  const usersListActive = useSelector(getUsersDataActive);
-  const usersListInactive = useSelector(getUsersDataInactive);
+  const navigate: NavigateFunction = useNavigate()
+  const dispatch: AppDispatch = useDispatch();
+  const usersListData = useAppSelector<UserInterface[]>(getUsersData);
+  const usersListError = useAppSelector<string | undefined>(getUsersError);
+  const usersListStatus = useAppSelector<string>(getUsersStatus);
+  const usersListActive = useAppSelector<UserInterface[]>(getUsersDataActive);
+  const usersListInactive = useAppSelector<UserInterface[]>(getUsersDataInactive);
 
-  const [spinner, setSpinner] = useState(true);
+  const [spinner, setSpinner] = useState<boolean>(true);
 
-  const [currentView, setCurrentView] = useState("all");
+  const [currentView, setCurrentView] = useState<string>("all");
 
-  const [numberPage, setNumberPage] = useState([0, 10])
-  const [currentPage, setCurrentPage] = useState(1);
+  const [numberPage, setNumberPage] = useState<number[]>([0, 10])
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
 
   useEffect(
@@ -58,7 +61,7 @@ export const UserPage = () => {
     usersListStatus]
   );
 
-  const handleClick = (click) => {
+  const handleClick = (click: React.SetStateAction<string>):void => {
 
     setCurrentView(click)
 
@@ -67,17 +70,18 @@ export const UserPage = () => {
     setCurrentPage(1)
   }
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>):void => {
     dispatch(getEmployee(e.target.value))
   }
 
-  const handleOnSelect = (e) => {
 
-    let orderSelect =  []
+  const handleOnSelect = (e: ChangeEvent<HTMLSelectElement>):void => {
+
+    let orderSelect: UserInterface[] =  []
 
     switch(e.target.value){
       case "orderDate":
-        orderSelect = [...currentUsersListData].sort((a,b) => new Date(`${b.startDate}`) - new Date(`${a.startDate}`))
+        orderSelect = [...currentUsersListData].sort((a,b) => new Date(`${b.startDate}`).getTime() - new Date(`${a.startDate}`).getTime())
         break;
         case "name":
           orderSelect = [...currentUsersListData].sort((a,b) => {
@@ -101,7 +105,7 @@ export const UserPage = () => {
       setCurrentPage(1)
     }
 
-    const currentUsersListData = currentView ==="active" ? usersListActive : currentView === "inactive" ? usersListInactive : usersListData
+    const currentUsersListData: UserInterface[] = currentView ==="active" ? usersListActive : currentView === "inactive" ? usersListInactive : usersListData
 
 
   return (
@@ -114,21 +118,16 @@ export const UserPage = () => {
           <StyledNavText onClick={() => handleClick("active")} isActive={currentView === "active"}>Active Employee</StyledNavText>
           <StyledNavText onClick={() => handleClick("inactive")} isActive={currentView === "inactive"}>Inactive Employee</StyledNavText>
         </StyledNav>
-        <StyledTextField label="Employee" onChange={(e) => handleOnChange(e)}/>
+        <StyledTextField label="Employee" onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleOnChange(e)}/>
         <StyledButton name="create" onClick={() => navigate("/createUser")}>+ New Employee</StyledButton>
-        <StyledFormControl>
-        <StyledInputLabel>Order</StyledInputLabel>
-        <StyledSelect label="Order" onChange={(e) => handleOnSelect(e)}>
-                <MenuItem value="orderDate">Order Date</MenuItem>
-                <MenuItem value="name">Name</MenuItem>
-
+        <StyledSelect  onChange={(e: ChangeEvent<HTMLSelectElement>) => handleOnSelect(e)} >
+                <option value="" disabled selected hidden>Choose a Order</option>
+                <option value="orderDate">Order Date</option>
+                <option value="name">Name</option>
         </StyledSelect>
-        </StyledFormControl>
       </div>
-      <StyledTableContainer isOpen={isOpen}>
         <StyledTable>
-          <TableHead>
-            <TableRow>
+          <thead>
               <StyledTableCellRow>Photo</StyledTableCellRow>
               <StyledTableCellRow>Name</StyledTableCellRow>
               <StyledTableCellRow>ID</StyledTableCellRow>
@@ -137,8 +136,7 @@ export const UserPage = () => {
               <StyledTableCellRow>Description</StyledTableCellRow>
               <StyledTableCellRow>Users</StyledTableCellRow>
               <StyledTableCellRow>Status</StyledTableCellRow>
-            </TableRow>
-          </TableHead>
+          </thead>
           <TableBody>
           {spinner ? <p>Loading...</p> : 
            
@@ -147,7 +145,6 @@ export const UserPage = () => {
            }
           </TableBody>
         </StyledTable>
-        </StyledTableContainer>
         <StyledPagination>
           <StyledPaginationText> Showing {currentUsersListData.length !== 0 ? numberPage[0]+1 : numberPage[0]} of { currentUsersListData.length >= numberPage[1] ? numberPage[1] : currentUsersListData.length} data</StyledPaginationText>
           <StyledButtonPage>

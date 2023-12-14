@@ -164,17 +164,15 @@ const handleClick = (click: React.SetStateAction<string>):void => {
           <StyledNavText  onClick={() => handleClick("booked")} isActive={currentView === "booked"}>Booked</StyledNavText>
         </StyledNav>
         <StyledButton name="create" onClick={() => navigate("/createRoom")}>+ New Room</StyledButton>
-        <StyledSelect onChange={(e: ChangeEvent<HTMLSelectElement>) => handleOnSelect(e)} >
+        <StyledSelect  nameSelect="selectRoom" onChange={(e: ChangeEvent<HTMLSelectElement>) => handleOnSelect(e)} >
             <option value="" disabled selected hidden>Choose a Order</option>
             <option value="priceLess" >Price less</option>
           < option value="priceHigher">Price High</option>
         </StyledSelect>
       </div>
            
-      <StyledTableContainer isOpen={isOpen}>
         <StyledTable>
-          <TableHead>
-            <TableRow>
+        <thead>
               <StyledTableCellRow >Room Name</StyledTableCellRow>
               <StyledTableCellRow>Bed Type</StyledTableCellRow>
               <StyledTableCellRow>Facilities</StyledTableCellRow>
@@ -182,9 +180,8 @@ const handleClick = (click: React.SetStateAction<string>):void => {
               <StyledTableCellRow>Offer Price</StyledTableCellRow>
               <StyledTableCellRow>Status</StyledTableCellRow>
               <StyledTableCellRow></StyledTableCellRow>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+              </thead>
+              <TableBody>
           {spinner ? <p>Loading...</p> : 
            
            <DataTableRooms data={currentUsersListData} numberPage={numberPage}></DataTableRooms>
@@ -192,7 +189,6 @@ const handleClick = (click: React.SetStateAction<string>):void => {
            }
           </TableBody>
         </StyledTable>
-        </StyledTableContainer>
         <StyledPagination>
           <StyledPaginationText> Showing {currentUsersListData.length !== 0 ? numberPage[0]+1 : numberPage[0]} of { currentUsersListData.length >= numberPage[1] ? numberPage[1] : currentUsersListData.length} data</StyledPaginationText>
           <StyledButtonPage>

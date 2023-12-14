@@ -1,7 +1,7 @@
 
 
 export interface UserInterface {
-    id: number,
+    id?: number,
     photo: string,
     fullName: string,
     job: string,

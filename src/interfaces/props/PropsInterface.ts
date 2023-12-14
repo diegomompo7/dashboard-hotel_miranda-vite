@@ -1,6 +1,7 @@
 import { BookingInterface } from "../booking/BookingInterface";
 import { ContactInterface } from "../contact/ContactInterface";
 import { RoomInterface } from "../room/RoomInterface";
+import { UserInterface } from "../user/UserInterface";
 
 export interface CardContactProps {
     contact: ContactInterface[]
@@ -21,6 +22,11 @@ export interface DataTableBookingProps {
     numberPage: number[];
     setCurrentView: (request: string) => void;
     setCurrentPage: (request: number) => void
+  }
+
+  export interface DataTableUserProps {
+    data:UserInterface[];
+    numberPage: number[];
   }
 
   export interface DataTableRoomsProps {

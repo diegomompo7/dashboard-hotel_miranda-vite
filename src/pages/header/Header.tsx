@@ -80,7 +80,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
           setOpen(!open)
           props.setIsOpen(!open)
         }}></StyledMenuIcon>
-        <StyledTextHeader fontSize="1.7rem" color="#393939" fontFamily="'Poppins', sans-serif" weight="600" textarea="title">
+        <StyledTextHeader fontSize="1.7rem" color="#393939" fontFamily="'Poppins', sans-serif" weight="600">
           {props.title}
         </StyledTextHeader>
         <StyledHeartIcon></StyledHeartIcon>

@@ -41,7 +41,7 @@ export const EditRoomsPage = () => {
     id: roomId.id,
     roomType: roomId.roomType,
     offer: roomId.offer,
-    photos:  roomId.photos,
+    photos: roomId.photos,
     roomNumber: roomId.roomNumber,
     description: roomId.description,
     priceNight: roomId.priceNight,
@@ -51,18 +51,23 @@ export const EditRoomsPage = () => {
     status: roomId.status
   });
 
-  const handleChange = (e: ChangeEvent<HTMLFormElement | HTMLSelectElement>) => 
+  const handleChange = (e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>) => 
   {
     
     const { name, value } = e.target;
 
-    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) {
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  }
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement || name==="description") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    } else if (e.target instanceof HTMLTextAreaElement) {
+      // Tratamiento especial para el campo 'photos' que es un textarea
+      setFormData((prevData) => ({
+        ...prevData,
+         [name]: Array.isArray(value) ? value : value.split("\n"),
+      }));
+    }
   }
 
   const handleOnSubmit =(e: React.MouseEvent<HTMLButtonElement, MouseEvent>):void => {
@@ -99,9 +104,10 @@ export const EditRoomsPage = () => {
           </StyledSelect>
 
         <StyledTextAreaForm
-          value={formData.photos}
+          value={Array.isArray(formData.photos) ? formData.photos.join("\n") : formData.photos}
           placeholder="Photo"
           name="photos"
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {handleChange(e)}}
           rows={5} cols={10}
         ></StyledTextAreaForm>
 
@@ -136,7 +142,7 @@ export const EditRoomsPage = () => {
         ></StyledInputForm>
         <StyledTextAreaForm
           placeholder="Amenities"
-          value={formData.amenities}
+          value={Array.isArray(formData.amenities) ? formData.amenities.join("\n") : formData.amenities}
           name="amenities"
           rows={3}
         ></StyledTextAreaForm>

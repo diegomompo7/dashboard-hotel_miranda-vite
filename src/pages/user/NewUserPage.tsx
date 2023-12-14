@@ -14,17 +14,18 @@ import {
 import { MenuItem } from "@mui/material";
 import logo from "../../assets/img/logo.png";
 import {  createUser } from "../../features/users/usersSlice";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useDispatch} from "react-redux";
-import { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { AppDispatch } from "../../app/store";
 
 export const NewUserPage = () => {
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch();
+  const navigate: NavigateFunction = useNavigate()
+  const dispatch: AppDispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     photo:"",
@@ -39,7 +40,7 @@ export const NewUserPage = () => {
   });
 
 
-  const handleChange = (e) => 
+  const handleChange = (e: ChangeEvent<HTMLFormElement | HTMLSelectElement>):void => 
   {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -50,7 +51,23 @@ export const NewUserPage = () => {
 
 
 
-  const handleOnCreate = (e) => {
+  const handleOnCreate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>):void => {
+
+    const hasEmptyFieldsExceptSpecialRequest = Object.entries(formData).some(
+      ([key, value]) => (value === null || value === undefined || value === '' || value.length === 0)
+    );
+
+    if(hasEmptyFieldsExceptSpecialRequest){
+      e.preventDefault()
+      toast.error(`All fileds must be completed`, {
+        position: "bottom-center",
+        autoClose: 5000,
+        closeOnClick: true,
+        theme: "colored",
+        });
+
+    
+    } else {
     e.preventDefault()
     dispatch(createUser(formData));
     toast.success('User created succesfull', {
@@ -59,25 +76,32 @@ export const NewUserPage = () => {
       closeOnClick: true,
       theme: "colored",
       });
+      navigate("/users")
+    }
   }
 
   return (
     <StyledBoxForm name="createForm">
+      <ToastContainer></ToastContainer>
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
         name="createForm"
-        onChange={(e) => {handleChange(e)}}
+        onChange={(e: ChangeEvent<HTMLFormElement>) => {handleChange(e)}}
       >
         <StyledTextAreaForm
           placeholder="Photo"
-          type="url"
           name="photo"
-          rows="1"
+          rows={1}
         ></StyledTextAreaForm>
         <StyledInputForm
           placeholder="Full Name"
           type="text"
           name="fullName"
+        ></StyledInputForm>
+        <StyledInputForm
+          placeholder="Password"
+          type="Password"
+          name="password"
         ></StyledInputForm>
         <StyledInputForm
           placeholder="Job"
@@ -102,24 +126,22 @@ export const NewUserPage = () => {
         ></StyledInputForm>
         <StyledTextAreaForm
           placeholder="Description about job"
-          type="text"
           name="descriptionJob"
           rows={2}
         ></StyledTextAreaForm>
-        <StyledFormControl name="selectCreate">
-          <StyledInputLabel>Status</StyledInputLabel>
-          <StyledSelect name= "status" label="status" value={formData.status}    onChange={(e) => {handleChange(e)}}>
-            <MenuItem value="ACTIVE">ACTIVE</MenuItem>
-            <MenuItem value="INACTIVE">INACTIVE</MenuItem>
+          <StyledSelect nameSelect="selectCreate" name= "status"  value={formData.status} onChange={(e: ChangeEvent<HTMLSelectElement>) => {handleChange(e)}}>
+            <option value="" disabled selected hidden>Choose a Status</option>
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="INACTIVE">INACTIVE</option>
           </StyledSelect>
-        </StyledFormControl>
-        <StyledInputForm
-          placeholder="Password"
-          type="Password"
-          name="password"
-        ></StyledInputForm>
+          <StyledSelect nameSelect="selectCreate" name= "job"  value={formData.job} onChange={(e: ChangeEvent<HTMLSelectElement>) => {handleChange(e)}}>
+            <option value="" disabled selected hidden>Choose a Job</option>
+            <option value="Manager">Manager</option>
+            <option value="Receptionist">Receptionist</option>
+            <option value="Room Service">Room Service</option>
+          </StyledSelect>
 
-        <StyledButton name="new" type="submit" onClick={(e) => {handleOnCreate(e), navigate("/users")}}>
+        <StyledButton name="new" type="submit" onClick={(e) => {handleOnCreate(e)}}>
           UPDATE EMPLOYEE
         </StyledButton>
       </StyledFormContainer>

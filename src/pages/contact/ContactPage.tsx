@@ -86,15 +86,13 @@ export const ContactPage = () => {
           <StyledNavText onClick={() => handleClick("all")} isActive={currentView === "all"}>All Contacts</StyledNavText>
           <StyledNavText  onClick={() => setCurrentView("archived")} isActive={currentView === "archived"}>Archived</StyledNavText>
         </StyledNav>
-        <StyledTableContainer isOpen={isOpen}>
         <StyledTable>
-          <TableHead>
-            <TableRow>
+          <thead>
+  
               <StyledTableCellRow >Date & ID</StyledTableCellRow>
               <StyledTableCellRow>Customer</StyledTableCellRow>
               <StyledTableCellRow>Comment</StyledTableCellRow>
-            </TableRow>
-          </TableHead>
+            </thead>
           <TableBody>
           {spinner ? <StyledSpinner>Loading...</StyledSpinner> :
            <DataTableContact data={currentContactListData} numberPage={numberPage} setCurrentPage={setCurrentPage} setCurrentView={setCurrentView}></DataTableContact>
@@ -102,7 +100,6 @@ export const ContactPage = () => {
            }
           </TableBody>
         </StyledTable>
-        </StyledTableContainer>
         <StyledPagination>
           <StyledPaginationText> Showing {currentContactListData.length !== 0 ? numberPage[0]+1 : numberPage[0]} of { currentContactListData.length >= numberPage[1] ? numberPage[1] : currentContactListData.length } data</StyledPaginationText>
           <StyledButtonPage>

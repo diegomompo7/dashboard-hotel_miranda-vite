@@ -25,6 +25,7 @@ export const StyledTableCellRow = styled.th`
         font-size: 1rem;
         font-family: "Poppins", sans-serif;
         font-weight: 600;
+        text-align: left;
         border-bottom: 1px solid #F8F8F8;
         padding: 1.25em 0;
         
