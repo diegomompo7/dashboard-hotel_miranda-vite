@@ -48,18 +48,6 @@ export const RoomsListPage = () => {
   const [numberPage, setNumberPage] = useState<number[]>([0, 10]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const now = new Date();
-  const nowDate = now.toISOString().split("T")[0];
-
-  useEffect(() => {
-    if (bookingsListStatus === "idle") {
-      dispatch(getBookingsFromApiTrunk());
-    } else if (bookingsListStatus === "pending") {
-      setSpinner(true);
-    } else if (bookingsListStatus === "fulfilled") {
-      setSpinner(false);
-    }
-  }, [dispatch, bookingRoom, bookingsListStatus]);
 
   useEffect(() => {
     if (roomsListStatus === "idle") {
@@ -71,35 +59,6 @@ export const RoomsListPage = () => {
     }
   }, [dispatch, roomsListData, roomsListStatus]);
 
-  const roomListAva: RoomInterface[] = roomsListData
-    .map((room) => {
-      const booking: BookingInterface[] = bookingRoom.filter(
-        (booking) => room.id === booking.room.id
-      );
-
-      console.log(booking);
-
-      if (booking) {
-        let checkAva: boolean = true;
-
-        booking.every((element) => {
-          if (nowDate >= element.check_in && nowDate <= element.check_out) {
-            return (checkAva = false);
-          } else {
-            checkAva = true;
-          }
-        });
-
-        if (checkAva) {
-          return { ...room, status: "Available" };
-        } else {
-          return { ...room, status: "Booked" };
-        }
-      } else {
-        return { ...room, status: "Available" };
-      }
-    })
-    .filter((room) => room !== null);
 
   const handleClick = (click: React.SetStateAction<string>): void => {
     setCurrentView(click);
@@ -132,10 +91,10 @@ export const RoomsListPage = () => {
 
   const currentUsersListData: RoomInterface[] =
     currentView === "available"
-      ? roomListAva.filter((available) => available.status === "Available")
+      ? roomsListData.filter((available) => available.status === "Available")
       : currentView === "booked"
-      ? roomListAva.filter((booked) => booked.status === "Booked")
-      : roomListAva;
+      ? roomsListData.filter((booked) => booked.status === "Booked")
+      : roomsListData;
 
   console.log(currentUsersListData);
 

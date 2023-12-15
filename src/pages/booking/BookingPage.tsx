@@ -24,15 +24,9 @@ import {
   getSelect,
 } from "../../features/bookings/bookingsSlice.ts";
 import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk.ts";
-import {
-  getRoomsData,
-  getRoomsStatus,
-} from "../../features/rooms/roomsSlice.ts";
-import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk.ts";
 import { useNavigate } from "react-router";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface.ts";
 import { NavigateFunction } from "react-router-dom";
-import { RoomInterface } from "../../interfaces/room/RoomInterface.ts";
 import { AppDispatch, useAppSelector } from "../../app/store.ts";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner.ts";
 import { StyledBoxDefault } from "../../components/root/StyledBody.ts";
@@ -50,26 +44,10 @@ export const BookingPage = () => {
   const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
   const [spinner, setSpinner] = useState<boolean>(true);
 
-  const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData);
-  const roomsListStatus = useAppSelector<string>(getRoomsStatus);
-
   const [currentView, setCurrentView] = useState<string>("all");
 
   const [numberPage, setNumberPage] = useState<number[]>([0, 10]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const now: Date = new Date();
-  const nowDate: string = now.toISOString().split("T")[0];
-
-  useEffect(() => {
-    if (roomsListStatus == "idle") {
-      dispatch(getRoomsFromApiTrunk());
-    } else if (roomsListStatus == "pending") {
-      setSpinner(true);
-    } else if (roomsListStatus == "fulfilled") {
-      setSpinner(false);
-    }
-  }, [dispatch, roomBoking, roomsListStatus]);
 
   useEffect(() => {
     if (bookingsListStatus === "idle") {
@@ -80,28 +58,6 @@ export const BookingPage = () => {
       setSpinner(false);
     }
   }, [dispatch, bookingsListData, bookingsListStatus]);
-
-  const bookingListRoom: BookingInterface[] = bookingsListData
-    .map((booking: BookingInterface) => {
-      const room = roomBoking.find(
-        (room: RoomInterface) => room.id === booking.room.id
-      );
-
-      if (room) {
-        if (nowDate > booking.check_in) {
-          if (nowDate >= booking.check_out) {
-            return { ...booking, room: room, status: "Check Out" };
-          } else {
-            return { ...booking, room: room, status: "In Progress" };
-          }
-        } else {
-          return { ...booking, room: room, status: "Check In" };
-        }
-      }
-
-      return booking;
-    })
-    .filter((booking: BookingInterface) => booking !== null);
 
   const handleClick = (click: React.SetStateAction<string>): void => {
     setCurrentView(click);
@@ -123,28 +79,28 @@ export const BookingPage = () => {
 
     switch (e.target.value) {
       case "orderDate":
-        orderSelect = [...bookingListRoom].sort(
+        orderSelect = [...bookingsListData].sort(
           (a, b) =>
             new Date(`${b.orderDate}`).getTime() -
             new Date(`${a.orderDate}`).getTime()
         );
         break;
       case "checkIn":
-        orderSelect = [...bookingListRoom].sort(
+        orderSelect = [...bookingsListData].sort(
           (a, b) =>
             new Date(`${b.check_in}`).getTime() -
             new Date(`${a.check_in}`).getTime()
         );
         break;
       case "checkOut":
-        orderSelect = [...bookingListRoom].sort(
+        orderSelect = [...bookingsListData].sort(
           (a, b) =>
             new Date(`${b.check_out}`).getTime() -
             new Date(`${a.check_out}`).getTime()
         );
         break;
       case "guest":
-        orderSelect = [...bookingListRoom].sort((a, b) => {
+        orderSelect = [...bookingsListData].sort((a, b) => {
           const nameA: string = a.name.toUpperCase();
           const nameB: string = b.name.toUpperCase();
           if (nameA < nameB) {
@@ -164,30 +120,36 @@ export const BookingPage = () => {
     setCurrentPage(1);
   };
 
-  const currentBookingsListData: BookingInterface[] =
-    currentView === "checkIn"
-      ? [...bookingListRoom].sort(
+  const getCurrentBookingsListData = (): BookingInterface[] => {
+    switch (currentView) {
+      case "checkIn":
+        return [...bookingsListData].sort(
           (a, b) =>
             new Date(b.check_in).getTime() - new Date(a.check_in).getTime()
-        )
-      : currentView === "checkOut"
-      ? [...bookingListRoom].sort(
+        );
+      case "checkOut":
+        return [...bookingsListData].sort(
           (a, b) =>
             new Date(b.check_out).getTime() - new Date(a.check_out).getTime()
-        )
-      : currentView === "inProgress"
-      ? [...bookingListRoom]
+        );
+      case "inProgress":
+        return [...bookingsListData]
           .filter((inProgress) => inProgress.status === "In Progress")
           .sort(
             (a, b) =>
               new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()
-          )
-      : currentView === "select"
-      ? bookingListRoom
-      : [...bookingListRoom].sort(
+          );
+      case "select":
+        return bookingsListData;
+      default:
+        return [...bookingsListData].sort(
           (a, b) =>
             new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()
         );
+    }
+  };
+
+  const currentBookingsListData = getCurrentBookingsListData();
 
   return (
     <>
