@@ -9,17 +9,22 @@ import { StyledButton } from "../../components/common/StyledButton";
 import { Navigate } from "react-router-dom";
 import React from "react";
 import { LoginProps } from "../../interfaces/props/PropsInterface";
+import { ToastContainer } from "react-toastify";
 
 export const LoginPage: React.FC<LoginProps> = ({
   handleOnSubmit,
   userLogin,
+  checkLogin
 }) => {
   const url: string | null = localStorage.getItem("lastRoute");
 
-  return (
-    <StyledBoxForm>
-      {userLogin !== "" && <Navigate to={`${url}`} />}
+  console.log(checkLogin)
 
+  return (
+    <>
+    <ToastContainer></ToastContainer>
+    <StyledBoxForm>
+      {checkLogin===true && <Navigate to={`${url}`} />}
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleOnSubmit(e)}
@@ -39,5 +44,6 @@ export const LoginPage: React.FC<LoginProps> = ({
         </StyledButton>
       </StyledFormContainer>
     </StyledBoxForm>
+    </>
   );
 };
