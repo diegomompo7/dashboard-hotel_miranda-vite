@@ -38,6 +38,36 @@ export const BookingsSlice = createSlice({
       state.data = [...state.data, action.payload];
       console.log(state.data);
     },
+    updateBooking: (state, action): void => {
+      const data = state.data;
+
+      const index = data.findIndex((update) => update.id === action.payload.id);
+
+      if (index !== -1) {
+        const updatedData = {
+          name: bookingId.name,
+          orderDate: bookingId.orderDate,
+          check_in: bookingId.check_in,
+          hour_in: bookingId.hour_in,
+          check_out: bookingId.check_out,
+          hour_out: bookingId.hour_out,
+          specialRequest: bookingId.specialRequest,
+          room: bookingId.room,
+          status: bookingId.status,
+          ...data[index],
+          name: action.payload.formData.name,
+          checkIn: action.payload.formData.checkIn,
+          description: action.payload.formData.checkIn,
+          offer: action.payload.formData.offer,
+          priceNight: action.payload.formData.priceNight,
+          discount: action.payload.formData.discount,
+          cancellation: action.payload.formData.cancellation,
+          amenities: action.payload.formData.amenities,
+        };
+
+        state.data = data.map((item, i) => (i === index ? updatedData : item));
+      }
+    },
   },
 
   extraReducers: (builder) => {
