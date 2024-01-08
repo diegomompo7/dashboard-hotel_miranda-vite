@@ -25,7 +25,6 @@ import { toast } from "react-toastify";
 function App() {
   let checkLogin: boolean = false;
   const [userLogin, setUserLogin] = useState<string>("");
-  const navigate = useNavigate()
 
   if (window.location.pathname !== "/login") {
     localStorage.setItem("lastRoute", window.location.pathname);
@@ -53,14 +52,12 @@ function App() {
       })
 
       if (response.ok) {
-        console.log(response)
         const data = await response.json()
         localStorage.setItem("token", data);
         checkLogin = true;
-        
+        (e.target as HTMLFormElement).submit()
 
       } else {
-        console.log(response)
         toast.error("Invalid username or password", {
           position: "bottom-center",
           autoClose: 5000,

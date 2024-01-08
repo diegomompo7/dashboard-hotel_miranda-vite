@@ -18,13 +18,13 @@ export const LoginPage: React.FC<LoginProps> = ({
 }) => {
   const url: string | null = localStorage.getItem("lastRoute");
 
-  console.log(checkLogin)
+  console.log(userLogin)
 
   return (
     <>
     <ToastContainer></ToastContainer>
     <StyledBoxForm>
-      {checkLogin===true && <Navigate to={`${url}`} />}
+      {userLogin !== "" && <Navigate to={`${url}`} />}
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleOnSubmit(e)}
