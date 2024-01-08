@@ -39,8 +39,9 @@ import React, { useEffect, useState } from "react";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
+import { fetchGETData } from "../../hooks/fetchAPI";
 
-export const BookingDetailPage = () => {
+export const BookingDetailPage = async () => {
   const url: URL = new URL(window.location.href);
   const id: string = url.pathname.split("/").slice(2, 3).join("");
 
@@ -78,42 +79,40 @@ export const BookingDetailPage = () => {
     }
   }, [dispatch, bookingsListData, bookingsListStatus]);
 
-  const bookingId: BookingInterface = bookingsListData.find(
-    (book: BookingInterface) => book.id == parseInt(id)
-  )!;
 
-  let bookingListRoom: BookingInterface = bookingId;
+  let bookingListRoom: BookingInterface = await fetchGETData("/bookings" + id)
 
-  if (bookingId) {
+  if (bookingListRoom) {
     const room: RoomInterface[] = roomBoking.filter(
-      (room) => room.id === bookingId.room.id
+      (room) => room.id === bookingListRoom.room.id
     )!;
+    
 
-    if (nowDate > bookingId.check_in) {
-      if (nowDate >= bookingId.check_out) {
-        bookingListRoom = { ...bookingId, room: room[0], status: "Check Out" };
+    if (nowDate > bookingListRoom.dateIn) {
+      if (nowDate >= bookingListRoom.dateOut) {
+        bookingListRoom = { ...bookingListRoom, room: room[0], status: "Check Out" };
       } else {
         bookingListRoom = {
-          ...bookingId,
+          ...bookingListRoom,
           room: room[0],
           status: "In Progress",
         };
       }
     } else {
-      bookingListRoom = { ...bookingId, room: room[0], status: "Check In" };
+      bookingListRoom = { ...bookingListRoom, room: room[0], status: "Check In" };
     }
   }
 
   return (
-    <StyledDetailContainer key={bookingListRoom.id}>
+    <StyledDetailContainer key={bookingListRoom._id}>
       <StyledDetailContent>
         <StyledDetailContentPerson>
           <StyledDetailPersonText>
             <StyledDetailText typeStyle="semibold">
-              {bookingListRoom.name} {bookingListRoom.name}
+              {bookingListRoom.name}
             </StyledDetailText>
             <StyledDetailText typeStyle="id">
-              ID {bookingListRoom.id}
+              ID {bookingListRoom._id}
             </StyledDetailText>
             <StyledDetailActions>
               <StyledDetailIconPhone></StyledDetailIconPhone>
@@ -132,13 +131,13 @@ export const BookingDetailPage = () => {
             <StyledDetailText typeStyle="normal"> Check In</StyledDetailText>
             <StyledDetailText typeStyle="checkMedium">
               {" "}
-              {bookingListRoom.check_in} | {bookingListRoom.hour_in}{" "}
+              {bookingListRoom.dateIn} | {bookingListRoom.dateIn}{" "}
             </StyledDetailText>
           </div>
           <div>
             <StyledDetailText typeStyle="normal"> Check out</StyledDetailText>
             <StyledDetailText typeStyle="checkMedium">
-              {bookingListRoom.check_out} | {bookingListRoom.hour_out}{" "}
+              {bookingListRoom.dateOut} | {bookingListRoom.hour_out}{" "}
             </StyledDetailText>
           </div>
         </StyleDetailCheck>

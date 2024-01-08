@@ -88,15 +88,15 @@ export const BookingPage = () => {
       case "checkIn":
         orderSelect = [...bookingsListData].sort(
           (a, b) =>
-            new Date(`${b.check_in}`).getTime() -
-            new Date(`${a.check_in}`).getTime()
+            new Date(`${b.dateIn}`).getTime() -
+            new Date(`${a.dateIn}`).getTime()
         );
         break;
       case "checkOut":
         orderSelect = [...bookingsListData].sort(
           (a, b) =>
-            new Date(`${b.check_out}`).getTime() -
-            new Date(`${a.check_out}`).getTime()
+            new Date(`${b.dateOut}`).getTime() -
+            new Date(`${a.dateOut}`).getTime()
         );
         break;
       case "guest":
@@ -125,12 +125,12 @@ export const BookingPage = () => {
       case "checkIn":
         return [...bookingsListData].sort(
           (a, b) =>
-            new Date(b.check_in).getTime() - new Date(a.check_in).getTime()
+            new Date(b.dateIn).getTime() - new Date(a.dateIn).getTime()
         );
       case "checkOut":
         return [...bookingsListData].sort(
           (a, b) =>
-            new Date(b.check_out).getTime() - new Date(a.check_out).getTime()
+            new Date(b.dateOut).getTime() - new Date(a.dateOut).getTime()
         );
       case "inProgress":
         return [...bookingsListData]

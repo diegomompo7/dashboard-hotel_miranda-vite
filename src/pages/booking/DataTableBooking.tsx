@@ -56,7 +56,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   return (
     <>
       {dataPage.map((data: BookingInterface) => (
-        <StyledTableRow key={data.id}>
+        <StyledTableRow key={data._id}>
           <StyledTableCellBody
             style={{ display: "flex", alignItems: "center" }}
           >
@@ -65,25 +65,33 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
                 {data.name}
               </StyledTableCellBodyText>
               <StyledTableCellBodyText typeStyle="id">
-                #{data.id}
+                #{data._id}
               </StyledTableCellBodyText>
             </div>
           </StyledTableCellBody>
-          <StyledTableCellBody>{data.orderDate}</StyledTableCellBody>
+          <StyledTableCellBody>{new Date(data.orderDate).toLocaleDateString('es-ES')}</StyledTableCellBody>
           <StyledTableCellBody>
             <StyledTableCellBodyText typeStyle="title">
-              {data.check_in}
+              {new Date(data.dateIn).toLocaleDateString('es-ES')}
             </StyledTableCellBodyText>
             <StyledTableCellBodyText typeStyle="subtitle">
-              {data.hour_in}
+              {new Date(data.dateIn).toLocaleTimeString('es-ES', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: false, // Si deseas usar formato de 24 horas
+              })}
             </StyledTableCellBodyText>
           </StyledTableCellBody>
           <StyledTableCellBody>
             <StyledTableCellBodyText typeStyle="title">
-              {data.check_out}
+              {new Date(data.dateOut).toLocaleDateString('es-ES')}
             </StyledTableCellBodyText>
             <StyledTableCellBodyText typeStyle="subtitle">
-              {data.hour_out}
+              {new Date(data.dateOut).toLocaleTimeString('es-ES', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: false, // Si deseas usar formato de 24 horas
+              })}
             </StyledTableCellBodyText>
           </StyledTableCellBody>
           <StyledTableCellBody>
@@ -92,7 +100,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
               onClick={() => {
                 props.handleOpen(),
                   data.specialRequest !== undefined &&
-                    props.setSpecialRequest(data.specialRequest);
+                  props.setSpecialRequest(data.specialRequest);
               }}
               disabled={data.specialRequest === ""}
             >
@@ -110,7 +118,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
           <StyledTableCellBody>
             <StyledMoreIcon
               onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) =>
-                handleClick(e, data.id!)
+                handleClick(e, data._id!)
               }
             ></StyledMoreIcon>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>

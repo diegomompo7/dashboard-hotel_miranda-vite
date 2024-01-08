@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   StyledBox,
   StyledMenuBox,
@@ -33,16 +33,21 @@ import logo from "../../assets/img/logo.png";
 import textLogo from "../../assets/img/textLogo.png";
 import { StyledButton } from "../../components/common/StyledButton";
 import { StyledLink } from "../../components/header/StyledLink";
-import users from "../../data/users.json";
 import AuthContext from "../../AuthContext";
 import { HeaderProps } from "../../interfaces/props/PropsInterface";
-import { UserInterface } from "../../interfaces/user/UserInterface";
+import { fetchGETData } from "../../hooks/fetchAPI";
 
-export const Header: React.FC<HeaderProps> = (props) => {
+export const Header: React.FC<HeaderProps> =  (props) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const { userLogin } = useContext(AuthContext);
+  const [user, setUser] = React.useState({photo: "", fullName: "", email: "",})
 
-  const user: UserInterface[] = users.filter((user) => user.email == userLogin);
+  useEffect(() => {
+    const user = async  () => {
+    await fetchGETData("/header")
+    }
+    user()
+  },[])
 
   return (
     <div>
@@ -100,7 +105,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
           </StyledMenuItem>
           <StyledBoxMenuProfile>
             <StyledImgProfileMenu
-              src={user[0].photo}
+              src={user.photo}
               width="70px"
               height="70px"
             ></StyledImgProfileMenu>
@@ -110,7 +115,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
               color="#5D5449"
               weight="500"
             >
-              {user[0].fullName}
+              {user.fullName}
             </StyledTextUserMenu>
             <StyledTextUserMenu
               fontSize="0.75rem"
@@ -118,7 +123,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
               color="#B2B2B2"
               weight="300"
             >
-              {user[0].email}
+              {user.email}
             </StyledTextUserMenu>
             <StyledButton name="CONTACT_US">Contact Us</StyledButton>
           </StyledBoxMenuProfile>

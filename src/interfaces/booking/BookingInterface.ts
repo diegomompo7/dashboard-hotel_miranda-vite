@@ -1,11 +1,11 @@
 import { RoomInterface } from "../room/RoomInterface";
 
 export interface BookingInterface {
-  id?: number;
+  _id?: number;
   name: string;
   orderDate: string;
-  check_in: string;
-  hour_in: string;
+  dateIn: string;
+  dateOut: string;
   check_out: string;
   hour_out: string;
   room: RoomInterface;

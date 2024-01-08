@@ -18,8 +18,6 @@ export const LoginPage: React.FC<LoginProps> = ({
 }) => {
   const url: string | null = localStorage.getItem("lastRoute");
 
-  console.log(userLogin)
-
   return (
     <>
     <ToastContainer></ToastContainer>
