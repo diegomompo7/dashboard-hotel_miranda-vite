@@ -13,7 +13,6 @@ import {
   getBookingsData,
   getBookingsError,
   createBooking,
-  updateBooking
 } from "../../features/bookings/bookingsSlice";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
