@@ -69,29 +69,21 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
               </StyledTableCellBodyText>
             </div>
           </StyledTableCellBody>
-          <StyledTableCellBody>{new Date(data.orderDate).toLocaleDateString('es-ES')}</StyledTableCellBody>
+          <StyledTableCellBody>{data.orderDate}</StyledTableCellBody>
           <StyledTableCellBody>
             <StyledTableCellBodyText typeStyle="title">
-              {new Date(data.dateIn).toLocaleDateString('es-ES')}
+              {data.check_in}
             </StyledTableCellBodyText>
             <StyledTableCellBodyText typeStyle="subtitle">
-              {new Date(data.dateIn).toLocaleTimeString('es-ES', {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: false, // Si deseas usar formato de 24 horas
-              })}
+              {data.hour_in}
             </StyledTableCellBodyText>
           </StyledTableCellBody>
           <StyledTableCellBody>
             <StyledTableCellBodyText typeStyle="title">
-              {new Date(data.dateOut).toLocaleDateString('es-ES')}
+              {data.check_out}
             </StyledTableCellBodyText>
             <StyledTableCellBodyText typeStyle="subtitle">
-              {new Date(data.dateOut).toLocaleTimeString('es-ES', {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: false, // Si deseas usar formato de 24 horas
-              })}
+              {data.hour_out}
             </StyledTableCellBodyText>
           </StyledTableCellBody>
           <StyledTableCellBody>

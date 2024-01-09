@@ -32,7 +32,6 @@ import {
   getBookingsError,
   getBookingsStatus,
 } from "../../features/bookings/bookingsSlice";
-import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 import React, { useEffect, useState } from "react";
@@ -41,7 +40,7 @@ import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
 import { fetchGETData } from "../../hooks/fetchAPI";
 
-export const BookingDetailPage = async () => {
+export const BookingDetailPage = () => {
   const url: URL = new URL(window.location.href);
   const id: string = url.pathname.split("/").slice(2, 3).join("");
 
@@ -59,6 +58,8 @@ export const BookingDetailPage = async () => {
   const now: Date = new Date();
   const nowDate: string = now.toISOString().split("T")[0];
 
+  const [bookingListRoom, setBookingListRoom] = useState<BookingInterface>()
+
   useEffect(() => {
     if (roomsListStatus === "idle") {
       dispatch(getRoomsFromApiTrunk());
@@ -70,40 +71,22 @@ export const BookingDetailPage = async () => {
   }, [dispatch, roomBoking, roomsListStatus]);
 
   useEffect(() => {
-    if (bookingsListStatus === "idle") {
-      dispatch(getBookingsFromApiTrunk());
-    } else if (bookingsListStatus === "pending") {
-      setSpinner(true);
-    } else if (bookingsListStatus === "fulfilled") {
-      setSpinner(false);
-    }
-  }, [dispatch, bookingsListData, bookingsListStatus]);
-
-
-  let bookingListRoom: BookingInterface = await fetchGETData("/bookings" + id)
-
-  if (bookingListRoom) {
-    const room: RoomInterface[] = roomBoking.filter(
-      (room) => room.id === bookingListRoom.room.id
-    )!;
-    
-
-    if (nowDate > bookingListRoom.dateIn) {
-      if (nowDate >= bookingListRoom.dateOut) {
-        bookingListRoom = { ...bookingListRoom, room: room[0], status: "Check Out" };
-      } else {
-        bookingListRoom = {
-          ...bookingListRoom,
-          room: room[0],
-          status: "In Progress",
-        };
+      const idBook = async () => {
+        const idBooking: BookingInterface = await fetchGETData("/bookings/" + id)
+        if(idBooking){
+          setSpinner(false);
+          setBookingListRoom(idBooking)
+        }
       }
-    } else {
-      bookingListRoom = { ...bookingListRoom, room: room[0], status: "Check In" };
-    }
-  }
+        idBook();
+  }, []);
+
+  console.log(bookingListRoom);
+  
 
   return (
+    <>
+    { bookingListRoom &&
     <StyledDetailContainer key={bookingListRoom._id}>
       <StyledDetailContent>
         <StyledDetailContentPerson>
@@ -131,13 +114,13 @@ export const BookingDetailPage = async () => {
             <StyledDetailText typeStyle="normal"> Check In</StyledDetailText>
             <StyledDetailText typeStyle="checkMedium">
               {" "}
-              {bookingListRoom.dateIn} | {bookingListRoom.dateIn}{" "}
+              {bookingListRoom.check_in} | {bookingListRoom.hour_in}{" "}
             </StyledDetailText>
           </div>
           <div>
             <StyledDetailText typeStyle="normal"> Check out</StyledDetailText>
             <StyledDetailText typeStyle="checkMedium">
-              {bookingListRoom.dateOut} | {bookingListRoom.hour_out}{" "}
+              {bookingListRoom.check_out} | {bookingListRoom.hour_out}{" "}
             </StyledDetailText>
           </div>
         </StyleDetailCheck>
@@ -208,5 +191,7 @@ export const BookingDetailPage = async () => {
         </div>
       </StyledDetailSwiper>
     </StyledDetailContainer>
+    }
+    </>
   );
 };

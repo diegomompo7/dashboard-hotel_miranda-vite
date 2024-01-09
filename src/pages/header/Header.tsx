@@ -42,12 +42,12 @@ export const Header: React.FC<HeaderProps> =  (props) => {
   const { userLogin } = useContext(AuthContext);
   const [user, setUser] = React.useState({photo: "", fullName: "", email: "",})
 
-  useEffect(() => {
+  if(open){
     const user = async  () => {
-    await fetchGETData("/header")
+      setUser(await fetchGETData("/header"))
     }
     user()
-  },[])
+  }
 
   return (
     <div>

@@ -7,7 +7,7 @@ export const getContactFromApiTrunk = createAsyncThunk<
   void,
   { state: any; rejectValue: string }
 >("contact/getContactFromApi", async (): Promise<ContactInterface[]> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(contact);
     }, 200);
