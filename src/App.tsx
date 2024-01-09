@@ -21,6 +21,7 @@ import { store } from "./app/store";
 import { Provider } from "react-redux";
 import RouteProtected from "./RouteProtected";
 import { toast } from "react-toastify";
+import { EditBookingPage } from "./pages/booking/EditBookingPage";
 
 function App() {
   let checkLogin: boolean = false;
@@ -94,6 +95,7 @@ function App() {
                 <Route path="/createRoom" element={<NewRoomPage />} />
                 <Route path="/createRoom/:id" element={<EditRoomsPage />} />
                 <Route path="/createBooking/" element={<NewBookingPage />} />
+                <Route path="/editBooking/:id" element={<EditBookingPage />} />
                 <Route path="/" element={<Root />}>
                   <Route path="/" element={<DashboardPage />} />
                   <Route path="booking" element={<BookingPage />} />

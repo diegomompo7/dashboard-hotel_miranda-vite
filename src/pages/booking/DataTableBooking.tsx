@@ -16,10 +16,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { Dispatch } from "@reduxjs/toolkit";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { DataTableBookingProps } from "../../interfaces/props/PropsInterface";
+import { fetchDELData } from "../../hooks/fetchAPI";
 
 export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: Dispatch = useDispatch();
+
+  const  userLogin = localStorage.getItem("token")
 
   const dataPage: BookingInterface[] = [...props.data].slice(
     props.numberPage[0],
@@ -42,8 +45,10 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
     setMenuId(null);
   };
 
-  const handleDelete = (id: number | null): void => {
-    dispatch(deleteBooking(id));
+  const handleDelete = async (id: number | null): Promise<void> => {
+      if(await fetchDELData("/bookings/" , id!)){
+        dispatch(deleteBooking(id));
+      }
     handleClose();
     toast.error("Booking deleted succesfull", {
       position: "bottom-center",
@@ -114,8 +119,12 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
               }
             ></StyledMoreIcon>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-              <MenuItem onClick={() => navigate(`/booking/${menuId}`)}>
+
+            <MenuItem onClick={() => navigate(`/booking/${menuId}`)}>
                 View details
+              </MenuItem>
+              <MenuItem onClick={() => navigate(`/editBooking/${menuId}`)}>
+                Edit
               </MenuItem>
               <MenuItem onClick={() => handleDelete(menuId)}>Delete</MenuItem>
             </Menu>

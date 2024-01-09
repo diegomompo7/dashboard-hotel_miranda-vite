@@ -10,9 +10,10 @@ import {
 import { StyledSelect } from "../../components/common/StyledSelect";
 
 import {
+  createBooking,
   getBookingsData,
   getBookingsError,
-  createBooking,
+  getBookingsStatus,
 } from "../../features/bookings/bookingsSlice";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
@@ -28,6 +29,8 @@ import { RoomInterface } from "../../interfaces/room/RoomInterface";
 
 import logo from "../../assets/img/logo.png";
 import { AppDispatch, useAppSelector } from "../../app/store";
+import { fetchGETData } from "../../hooks/fetchAPI";
+import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
 
 export const EditBookingPage = () => {
 
@@ -41,10 +44,8 @@ export const EditBookingPage = () => {
   const bookingsListError = useAppSelector<string | undefined>(
     getBookingsError
   );
-
-  const bookingId: BookingInterface = bookingsListData.find(
-    (booking: BookingInterface) => booking.id == parseInt(id)
-  )!;
+  const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
+  const [spinner, setSpinner] = useState<boolean>(true);
 
   const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData);
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
@@ -54,19 +55,58 @@ export const EditBookingPage = () => {
   const now: Date = new Date();
   const nowDate: string = now.toISOString().slice(0, 16).replace("T", " ");
 
-  const [formData, setFormData] = useState<BookingInterface>({
-    name: bookingId.name,
-    orderDate: bookingId.orderDate,
-    check_in: bookingId.check_in,
-    hour_in: bookingId.hour_in,
-    check_out: bookingId.check_out,
-    hour_out: bookingId.hour_out,
-    specialRequest: bookingId.specialRequest,
-    room: bookingId.room,
-    status: bookingId.status,
-  });
 
-  console.log(bookingsListData);
+  
+  useEffect(() => {
+    if (roomsListStatus === "idle") {
+      dispatch(getRoomsFromApiTrunk());
+    } else if (roomsListStatus === "pending") {
+      setSpinner(true);
+    } else if (roomsListStatus === "fulfilled") {
+      setSpinner(false);
+    }
+  }, [dispatch, roomBoking, roomsListStatus]);
+
+  useEffect(() => {
+    if (bookingsListStatus === "idle") {
+      dispatch(getBookingsFromApiTrunk());
+    } else if (bookingsListStatus === "pending") {
+      setSpinner(true);
+    } else if (bookingsListStatus === "fulfilled") {
+      setSpinner(false);
+    }
+  }, [dispatch, bookingsListData, bookingsListStatus]);
+
+  
+   const [bookingId, setBookingId] =  useState<BookingInterface>()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const idBooking:BookingInterface = await fetchGETData("/bookings/" + id)
+      if(idBooking){
+        console.log("1", idBooking)
+        return idBooking
+      }
+    }
+    (async () => {
+      setBookingId(await fetchData());
+    });
+  }, [])
+
+   console.log(bookingId)
+
+
+  const [formData, setFormData] = useState<BookingInterface>({
+      name: bookingId!.name,
+      orderDate: bookingId!.orderDate,
+      check_in: bookingId!.check_in,
+      hour_in: bookingId!.hour_in,
+      check_out: bookingId!.check_out,
+      hour_out: bookingId!.hour_out,
+      specialRequest: bookingId!.specialRequest,
+      room: bookingId!.room,
+      status: bookingId!.status,
+  })
 
   const handleChange = (
     e: ChangeEvent<HTMLFormElement | HTMLSelectElement>
@@ -101,7 +141,7 @@ export const EditBookingPage = () => {
     if (formData.check_in !== "" && formData.check_out !== "") {
       roomBoking.forEach((room: RoomInterface) => {
         const idBook = bookingsListData.filter(
-          (booking: BookingInterface) => booking.room.id === room.id
+          (booking: BookingInterface) => booking.room._id === room.id
         );
 
         if (idBook.length === 0) {
@@ -160,9 +200,12 @@ export const EditBookingPage = () => {
     }
   };
 
+
   return (
+    <>
+    <ToastContainer />
+    {bookingId && 
     <StyledBoxForm name="createForm">
-      <ToastContainer />
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
         name="createForm"
@@ -173,7 +216,7 @@ export const EditBookingPage = () => {
           type="text"
           alignInput="center"
           name="name"
-          defaultValue={bookingId.name}
+          defaultValue={bookingId!.name}
         ></StyledInputForm>
 
         <StyledInputDate>
@@ -182,40 +225,40 @@ export const EditBookingPage = () => {
             placeholder="Check In"
             type="date"
             name="check_in"
-            defaultValue={bookingId.check_in}
+            defaultValue={bookingId!.check_in}
           ></StyledInputForm>
           <label htmlFor="">Hour In: </label>
           <StyledInputForm
             placeholder="Hour In"
             type="time"
             name="hour_in"
-            defaultValue={bookingId.hour_in}
+            defaultValue={bookingId!.hour_in}
           ></StyledInputForm>
           <label htmlFor="">Check Out: </label>
           <StyledInputForm
             placeholder="Check Out"
             type="date"
             name="check_out"
-            defaultValue={bookingId.check_out}
+            defaultValue={bookingId!.check_out}
           ></StyledInputForm>
           <label htmlFor="">Hour Out: </label>
           <StyledInputForm
             placeholder="Hour Out"
             type="time"
             name="hour_out"
-            defaultValue={bookingId.hour_out}
+            defaultValue={bookingId!.hour_out}
           ></StyledInputForm>
         </StyledInputDate>
         <StyledTextAreaForm
           placeholder="Special Request"
           name="specialRequest"
-          defaultValue={bookingId.specialRequest}
+          defaultValue={bookingId!.specialRequest}
         ></StyledTextAreaForm>
 
         <StyledSelect
           nameSelect="selectRoom"
           name="room"
-          defaultValue={bookingId.room.roomNumber}
+          defaultValue={bookingId!.room.roomNumber}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -242,7 +285,7 @@ export const EditBookingPage = () => {
         <StyledSelect
           nameSelect="selectRoom"
           name="status"
-          defaultValue={bookingId.status}
+          defaultValue={bookingId!.status}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -267,5 +310,7 @@ export const EditBookingPage = () => {
         </StyledButton>
       </StyledFormContainer>
     </StyledBoxForm>
+    }
+    </>
   );
-};
+}
