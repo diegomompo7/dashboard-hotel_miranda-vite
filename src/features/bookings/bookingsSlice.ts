@@ -4,6 +4,8 @@ import { BookingSliceInitialStateInterface } from "../../interfaces/booking/Book
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RootState } from "../../app/store";
 
+const  userLogin = localStorage.getItem("token")
+
 const initialState: BookingSliceInitialStateInterface = {
   data: [],
   status: "idle", // | "fulfilled" | "rejected" | "pending"
@@ -30,15 +32,28 @@ export const BookingsSlice = createSlice({
     deleteBooking: (state, action): void => {
       const data = current(state.changeBooking);
       if (data !== undefined) {
-        const delBooking = data.filter((del) => del.id !== action.payload);
+        const delBooking = data.filter((del) => del._id !== action.payload);
         state.data = delBooking;
       }
     },
     createBooking: (state, action) => {
-      state.data = [...state.data, action.payload];
-      console.log(state.data);
+      const postBooking =async () => {
+        const response = await fetch("https://k9mgwp50x0.execute-api.eu-south-2.amazonaws.com/dev" + "/bookings", {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userLogin}`,
+          },
+          body: JSON.stringify(action.payload)
+        })
+        if(response.ok){
+          return state.data
+        }
+      }
+      postBooking()
     },
-        updateRoom: (state, action): void => {
+        /*updateRoom: (state, action): void => {
       const data = state.data;
 
       const index = data.findIndex((update) => update.id === action.payload.id);
@@ -59,7 +74,7 @@ export const BookingsSlice = createSlice({
 
         state.data = data.map((item, i) => (i === index ? updatedData : item));
       }
-    },
+    },*/
   },
 
   extraReducers: (builder) => {

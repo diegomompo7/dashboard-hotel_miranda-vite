@@ -13,6 +13,7 @@ import {
   getBookingsData,
   getBookingsError,
   createBooking,
+  getBookingsStatus,
 } from "../../features/bookings/bookingsSlice";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
@@ -28,6 +29,7 @@ import { RoomInterface } from "../../interfaces/room/RoomInterface";
 
 import logo from "../../assets/img/logo.png";
 import { AppDispatch, useAppSelector } from "../../app/store";
+import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
 
 export const NewBookingPage = () => {
   const navigate: NavigateFunction = useNavigate();
@@ -36,6 +38,7 @@ export const NewBookingPage = () => {
   const bookingsListError = useAppSelector<string | undefined>(
     getBookingsError
   );
+  const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
   const [spinner, setSpinner] = useState<boolean>(true);
 
   const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData);
@@ -56,6 +59,16 @@ export const NewBookingPage = () => {
     }
   }, [dispatch, roomBoking, roomsListStatus]);
 
+  useEffect(() => {
+    if (bookingsListStatus === "idle") {
+      dispatch(getBookingsFromApiTrunk());
+    } else if (bookingsListStatus === "pending") {
+      setSpinner(true);
+    } else if (bookingsListStatus === "fulfilled") {
+      setSpinner(false);
+    }
+  }, [dispatch, bookingsListData, bookingsListStatus]);
+
   const [formData, setFormData] = useState<BookingInterface>({
     name: "",
     orderDate: nowDate,
@@ -63,7 +76,6 @@ export const NewBookingPage = () => {
     hour_in: "",
     check_out: "",
     hour_out: "",
-    specialRequest: "",
     room: {
       id: 0,
       photos: [],
@@ -77,19 +89,20 @@ export const NewBookingPage = () => {
       amenities: [],
       status: "",
     },
+    specialRequest: "",
     status: "Check In",
   });
 
-  console.log(bookingsListData);
-
   const handleChange = (
-    e: ChangeEvent<HTMLFormElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>
   ): void => {
     const { name, value } = e.target;
 
+
     if (
       e.target instanceof HTMLInputElement ||
-      e.target instanceof HTMLSelectElement
+      e.target instanceof HTMLSelectElement ||
+      e.target instanceof HTMLTextAreaElement
     ) {
       setFormData((prevData) => {
         if (name === "room") {
@@ -113,13 +126,15 @@ export const NewBookingPage = () => {
 
   useEffect(() => {
     if (formData.check_in !== "" && formData.check_out !== "") {
-      roomBoking.forEach((room: RoomInterface) => {
-        const idBook = bookingsListData.filter(
-          (booking: BookingInterface) => booking.room.id === room.id
+      roomBoking.forEach((rooms: RoomInterface) => {
+        const idBook: BookingInterface[] = bookingsListData.filter(
+          (booking: BookingInterface) => booking.room._id === rooms.id
         );
 
+        console.log(idBook);
+
         if (idBook.length === 0) {
-          roomAvailable.push(room.roomNumber);
+          roomAvailable.push(rooms.roomNumber);
         }
 
         idBook.forEach((checkDate) => {
@@ -127,10 +142,11 @@ export const NewBookingPage = () => {
             checkDate.check_in > formData.check_out ||
             checkDate.check_out < formData.check_in
           ) {
-            roomAvailable.push(room.roomNumber);
+            roomAvailable.push(rooms.roomNumber);
           }
         });
       });
+
     }
   }, [formData.check_in, formData.check_out]);
 
@@ -138,12 +154,6 @@ export const NewBookingPage = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
     e.preventDefault();
-
-    const hasEmptyFieldsExceptSpecialRequest = Object.entries(formData).some(
-      ([key, value]) =>
-        key !== "specialRequest" &&
-        (value === null || value === undefined || value === "")
-    );
 
     if (
       new Date(formData.check_in) <= new Date(nowDate) ||
@@ -155,7 +165,7 @@ export const NewBookingPage = () => {
         closeOnClick: true,
         theme: "colored",
       });
-    } else if (hasEmptyFieldsExceptSpecialRequest || formData.room.id === 0) {
+    } else if (formData.room.id === 0) {
       toast.error(`All fileds must be completed`, {
         position: "bottom-center",
         autoClose: 5000,
@@ -170,13 +180,14 @@ export const NewBookingPage = () => {
         closeOnClick: true,
         theme: "colored",
       });
-      navigate("/booking");
+      window.location.href = 'http://localhost:5173/booking';
     }
   };
 
   return (
+    <>
+    <ToastContainer />
     <StyledBoxForm name="createForm">
-      <ToastContainer />
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
         name="createForm"
@@ -258,5 +269,6 @@ export const NewBookingPage = () => {
         </StyledButton>
       </StyledFormContainer>
     </StyledBoxForm>
+    </>
   );
 };
