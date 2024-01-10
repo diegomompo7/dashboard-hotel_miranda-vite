@@ -9,7 +9,6 @@ import {
 import { StyledSelect } from "../../components/common/StyledSelect";
 import logo from "../../assets/img/logo.png";
 
-import { createRoom } from "../../features/rooms/roomsSlice";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useState } from "react";
@@ -17,6 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch } from "../../app/store";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
+import { fetchPOSTRoom } from "../../features/rooms/roomsTrunk";
 export const NewRoomPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -74,7 +74,7 @@ export const NewRoomPage = () => {
       });
     } else {
       e.preventDefault();
-      dispatch(createRoom(formData));
+      dispatch(fetchPOSTRoom(formData));
       toast.success("Room created succesfull", {
         position: "bottom-center",
         autoClose: 5000,

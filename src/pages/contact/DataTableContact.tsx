@@ -11,6 +11,8 @@ import { DataTableContactProps } from "../../interfaces/props/PropsInterface";
 import React from "react";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
 import { Dispatch } from "@reduxjs/toolkit";
+import { fetchPATCHContact } from "../../features/contact/contactTrunk";
+import { AppDispatch } from "../../app/store";
 
 export const DataTableContact: React.FC<DataTableContactProps> = (props) => {
   const data: ContactInterface[] = props.data;
@@ -22,16 +24,19 @@ export const DataTableContact: React.FC<DataTableContactProps> = (props) => {
     props.numberPage[1]
   );
 
-  const dispatch: Dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
-  const handleUpdate = (idContact: number, isArchived: boolean): void => {
+  const handleUpdate = (id: number, isArchived: boolean): void => {
+    let formData: Object = {}
     switch (isArchived) {
       case true:
-        dispatch(updateContact({ id: idContact, is_archived: !isArchived }));
+        formData = {is_archived: !isArchived}
+        dispatch(fetchPATCHContact({ id,formData }));
         props.setCurrentView("all");
         break;
       case false:
-        dispatch(updateContact({ id: idContact, is_archived: !isArchived }));
+        formData = {is_archived: !isArchived}
+        dispatch(fetchPATCHContact({ id,formData }));
         props.setCurrentView("archived");
         break;
     }
@@ -47,7 +52,7 @@ export const DataTableContact: React.FC<DataTableContactProps> = (props) => {
         <StyledTableRow key={data.name}>
           <StyledTableCellBody>
             <StyledTableCellBodyText>{data.date}</StyledTableCellBodyText>
-            <StyledTableCellBodyText>#{data.id}</StyledTableCellBodyText>
+            <StyledTableCellBodyText>#{data._id}</StyledTableCellBodyText>
           </StyledTableCellBody>
           <StyledTableCellBody>
             <StyledTableCellBodyText>
@@ -64,7 +69,7 @@ export const DataTableContact: React.FC<DataTableContactProps> = (props) => {
           <StyledTableCellBody>
             <StyledButton
               name="archived"
-              onClick={() => handleUpdate(data.id, data.is_archived)}
+              onClick={() => handleUpdate(data._id!, data.is_archived)}
             >
               {data.is_archived ? "Publish" : "Archived"}
             </StyledButton>

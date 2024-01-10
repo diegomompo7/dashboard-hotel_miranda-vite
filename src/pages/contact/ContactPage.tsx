@@ -21,7 +21,7 @@ import {
   getContactError,
   getContactStatus,
 } from "../../features/contact/contactSlice";
-import { getContactFromApiTrunk } from "../../features/contact/contactTrunk";
+import { fetchContacts } from "../../features/contact/contactTrunk";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner";
@@ -43,7 +43,7 @@ export const ContactPage = () => {
 
   useEffect(() => {
     if (contactListStatus === "idle") {
-      dispatch(getContactFromApiTrunk());
+      dispatch(fetchContacts());
     } else if (contactListStatus === "pending") {
       setSpinner(true);
     } else if (contactListStatus === "fulfilled") {

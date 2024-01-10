@@ -43,7 +43,7 @@ export const CardContact: React.FC<CardContactProps> = (props) => {
       >
         {orderContactDate.map((contact: ContactInterface) => (
           <StyledSwiperSlide
-            key={contact.id}
+            key={contact._id}
             onClick={() => {
               setOpen(true), setFullMessage(contact.message);
             }}

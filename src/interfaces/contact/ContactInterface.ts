@@ -1,5 +1,5 @@
 export interface ContactInterface {
-  id: number;
+  _id?: number;
   userImg: string;
   name: string;
   surname: string;

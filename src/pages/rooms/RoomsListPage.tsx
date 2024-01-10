@@ -21,16 +21,16 @@ import {
   getRoomsStatus,
   getSelect,
 } from "../../features/rooms/roomsSlice";
-import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
+import { fetchRooms } from "../../features/rooms/roomsTrunk";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import {
   getBookingsData,
   getBookingsStatus,
 } from "../../features/bookings/bookingsSlice";
-import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
+import { ToastContainer } from "react-toastify";
 
 export const RoomsListPage = () => {
   const navigate: NavigateFunction = useNavigate();
@@ -40,9 +40,6 @@ export const RoomsListPage = () => {
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
   const [spinner, setSpinner] = useState(true);
 
-  const bookingRoom = useAppSelector<BookingInterface[]>(getBookingsData);
-  const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
-
   const [currentView, setCurrentView] = useState<string>("all");
 
   const [numberPage, setNumberPage] = useState<number[]>([0, 10]);
@@ -51,7 +48,7 @@ export const RoomsListPage = () => {
 
   useEffect(() => {
     if (roomsListStatus === "idle") {
-      dispatch(getRoomsFromApiTrunk());
+      dispatch(fetchRooms());
     } else if (roomsListStatus === "pending") {
       setSpinner(true);
     } else if (roomsListStatus === "fulfilled") {
@@ -100,6 +97,7 @@ export const RoomsListPage = () => {
 
   return (
     <>
+      <ToastContainer></ToastContainer>
       {roomsListData !== undefined && (
         <>
           <div style={{ display: "flex", flexWrap: "wrap" }}>

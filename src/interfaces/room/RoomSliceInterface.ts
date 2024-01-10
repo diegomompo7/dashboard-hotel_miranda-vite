@@ -11,6 +11,5 @@ export interface RoomSliceInitialStateInterface {
   data: RoomInterface[];
   status: "idle" | "pending" | "fulfilled" | "rejected";
   error: string | undefined;
-  changeRoom?: RoomInterface[];
   roomId?: RoomInterface[];
 }

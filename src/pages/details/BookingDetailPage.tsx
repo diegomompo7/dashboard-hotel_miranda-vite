@@ -28,7 +28,7 @@ import { StyledMoreIcon } from "../../components/common/StyledIcons";
 import { useDispatch } from "react-redux";
 
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
-import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
+import { fetchRooms } from "../../features/rooms/roomsTrunk";
 import React, { useEffect, useState } from "react";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
@@ -50,7 +50,7 @@ export const BookingDetailPage = () => {
 
   useEffect(() => {
     if (roomsListStatus === "idle") {
-      dispatch(getRoomsFromApiTrunk());
+      dispatch(fetchRooms());
     } else if (roomsListStatus === "pending") {
       setSpinner(true);
     } else if (roomsListStatus === "fulfilled") {

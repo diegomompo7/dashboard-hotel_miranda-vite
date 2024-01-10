@@ -10,13 +10,13 @@ import { StyledButton } from "../../components/common/StyledButton";
 import { StyledMoreIcon } from "../../components/common/StyledIcons";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteRoom } from "../../features/rooms/roomsSlice";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DataTableRoomsProps } from "../../interfaces/props/PropsInterface";
 import { AppDispatch } from "../../app/store";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
+import { fetchDELETERoom } from "../../features/rooms/roomsTrunk";
 
 export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
   const navigate: NavigateFunction = useNavigate();
@@ -42,8 +42,8 @@ export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
     setMenuId(null);
   };
 
-  const handleDelete = (id: number | null): void => {
-    dispatch(deleteRoom(id));
+  const handleDelete = (id: number): void => {
+    dispatch(fetchDELETERoom(id));
     handleClose();
     toast.error("User deleted succesfull", {
       position: "bottom-center",
@@ -56,7 +56,7 @@ export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
   return (
     <>
       {dataPage.map((data) => (
-        <StyledTableRow key={data.id}>
+        <StyledTableRow key={data._id}>
           <StyledTableCellBody
             style={{ display: "flex", alignItems: "center" }}
           >
@@ -66,7 +66,7 @@ export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
             ></StyledTableCellBodyImg>
             <div>
               <StyledTableCellBodyText typeStyle="id">
-                #{data.id}
+                #{data._id}
               </StyledTableCellBodyText>
               <StyledTableCellBodyText typeStyle="title">
                 {data.roomNumber}
@@ -109,14 +109,14 @@ export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
           <StyledTableCellBody>
             <StyledMoreIcon
               onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) =>
-                handleClick(e, data.id!)
+                handleClick(e, data._id!)
               }
             ></StyledMoreIcon>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
               <MenuItem onClick={() => navigate(`/createRoom/${menuId}`)}>
                 Edit
               </MenuItem>
-              <MenuItem onClick={() => handleDelete(menuId)}>Delete</MenuItem>
+              <MenuItem onClick={() => handleDelete(menuId!)}>Delete</MenuItem>
             </Menu>
           </StyledTableCellBody>
         </StyledTableRow>

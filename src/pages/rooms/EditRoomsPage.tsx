@@ -8,15 +8,16 @@ import {
 } from "../../components/common/StyledForm";
 import { StyledSelect } from "../../components/common/StyledSelect";
 import logo from "../../assets/img/logo.png";
-import { getRoomsData, updateRoom } from "../../features/rooms/roomsSlice";
+import { getRoomsData} from "../../features/rooms/roomsSlice";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
+import { fetchPATCHRoom, fetchRoom } from "../../features/rooms/roomsTrunk";
 
 export const EditRoomsPage = () => {
   const url: URL = new URL(window.location.href);
@@ -24,25 +25,32 @@ export const EditRoomsPage = () => {
 
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const roomsListData = useAppSelector<RoomInterface[]>(getRoomsData);
 
-  const roomId: RoomInterface = roomsListData.find(
-    (room: RoomInterface) => room.id == parseInt(id)
-  )!;
+  const [roomId, setRoomId] =  useState<RoomInterface>()!;
 
   const [formData, setFormData] = useState<RoomInterface>({
-    id: roomId.id,
-    roomType: roomId.roomType,
-    offer: roomId.offer,
-    photos: roomId.photos,
-    roomNumber: roomId.roomNumber,
-    description: roomId.description,
-    priceNight: roomId.priceNight,
-    discount: roomId.discount,
-    cancellation: roomId.cancellation,
-    amenities: roomId.amenities,
-    status: roomId.status,
+    roomType: '',
+    offer: '',
+    photos: [],
+    roomNumber:'',
+    description:'',
+    priceNight:0,
+    discount:0,
+    cancellation:'',
+    amenities:[],
+    status:'',
   });
+
+  useEffect(() => {
+    dispatch(fetchRoom(id)).then((action) => {
+      if (fetchRoom.fulfilled.match(action)) {
+      if(typeof action === "object" && typeof action.payload !== "string" &&  typeof action.payload !== undefined){
+      setRoomId(action.payload)
+      setFormData(action.payload)
+      }
+    }
+    })
+  }, [])
 
   const handleChange = (
     e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -67,12 +75,14 @@ export const EditRoomsPage = () => {
     }
   };
 
+  console.log(formData)
+
   const handleOnSubmit = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
     e.preventDefault();
     console.log(e.target);
-    dispatch(updateRoom({ id: roomId.id, formData: formData }));
+    dispatch(fetchPATCHRoom({ id, formData }));
     toast.success("Room updated succesfull", {
       position: "bottom-center",
       autoClose: 5000,
@@ -82,6 +92,8 @@ export const EditRoomsPage = () => {
   };
 
   return (
+    <>
+    {roomId &&
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
@@ -187,5 +199,7 @@ export const EditRoomsPage = () => {
         </StyledButton>
       </StyledFormContainer>
     </StyledBoxForm>
+    }
+    </>
   );
 };

@@ -19,7 +19,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useEffect, useState } from "react";
 
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
-import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
+import { fetchRooms } from "../../features/rooms/roomsTrunk";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -50,7 +50,7 @@ export const NewBookingPage = () => {
 
   useEffect(() => {
     if (roomsListStatus === "idle") {
-      dispatch(getRoomsFromApiTrunk());
+      dispatch(fetchRooms());
     } else if (roomsListStatus === "pending") {
       setSpinner(true);
     } else if (roomsListStatus === "fulfilled") {

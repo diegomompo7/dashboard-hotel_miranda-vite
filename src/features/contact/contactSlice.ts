@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getContactFromApiTrunk } from "./contactTrunk";
 import { ContactSliceInitialStateInterface } from "../../interfaces/contact/ContactSliceInterface";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
 import { RootState } from "../../app/store";
+import { fetchContacts, fetchDELETEContact, fetchPATCHContact, fetchPOSTContact } from "./contactTrunk";
 
 const initialState: ContactSliceInitialStateInterface = {
   data: [],
@@ -17,7 +17,7 @@ export const ContactSlice = createSlice({
     updateContact: (state, action): void => {
       const data = state.data;
       const index = data.findIndex(
-        (archived) => archived.id === action.payload.id
+        (archived) => archived._id === action.payload.id
       );
       if (index !== -1) {
         const updatedData = {
@@ -31,17 +31,60 @@ export const ContactSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(getContactFromApiTrunk.fulfilled, (state, action): void => {
+      .addCase(fetchContacts.fulfilled, (state, action): void => {
         state.status = "fulfilled";
         state.data = action.payload;
       })
-      .addCase(getContactFromApiTrunk.rejected, (state, action): void => {
+      .addCase(fetchContacts.rejected, (state, action): void => {
         state.status = "rejected";
         state.error = action.error.message;
       })
-      .addCase(getContactFromApiTrunk.pending, (state, action): void => {
+      .addCase(fetchContacts.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
+    builder
+      .addCase(fetchPOSTContact.fulfilled, (state, action): void => {
+        state.status = "fulfilled";
+        state.data.push(action.payload);
+      })
+      .addCase(fetchPOSTContact.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchPOSTContact.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
+      builder
+      .addCase(fetchPATCHContact.fulfilled, (state, action): void => {
+        state.status = "fulfilled";
+        const findIndex = state.data.findIndex(contact => contact._id === action.payload._id)
+        state.data.splice(findIndex, 1, action.payload);
+        console.log(action.payload);
+      })
+      .addCase(fetchPATCHContact.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchPATCHContact.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
+    builder
+      .addCase(fetchDELETEContact.fulfilled, (state, action): void => {
+        console.log(action.payload)
+        state.status = "fulfilled";
+        state.data = state.data.filter(del => del._id !== action.payload._id)
+      })
+      .addCase(fetchDELETEContact.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchDELETEContact.pending, (state, action): void => {
         state.status = "pending";
       });
+      
   },
 });
 

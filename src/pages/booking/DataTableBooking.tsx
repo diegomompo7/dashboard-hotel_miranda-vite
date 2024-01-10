@@ -22,7 +22,6 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch= useDispatch();
 
-  const  userLogin = localStorage.getItem("token")
 
   const dataPage: BookingInterface[] = [...props.data].slice(
     props.numberPage[0],

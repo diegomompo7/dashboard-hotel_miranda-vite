@@ -7,7 +7,7 @@ import {
   getContactError,
   getContactStatus,
 } from "../../features/contact/contactSlice";
-import { getContactFromApiTrunk } from "../../features/contact/contactTrunk";
+import { fetchContacts} from "../../features/contact/contactTrunk";
 import AuthContext from "../../AuthContext";
 import { Navigate } from "react-router-dom";
 import { AppDispatch, useAppSelector } from "../../app/store";
@@ -25,7 +25,7 @@ export const DashboardPage = () => {
 
   useEffect(() => {
     if (contactListStatus === "idle") {
-      dispatch(getContactFromApiTrunk());
+      dispatch(fetchContacts());
     } else if (contactListStatus === "pending") {
       setSpinner(true);
     } else if (contactListStatus === "fulfilled") {
