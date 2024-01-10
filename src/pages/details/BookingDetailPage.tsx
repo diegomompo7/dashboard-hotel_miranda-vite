@@ -29,6 +29,7 @@ import { useDispatch } from "react-redux";
 
 import {
   getBookingsData,
+  getBookingsDataId,
   getBookingsError,
   getBookingsStatus,
 } from "../../features/bookings/bookingsSlice";
@@ -39,13 +40,14 @@ import { AppDispatch, useAppSelector } from "../../app/store";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
 import { fetchGETData } from "../../hooks/fetchAPI";
+import { fetchBooking } from "../../features/bookings/bookingsTrunk";
 
 export const BookingDetailPage = () => {
   const url: URL = new URL(window.location.href);
   const id: string = url.pathname.split("/").slice(2, 3).join("");
 
   const dispatch: AppDispatch = useDispatch();
-  const bookingsListData = useAppSelector<BookingInterface[]>(getBookingsData);
+  const bookingsListDataId = useAppSelector<BookingInterface>(getBookingsDataId);
   const bookingsListError = useAppSelector<string | undefined>(
     getBookingsError
   );
@@ -70,18 +72,17 @@ export const BookingDetailPage = () => {
     }
   }, [dispatch, roomBoking, roomsListStatus]);
 
-  useEffect(() => {
-      const idBook = async () => {
-        const idBooking: BookingInterface = await fetchGETData("/bookings/" + id)
-        if(idBooking){
-          setSpinner(false);
-          setBookingListRoom(idBooking)
-        }
-      }
-        idBook();
-  }, []);
 
-  console.log(bookingListRoom);
+
+  useEffect(() => {
+    dispatch(fetchBooking(id)).then((action) => {
+      if (fetchBooking.fulfilled.match(action)) {
+      if(typeof action === "object" && typeof action.payload !== "string" &&  typeof action.payload !== undefined){
+      setBookingListRoom(action.payload)
+      }
+    }
+    })
+  }, [])
   
 
   return (

@@ -10,17 +10,18 @@ import { StyledMoreIcon } from "../../components/common/StyledIcons";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
-import { deleteBooking } from "../../features/bookings/bookingsSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Dispatch } from "@reduxjs/toolkit";
+import { Action, Dispatch } from "@reduxjs/toolkit";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { DataTableBookingProps } from "../../interfaces/props/PropsInterface";
 import { fetchDELData } from "../../hooks/fetchAPI";
+import { fetchDELETEBooking } from "../../features/bookings/bookingsTrunk";
+import { AppDispatch } from "../../app/store";
 
 export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   const navigate: NavigateFunction = useNavigate();
-  const dispatch: Dispatch = useDispatch();
+  const dispatch: AppDispatch= useDispatch();
 
   const  userLogin = localStorage.getItem("token")
 
@@ -30,7 +31,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
   )!;
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-  const [menuId, setMenuId] = useState<number | null>(null);
+  const [menuId, setMenuId] = useState<number | null >(null);
   const open: boolean = Boolean(anchorEl);
   const handleClick = (
     event: React.MouseEvent<SVGElement, MouseEvent>,
@@ -45,17 +46,21 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
     setMenuId(null);
   };
 
-  const handleDelete = async (id: number | null): Promise<void> => {
-      if(await fetchDELData("/bookings/" , id!)){
-        dispatch(deleteBooking(id));
+  const handleDelete = async (id: number): Promise<void> => {
+    dispatch(fetchDELETEBooking(id))
+    .then((action: Action<unknown>) => {
+      if (fetchDELETEBooking.fulfilled.match(action)) {
+        handleClose(); 
+        toast.success("Booking deleted succesfull", {
+          position: "bottom-center",
+          autoClose: 5000,
+          closeOnClick: true,
+          theme: "colored",
+        });
+      
       }
-    handleClose();
-    toast.error("Booking deleted succesfull", {
-      position: "bottom-center",
-      autoClose: 5000,
-      closeOnClick: true,
-      theme: "colored",
-    });
+
+    })
   };
 
   return (
@@ -126,7 +131,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
               <MenuItem onClick={() => navigate(`/editBooking/${menuId}`)}>
                 Edit
               </MenuItem>
-              <MenuItem onClick={() => handleDelete(menuId)}>Delete</MenuItem>
+              <MenuItem onClick={() => menuId !== null && handleDelete(menuId)}>Delete</MenuItem>
             </Menu>
           </StyledTableCellBody>
         </StyledTableRow>

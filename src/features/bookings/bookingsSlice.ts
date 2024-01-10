@@ -1,5 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { getBookingsFromApiTrunk } from "./bookingsTrunk";
+import { fetchPOSTBooking, fetchBookings, fetchDELETEBooking, fetchBooking,} from "./bookingsTrunk";
 import { BookingSliceInitialStateInterface } from "../../interfaces/booking/BookingSliceInterface";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RootState } from "../../app/store";
@@ -30,10 +30,6 @@ export const BookingsSlice = createSlice({
     getSelect: (state, action): void => {
       state.data = action.payload;
     },
-    deleteBooking: (state, action): void => {
-        const delBooking = state.data.filter((del) => del._id !== action.payload);
-        state.data = delBooking;
-    },
     createBooking: (state, action): void => {
       fetchPOSTData("/bookings", action.payload)
     },
@@ -63,22 +59,52 @@ export const BookingsSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(getBookingsFromApiTrunk.fulfilled, (state, action): void => {
+      .addCase(fetchBookings.fulfilled, (state, action): void => {
         state.status = "fulfilled";
         state.data = action.payload;
         state.changeBooking = state.data;
       })
-      .addCase(getBookingsFromApiTrunk.rejected, (state, action): void => {
+      .addCase(fetchBookings.rejected, (state, action): void => {
         state.status = "rejected";
         state.error = action.error.message;
       })
-      .addCase(getBookingsFromApiTrunk.pending, (state, action): void => {
+      .addCase(fetchBookings.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
+    builder
+      .addCase(fetchPOSTBooking.fulfilled, (state, action): void => {
+        state.status = "fulfilled";
+        state.data.push(action.payload);
+        state.changeBooking = state.data;
+      })
+      .addCase(fetchPOSTBooking.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchPOSTBooking.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
+    builder
+      .addCase(fetchDELETEBooking.fulfilled, (state, action): void => {
+        console.log(action.payload)
+        state.status = "fulfilled";
+        state.data = state.data.filter(del => del._id !== action.payload._id)
+        state.changeBooking = state.data;
+      })
+      .addCase(fetchDELETEBooking.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchDELETEBooking.pending, (state, action): void => {
         state.status = "pending";
       });
+      
   },
 });
 
-export const { getSelect, createBooking, deleteBooking, getClient } =
+export const { getSelect, createBooking, getClient } =
   BookingsSlice.actions;
 
 export const getBookingsDataInProgress = (
@@ -89,6 +115,8 @@ export const getBookingsDataInProgress = (
   );
 export const getBookingsData = (state: RootState): BookingInterface[] =>
   state.bookings.data;
+export const getBookingsDataId = (state: RootState): BookingInterface =>
+  state.bookings.dataId!;
 export const getChangeData = (
   state: RootState
 ): BookingInterface[] | undefined => state.bookings.changeBooking;

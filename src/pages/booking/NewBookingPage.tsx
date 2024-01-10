@@ -29,7 +29,7 @@ import { RoomInterface } from "../../interfaces/room/RoomInterface";
 
 import logo from "../../assets/img/logo.png";
 import { AppDispatch, useAppSelector } from "../../app/store";
-import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
+import { fetchBookings, fetchPOSTBooking } from "../../features/bookings/bookingsTrunk";
 
 export const NewBookingPage = () => {
   const navigate: NavigateFunction = useNavigate();
@@ -61,7 +61,7 @@ export const NewBookingPage = () => {
 
   useEffect(() => {
     if (bookingsListStatus === "idle") {
-      dispatch(getBookingsFromApiTrunk());
+      dispatch(fetchBookings());
     } else if (bookingsListStatus === "pending") {
       setSpinner(true);
     } else if (bookingsListStatus === "fulfilled") {
@@ -77,7 +77,7 @@ export const NewBookingPage = () => {
     check_out: "",
     hour_out: "",
     room: {
-      id: 0,
+      _id: 0,
       photos: [],
       roomType: "",
       roomNumber: "",
@@ -97,6 +97,8 @@ export const NewBookingPage = () => {
     e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>
   ): void => {
     const { name, value } = e.target;
+
+    console.log(value)
 
 
     if (
@@ -128,22 +130,35 @@ export const NewBookingPage = () => {
     if (formData.check_in !== "" && formData.check_out !== "") {
       roomBoking.forEach((rooms: RoomInterface) => {
         const idBook: BookingInterface[] = bookingsListData.filter(
-          (booking: BookingInterface) => booking.room._id === rooms.id
+          (booking: BookingInterface) => booking.room._id === rooms._id
         );
 
-        console.log(idBook);
+        console.log(idBook)
+
 
         if (idBook.length === 0) {
           roomAvailable.push(rooms.roomNumber);
         }
 
-        idBook.forEach((checkDate) => {
+        idBook.every((checkDate) => {
+          console.log(rooms.roomNumber)
           if (
             checkDate.check_in > formData.check_out ||
             checkDate.check_out < formData.check_in
           ) {
+            console.log("SI")
+            if(!roomAvailable.includes(rooms.roomNumber)){
             roomAvailable.push(rooms.roomNumber);
+            }
+          } else{
+            let delRoom = roomAvailable.findIndex( room => room == rooms.roomNumber)
+            roomAvailable.splice(delRoom, 1);
+            console.log("NO")
+            console.log("1", roomAvailable)
+            return false
+
           }
+          console.log("2", roomAvailable)
         });
       });
 
@@ -165,7 +180,7 @@ export const NewBookingPage = () => {
         closeOnClick: true,
         theme: "colored",
       });
-    } else if (formData.room.id === 0) {
+    } else if (formData.room._id === 0) {
       toast.error(`All fileds must be completed`, {
         position: "bottom-center",
         autoClose: 5000,
@@ -173,14 +188,14 @@ export const NewBookingPage = () => {
         theme: "colored",
       });
     } else {
-      dispatch(createBooking(formData));
+      dispatch(fetchPOSTBooking(formData));
       toast.success("Booking created succesfull", {
         position: "bottom-center",
         autoClose: 5000,
         closeOnClick: true,
         theme: "colored",
       });
-      window.location.href = 'http://localhost:5173/booking';
+      navigate("/booking")
     }
   };
 
@@ -250,7 +265,7 @@ export const NewBookingPage = () => {
 
               return (
                 room !== undefined && (
-                  <option key={room.id} value={JSON.stringify(room)}>
+                  <option key={room._id} value={JSON.stringify(room)}>
                     {roomAva}
                   </option>
                 )

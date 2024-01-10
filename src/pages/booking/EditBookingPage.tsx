@@ -30,7 +30,7 @@ import { RoomInterface } from "../../interfaces/room/RoomInterface";
 import logo from "../../assets/img/logo.png";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { fetchGETData } from "../../hooks/fetchAPI";
-import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk";
+import { fetchBookings } from "../../features/bookings/bookingsTrunk";
 
 export const EditBookingPage = () => {
 
@@ -69,7 +69,7 @@ export const EditBookingPage = () => {
 
   useEffect(() => {
     if (bookingsListStatus === "idle") {
-      dispatch(getBookingsFromApiTrunk());
+      dispatch(fetchBookings());
     } else if (bookingsListStatus === "pending") {
       setSpinner(true);
     } else if (bookingsListStatus === "fulfilled") {
@@ -82,31 +82,50 @@ export const EditBookingPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      try{
       const idBooking:BookingInterface = await fetchGETData("/bookings/" + id)
       if(idBooking){
         console.log("1", idBooking)
         return idBooking
       }
+    } catch(error){
+      console.error("Error al obtener los datos de la reserva:", error);
     }
+  }
+
     (async () => {
       setBookingId(await fetchData());
     });
-  }, [])
+    
+
+  }, [id])
 
    console.log(bookingId)
 
 
-  const [formData, setFormData] = useState<BookingInterface>({
-      name: bookingId!.name,
-      orderDate: bookingId!.orderDate,
-      check_in: bookingId!.check_in,
-      hour_in: bookingId!.hour_in,
-      check_out: bookingId!.check_out,
-      hour_out: bookingId!.hour_out,
-      specialRequest: bookingId!.specialRequest,
-      room: bookingId!.room,
-      status: bookingId!.status,
-  })
+   const [formData, setFormData] = useState<BookingInterface>({
+    name: '',
+    orderDate: '',
+    check_in: '',
+    hour_in: '',
+    check_out: '',
+    hour_out: '',
+    specialRequest: '',
+    room: {
+      photos: [],
+      roomType: "",
+      roomNumber: "",
+      description: "",
+      offer: "",
+      priceNight: 0,
+      discount: null,
+      cancellation: "",
+      amenities: [],
+      status: ""
+    }, // Puedes ajustar esto según el tipo de 'room'
+    status: '',
+  });
+  
 
   const handleChange = (
     e: ChangeEvent<HTMLFormElement | HTMLSelectElement>

@@ -12,4 +12,5 @@ export interface BookingSliceInitialStateInterface {
   status: "idle" | "pending" | "fulfilled" | "rejected";
   error: string | undefined;
   changeBooking?: BookingInterface[];
+  dataId?: BookingInterface
 }

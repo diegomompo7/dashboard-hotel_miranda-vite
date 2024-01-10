@@ -23,13 +23,14 @@ import {
   getClient,
   getSelect,
 } from "../../features/bookings/bookingsSlice.ts";
-import { getBookingsFromApiTrunk } from "../../features/bookings/bookingsTrunk.ts";
+import { fetchBookings } from "../../features/bookings/bookingsTrunk.ts";
 import { useNavigate } from "react-router";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface.ts";
 import { NavigateFunction } from "react-router-dom";
 import { AppDispatch, useAppSelector } from "../../app/store.ts";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner.ts";
 import { StyledBoxDefault } from "../../components/root/StyledBody.ts";
+import { ToastContainer } from "react-toastify";
 
 export const BookingPage = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -51,7 +52,7 @@ export const BookingPage = () => {
 
   useEffect(() => {
     if (bookingsListStatus === "idle") {
-      dispatch(getBookingsFromApiTrunk());
+      dispatch(fetchBookings());
     } else if (bookingsListStatus === "pending") {
       setSpinner(true);
     } else if (bookingsListStatus === "fulfilled") {
@@ -153,6 +154,7 @@ export const BookingPage = () => {
 
   return (
     <>
+        <ToastContainer />
       {currentBookingsListData !== undefined && (
         <>
           <ModalComponent

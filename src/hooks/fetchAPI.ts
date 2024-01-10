@@ -24,6 +24,9 @@ export const fetchPOSTData =async (api:string, body:Object) => {
     },
     body: JSON.stringify(body)
   })
+  if (response.ok) {
+    return await response.json()
+  }
 }
 
 export const fetchDELData  = async (api:string, id:number) => {
@@ -34,6 +37,6 @@ export const fetchDELData  = async (api:string, id:number) => {
     },
   })
   if(response.ok) {
-    return true
+    return await response.json()
   }
 }
