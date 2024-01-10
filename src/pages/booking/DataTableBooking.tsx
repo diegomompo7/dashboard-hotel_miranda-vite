@@ -12,10 +12,9 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Action, Dispatch } from "@reduxjs/toolkit";
+import { Action} from "@reduxjs/toolkit";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { DataTableBookingProps } from "../../interfaces/props/PropsInterface";
-import { fetchDELData } from "../../hooks/fetchAPI";
 import { fetchDELETEBooking } from "../../features/bookings/bookingsTrunk";
 import { AppDispatch } from "../../app/store";
 

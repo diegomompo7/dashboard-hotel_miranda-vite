@@ -1,14 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import bookings from "../../data/booking.json"
-import rooms from "../../data/rooms.json"
-
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
-import { RoomInterface } from "../../interfaces/room/RoomInterface";
-import { useContext } from "react";
-import AuthContext from "../../AuthContext";
-import { fetchDELData, fetchGETData, fetchPOSTData } from "../../hooks/fetchAPI";
-
-const  userLogin  = localStorage.getItem("token")
+import { fetchDELData, fetchGETData, fetchPATCHData, fetchPOSTData } from "../../hooks/fetchAPI";
 
 export const fetchBookings = createAsyncThunk<BookingInterface[], void, { state: any, rejectValue: string }>("bookings/getBookings", async (): Promise<BookingInterface[]> => {
     return new Promise(async (resolve, reject) => {
@@ -30,6 +22,17 @@ export const fetchPOSTBooking = createAsyncThunk<BookingInterface, Object, { sta
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchPOSTData("/bookings", body);
+            resolve(response)
+          } catch (error) {
+        }
+    })
+})
+
+export const fetchPATCHBooking = createAsyncThunk<BookingInterface, { id: string; formData: Object }, { state: any, rejectValue: string }>("bookings/patchBooking", async ({id, formData}): Promise<BookingInterface> => {
+    console.log(id)
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetchPATCHData("/bookings/" + id, formData);
             resolve(response)
           } catch (error) {
         }

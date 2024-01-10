@@ -28,7 +28,7 @@ import {
 import { getUsersFromApiTrunk } from "../../features/users/usersTrunk";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { AppDispatch, useAppSelector } from "../../app/store";
-import { UserInterface } from "../../interfaces/user/UserInterface";
+import { UserInterface } from "../../../user/UserInterface";
 
 export const UserPage = () => {
   const navigate: NavigateFunction = useNavigate();

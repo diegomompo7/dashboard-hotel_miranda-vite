@@ -10,7 +10,6 @@ import {
 import { StyledSelect } from "../../components/common/StyledSelect";
 
 import {
-  createBooking,
   getBookingsData,
   getBookingsError,
   getBookingsStatus,
@@ -29,8 +28,7 @@ import { RoomInterface } from "../../interfaces/room/RoomInterface";
 
 import logo from "../../assets/img/logo.png";
 import { AppDispatch, useAppSelector } from "../../app/store";
-import { fetchGETData } from "../../hooks/fetchAPI";
-import { fetchBookings } from "../../features/bookings/bookingsTrunk";
+import { fetchBooking, fetchBookings, fetchPATCHBooking } from "../../features/bookings/bookingsTrunk";
 
 export const EditBookingPage = () => {
 
@@ -49,11 +47,34 @@ export const EditBookingPage = () => {
 
   const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData);
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
-
+  const [selectedRoom, setSelectedRoom] = useState<string>(''); // Set default value here
   const [roomAvailable, setRoomAvailable] = useState<string[]>([]);
 
   const now: Date = new Date();
   const nowDate: string = now.toISOString().slice(0, 16).replace("T", " ");
+  const [bookingId, setBookingId] =  useState<BookingInterface>()
+     const [formData, setFormData] = useState<BookingInterface>({
+    name: '',
+    orderDate: '',
+    check_in: '',
+    hour_in: '',
+    check_out: '',
+    hour_out: '',
+    specialRequest: '',
+    room: {
+      photos: [],
+      roomType: "",
+      roomNumber: "",
+      description: "",
+      offer: "",
+      priceNight: 0,
+      discount: null,
+      cancellation: "",
+      amenities: [],
+      status: ""
+    }, // Puedes ajustar esto según el tipo de 'room'
+    status: '',
+  });
 
 
   
@@ -77,64 +98,32 @@ export const EditBookingPage = () => {
     }
   }, [dispatch, bookingsListData, bookingsListStatus]);
 
-  
-   const [bookingId, setBookingId] =  useState<BookingInterface>()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try{
-      const idBooking:BookingInterface = await fetchGETData("/bookings/" + id)
-      if(idBooking){
-        console.log("1", idBooking)
-        return idBooking
+
+   useEffect(() => {
+    dispatch(fetchBooking(id)).then((action) => {
+      if (fetchBooking.fulfilled.match(action)) {
+      if(typeof action === "object" && typeof action.payload !== "string" &&  typeof action.payload !== undefined){
+      setBookingId(action.payload)
+      setFormData(action.payload)
       }
-    } catch(error){
-      console.error("Error al obtener los datos de la reserva:", error);
     }
-  }
+    })
+  }, [])
 
-    (async () => {
-      setBookingId(await fetchData());
-    });
-    
-
-  }, [id])
-
-   console.log(bookingId)
-
-
-   const [formData, setFormData] = useState<BookingInterface>({
-    name: '',
-    orderDate: '',
-    check_in: '',
-    hour_in: '',
-    check_out: '',
-    hour_out: '',
-    specialRequest: '',
-    room: {
-      photos: [],
-      roomType: "",
-      roomNumber: "",
-      description: "",
-      offer: "",
-      priceNight: 0,
-      discount: null,
-      cancellation: "",
-      amenities: [],
-      status: ""
-    }, // Puedes ajustar esto según el tipo de 'room'
-    status: '',
-  });
+  console.log(formData)
   
 
   const handleChange = (
-    e: ChangeEvent<HTMLFormElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>
   ): void => {
     const { name, value } = e.target;
+    console.log(name, value)
 
     if (
       e.target instanceof HTMLInputElement ||
-      e.target instanceof HTMLSelectElement
+      e.target instanceof HTMLSelectElement ||
+      e.target instanceof HTMLTextAreaElement
     ) {
       setFormData((prevData) => {
         if (name === "room") {
@@ -158,37 +147,47 @@ export const EditBookingPage = () => {
 
   useEffect(() => {
     if (formData.check_in !== "" && formData.check_out !== "") {
-      roomBoking.forEach((room: RoomInterface) => {
-        const idBook = bookingsListData.filter(
-          (booking: BookingInterface) => booking.room._id === room.id
+      roomBoking.forEach((rooms: RoomInterface) => {
+        const idBook: BookingInterface[] = bookingsListData.filter(
+          (booking: BookingInterface) => booking.room._id === rooms._id
         );
 
+        console.log(idBook)
+
+
         if (idBook.length === 0) {
-          roomAvailable.push(room.roomNumber);
+          roomAvailable.push(rooms.roomNumber);
         }
 
-        idBook.forEach((checkDate) => {
+        idBook.every((checkDate) => {
+          console.log(rooms.roomNumber)
           if (
             checkDate.check_in > formData.check_out ||
             checkDate.check_out < formData.check_in
           ) {
-            roomAvailable.push(room.roomNumber);
+            console.log("SI")
+            if(!roomAvailable.includes(rooms.roomNumber)){
+            roomAvailable.push(rooms.roomNumber);
+            }
+          } else{
+            let delRoom = roomAvailable.findIndex( room => room == rooms.roomNumber)
+            roomAvailable.splice(delRoom, 1);
+            console.log("NO")
+            console.log("1", roomAvailable)
+            return false
+
           }
+          console.log("2", roomAvailable)
         });
       });
-    }
-  }, [formData.check_in, formData.check_out]);
 
-  const handleOnCreate = (
+    }
+  }, [formData!.check_in, formData!.check_out]);
+
+  const handleOnUpdate = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
     e.preventDefault();
-
-    const hasEmptyFieldsExceptSpecialRequest = Object.entries(formData).some(
-      ([key, value]) =>
-        key !== "specialRequest" &&
-        (value === null || value === undefined || value === "")
-    );
 
     if (
       new Date(formData.check_in) <= new Date(nowDate) ||
@@ -200,7 +199,7 @@ export const EditBookingPage = () => {
         closeOnClick: true,
         theme: "colored",
       });
-    } else if (hasEmptyFieldsExceptSpecialRequest || formData.room.id === 0) {
+    } else if (formData.room._id === 0) {
       toast.error(`All fileds must be completed`, {
         position: "bottom-center",
         autoClose: 5000,
@@ -208,7 +207,7 @@ export const EditBookingPage = () => {
         theme: "colored",
       });
     } else {
-      dispatch(createBooking(formData));
+      dispatch(fetchPATCHBooking({id, formData}));
       toast.success("Updated created succesfull", {
         position: "bottom-center",
         autoClose: 5000,
@@ -277,12 +276,11 @@ export const EditBookingPage = () => {
         <StyledSelect
           nameSelect="selectRoom"
           name="room"
-          defaultValue={bookingId!.room.roomNumber}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
         >
-          <option value="" disabled selected hidden>
+          <option value="" selected hidden>
             Choose a Room Available
           </option>
           {roomAvailable.length !== 0 &&
@@ -291,14 +289,21 @@ export const EditBookingPage = () => {
                 (room: RoomInterface) => room.roomNumber === roomAva
               );
 
-              return (
-                room !== undefined && (
-                  <option key={room.id} value={JSON.stringify(room)}>
+                if (room !== undefined) {
+                  if(roomAva === bookingId!.room.roomNumber){
+                    return (
+                    <option key={room._id} value={JSON.stringify(room)} selected>
+                    {roomAva}
+                  </option> )
+                  }else{
+                    return (
+                  <option key={room._id} value={JSON.stringify(room)}>
                     {roomAva}
                   </option>
-                )
-              );
-            })}
+                  )}
+                }
+              })
+            })
         </StyledSelect>
 
         <StyledSelect
@@ -313,8 +318,8 @@ export const EditBookingPage = () => {
             Select a Status
           </option>
           <option value="Check In"> Check In</option>
-          <option value="Check In"> Check Out</option>
-          <option value="Check In"> In Progress</option>
+          <option value="Check Out"> Check Out</option>
+          <option value="In Progress"> In Progress</option>
   
         </StyledSelect>
 
@@ -322,7 +327,7 @@ export const EditBookingPage = () => {
           name="new"
           type="submit"
           onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            handleOnCreate(e);
+            handleOnUpdate(e);
           }}
         >
           UPDATE ROOM

@@ -1,7 +1,7 @@
 import { BookingInterface } from "../booking/BookingInterface";
 import { ContactInterface } from "../contact/ContactInterface";
 import { RoomInterface } from "../room/RoomInterface";
-import { UserInterface } from "../user/UserInterface";
+import { UserInterface } from "../../../user/UserInterface";
 
 export interface CardContactProps {
   contact: ContactInterface[];

@@ -1,7 +1,7 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { getUsersFromApiTrunk } from "./usersTrunk";
-import { UserSliceInitialStateInterface } from "../../interfaces/user/UserSliceInterface";
-import { UserInterface } from "../../interfaces/user/UserInterface";
+import { UserSliceInitialStateInterface } from "../../../user/UserSliceInterface";
+import { UserInterface } from "../../../user/UserInterface";
 import { RootState } from "../../app/store";
 
 const initialState: UserSliceInitialStateInterface = {

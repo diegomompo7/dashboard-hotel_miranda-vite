@@ -12,7 +12,6 @@ import { StyledSelect } from "../../components/common/StyledSelect";
 import {
   getBookingsData,
   getBookingsError,
-  createBooking,
   getBookingsStatus,
 } from "../../features/bookings/bookingsSlice";
 import { useDispatch } from "react-redux";

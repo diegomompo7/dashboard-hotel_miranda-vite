@@ -5,7 +5,7 @@ import { RoomsSlice } from "../features/rooms/roomsSlice";
 import { BookingsSlice } from "../features/bookings/bookingsSlice";
 import { BookingSliceInitialStateInterface } from "../interfaces/booking/BookingSliceInterface";
 import { ContactSliceInitialStateInterface } from "../interfaces/contact/ContactSliceInterface";
-import { UserSliceInitialStateInterface } from "../interfaces/user/UserSliceInterface";
+import { UserSliceInitialStateInterface } from "../../user/UserSliceInterface";
 import { RoomSliceInitialStateInterface } from "../interfaces/room/RoomSliceInterface";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 

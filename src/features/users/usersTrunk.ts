@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import users from "../../data/users.json";
-import { UserInterface } from "../../interfaces/user/UserInterface";
+import { UserInterface } from "../../../user/UserInterface";
 
 export const getUsersFromApiTrunk = createAsyncThunk<
   UserInterface[],

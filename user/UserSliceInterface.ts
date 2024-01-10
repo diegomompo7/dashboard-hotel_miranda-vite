@@ -1,4 +1,4 @@
-import { BookingInterface } from "./BookingInterface";
+import { UserInterface } from "./UserInterface";
 
 export const statusOptions = <const>[
   "fulfilled",
@@ -7,9 +7,9 @@ export const statusOptions = <const>[
   "pending",
 ];
 
-export interface BookingSliceInitialStateInterface {
-  data: BookingInterface[];
+export interface UserSliceInitialStateInterface {
+  data: UserInterface[];
   status: "idle" | "pending" | "fulfilled" | "rejected";
   error: string | undefined;
-  changeBooking?: BookingInterface[];
+  changeUser?: UserInterface[];
 }

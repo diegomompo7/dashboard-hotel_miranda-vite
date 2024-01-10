@@ -27,19 +27,12 @@ import { StyledMoreIcon } from "../../components/common/StyledIcons";
 
 import { useDispatch } from "react-redux";
 
-import {
-  getBookingsData,
-  getBookingsDataId,
-  getBookingsError,
-  getBookingsStatus,
-} from "../../features/bookings/bookingsSlice";
 import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { getRoomsFromApiTrunk } from "../../features/rooms/roomsTrunk";
 import React, { useEffect, useState } from "react";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
-import { fetchGETData } from "../../hooks/fetchAPI";
 import { fetchBooking } from "../../features/bookings/bookingsTrunk";
 
 export const BookingDetailPage = () => {
@@ -47,18 +40,11 @@ export const BookingDetailPage = () => {
   const id: string = url.pathname.split("/").slice(2, 3).join("");
 
   const dispatch: AppDispatch = useDispatch();
-  const bookingsListDataId = useAppSelector<BookingInterface>(getBookingsDataId);
-  const bookingsListError = useAppSelector<string | undefined>(
-    getBookingsError
-  );
-  const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
   const [spinner, setSpinner] = useState<boolean>(true);
 
   const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData);
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
 
-  const now: Date = new Date();
-  const nowDate: string = now.toISOString().split("T")[0];
 
   const [bookingListRoom, setBookingListRoom] = useState<BookingInterface>()
 

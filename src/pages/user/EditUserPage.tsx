@@ -21,7 +21,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch, useAppSelector } from "../../app/store";
-import { UserInterface } from "../../interfaces/user/UserInterface";
+import { UserInterface } from "../../../user/UserInterface";
 
 export const EditUserPage = () => {
   const url: URL = new URL(window.location.href);

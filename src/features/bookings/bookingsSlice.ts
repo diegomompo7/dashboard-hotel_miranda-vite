@@ -1,11 +1,10 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { fetchPOSTBooking, fetchBookings, fetchDELETEBooking, fetchBooking,} from "./bookingsTrunk";
+import { fetchPOSTBooking, fetchBookings, fetchDELETEBooking, fetchPATCHBooking,} from "./bookingsTrunk";
 import { BookingSliceInitialStateInterface } from "../../interfaces/booking/BookingSliceInterface";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RootState } from "../../app/store";
 import { fetchPOSTData } from "../../hooks/fetchAPI";
 
-const  userLogin = localStorage.getItem("token")
 
 const initialState: BookingSliceInitialStateInterface = {
   data: [],
@@ -30,31 +29,6 @@ export const BookingsSlice = createSlice({
     getSelect: (state, action): void => {
       state.data = action.payload;
     },
-    createBooking: (state, action): void => {
-      fetchPOSTData("/bookings", action.payload)
-    },
-        /*updateRoom: (state, action): void => {
-      const data = state.data;
-
-      const index = data.findIndex((update) => update.id === action.payload.id);
-
-      if (index !== -1) {
-        const updatedData = {
-          ...data[index],
-          photos: action.payload.formData.photos,
-          roomType: action.payload.formData.roomType,
-          roomNumber: action.payload.formData.roomNumber,
-          description: action.payload.formData.description,
-          offer: action.payload.formData.offer,
-          priceNight: action.payload.formData.priceNight,
-          discount: action.payload.formData.discount,
-          cancellation: action.payload.formData.cancellation,
-          amenities: action.payload.formData.amenities,
-        };
-
-        state.data = data.map((item, i) => (i === index ? updatedData : item));
-      }
-    },*/
   },
 
   extraReducers: (builder) => {
@@ -86,6 +60,22 @@ export const BookingsSlice = createSlice({
         state.status = "pending";
       })
 
+      builder
+      .addCase(fetchPATCHBooking.fulfilled, (state, action): void => {
+        state.status = "fulfilled";
+        const findIndex = state.data.findIndex(booking => booking.room._id === action.payload.room._id)
+        state.data.splice(findIndex, 1, action.payload);
+        console.log(action.payload);
+        state.changeBooking = state.data;
+      })
+      .addCase(fetchPATCHBooking.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchPATCHBooking.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
     builder
       .addCase(fetchDELETEBooking.fulfilled, (state, action): void => {
         console.log(action.payload)
@@ -104,7 +94,7 @@ export const BookingsSlice = createSlice({
   },
 });
 
-export const { getSelect, createBooking, getClient } =
+export const { getSelect, getClient } =
   BookingsSlice.actions;
 
 export const getBookingsDataInProgress = (
@@ -115,8 +105,6 @@ export const getBookingsDataInProgress = (
   );
 export const getBookingsData = (state: RootState): BookingInterface[] =>
   state.bookings.data;
-export const getBookingsDataId = (state: RootState): BookingInterface =>
-  state.bookings.dataId!;
 export const getChangeData = (
   state: RootState
 ): BookingInterface[] | undefined => state.bookings.changeBooking;
