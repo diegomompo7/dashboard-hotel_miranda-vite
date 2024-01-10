@@ -11,17 +11,18 @@ import {
   StyledMoreIcon,
   StyledPhone,
 } from "../../components/common/StyledIcons";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteUser } from "../../features/users/usersSlice";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DataTableUserProps } from "../../interfaces/props/PropsInterface";
+import { fetchDELETEUser } from "../../features/users/usersTrunk";
+import { AppDispatch } from "../../app/store";
 
 export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const navigate: NavigateFunction = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
   const dataPage = [...props.data].slice(
     props.numberPage[0],
     props.numberPage[1]
@@ -43,8 +44,8 @@ export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
     setMenuId(null);
   };
 
-  const handleDelete = (id: number | null): void => {
-    dispatch(deleteUser(id));
+  const handleDelete = (id: number): void => {
+    dispatch(fetchDELETEUser(id));
     handleClose();
     toast.error("Booking deleted succesfull", {
       position: "bottom-center",
@@ -57,7 +58,7 @@ export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
   return (
     <>
       {dataPage.map((data) => (
-        <StyledTableRow key={data.id}>
+        <StyledTableRow key={data._id}>
           <StyledTableCellBody>
             <StyledTableCellBodyImg
               src={data.photo}
@@ -69,7 +70,7 @@ export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
               {data.fullName}
             </StyledTableCellBodyText>
           </StyledTableCellBody>
-          <StyledTableCellBody>{data.id}</StyledTableCellBody>
+          <StyledTableCellBody>{data._id}</StyledTableCellBody>
           <StyledTableCellBody>{data.email}</StyledTableCellBody>
           <StyledTableCellBody>{data.startDate}</StyledTableCellBody>
           <StyledTableCellBody typeStyle="description">
@@ -89,14 +90,14 @@ export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
           <StyledTableCellBody name="menu">
             <StyledMoreIcon
               onClick={(e: React.MouseEvent<SVGElement, MouseEvent>) =>
-                handleClick(e, data.id!)
+                handleClick(e, data._id!)
               }
             ></StyledMoreIcon>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
               <MenuItem onClick={() => navigate(`/createUser/${menuId}`)}>
                 Edit
               </MenuItem>
-              <MenuItem onClick={() => handleDelete(menuId)}>Delete</MenuItem>
+              <MenuItem onClick={() => handleDelete(menuId!)}>Delete</MenuItem>
             </Menu>
           </StyledTableCellBody>
         </StyledTableRow>

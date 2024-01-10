@@ -74,6 +74,8 @@ export const BookingPage = () => {
     dispatch(getClient(e.target.value));
   };
 
+  console.log(bookingsListData.map(book => book.room))
+
   const handleOnSelect = (e: ChangeEvent<HTMLSelectElement>): void => {
     let orderSelect: BookingInterface[] = [];
     setCurrentView("select");

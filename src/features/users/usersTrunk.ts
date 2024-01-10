@@ -1,16 +1,51 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import users from "../../data/users.json";
-import { UserInterface } from "../../../user/UserInterface";
+import { UserInterface } from "../../interfaces/user/UserInterface";
+import { fetchDELData, fetchGETData, fetchPATCHData, fetchPOSTData } from "../../hooks/fetchAPI";
 
-export const getUsersFromApiTrunk = createAsyncThunk<
-  UserInterface[],
-  void,
-  { state: any; rejectedValue: string }
->("users/getUsersFromApi", async (): Promise<UserInterface[]> => {
-  return new Promise(async (resolve, reject) => {
-    const response = await fetch("https://k9mgwp50x0.execute-api.eu-south-2.amazonaws.com/dev" + "/users", {
-        method: "GET",
+export const fetchUsers = createAsyncThunk<UserInterface[], void, { state: any, rejectValue: string }>("users/getUsers", async (): Promise<UserInterface[]> => {
+    return new Promise(async (resolve, reject) => {
+           resolve(fetchGETData("/users"))
     })
-    console.log(response.json())
 })
-});
+export const fetchUser = createAsyncThunk<UserInterface, string, { state: any, rejectValue: string }>("users/getUser", async (id: string): Promise<UserInterface> => {
+    return new Promise(async (resolve, reject) => {
+        try{
+            const response = (await fetchGETData(("/users/" + id)))
+            resolve(response)
+        }catch(e){
+
+        }
+    })
+})
+export const fetchPOSTUser = createAsyncThunk<UserInterface, Object, { state: any, rejectValue: string }>("users/postUser", async (body: Object): Promise<UserInterface> => {
+    console.log(body)
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetchPOSTData("/users", body);
+            resolve(response)
+          } catch (error) {
+        }
+    })
+})
+
+export const fetchPATCHUser = createAsyncThunk<UserInterface, { id: string; formData: Object }, { state: any, rejectValue: string }>("users/patchUser", async ({id, formData}): Promise<UserInterface> => {
+    console.log(id)
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetchPATCHData("/users/" + id, formData);
+            resolve(response)
+          } catch (error) {
+        }
+    })
+})
+
+export const fetchDELETEUser = createAsyncThunk<UserInterface, number, { state: any, rejectValue: string }>("users/deleteUser", async (id: number): Promise<UserInterface> => {
+    console.log(id)
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetchDELData("/users/", id);
+            resolve(response)
+          } catch (error) {
+        }
+    })
+})

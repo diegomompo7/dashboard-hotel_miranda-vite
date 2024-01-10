@@ -8,13 +8,7 @@ import {
 } from "../../components/common/StyledForm";
 import { StyledSelect } from "../../components/common/StyledSelect";
 import logo from "../../assets/img/logo.png";
-import React, { useState, ChangeEvent } from "react";
-import {
-  getUsersData,
-  getUsersError,
-  getUsersStatus,
-  updateUser,
-} from "../../features/users/usersSlice";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
@@ -22,6 +16,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { UserInterface } from "../../../user/UserInterface";
+import { fetchPATCHUser, fetchUser } from "../../features/users/usersTrunk";
 
 export const EditUserPage = () => {
   const url: URL = new URL(window.location.href);
@@ -29,23 +24,31 @@ export const EditUserPage = () => {
 
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const usersListData = useAppSelector<UserInterface[]>(getUsersData);
-
-  const userId: UserInterface = usersListData.find(
-    (user) => user.id == parseInt(id)
-  )!;
+  const [userId, setUserId] =  useState<UserInterface>()!;
 
   const [formData, setFormData] = useState<UserInterface>({
-    photo: userId.photo,
-    fullName: userId.fullName,
-    job: userId.job,
-    email: userId.email,
-    phone: userId.phone,
-    startDate: userId.startDate,
-    descriptionJob: userId.descriptionJob,
-    status: userId.status,
-    password: userId.password,
+    photo: "",
+    fullName: "",
+    job: "",
+    email: "",
+    phone: "",
+    startDate: "",
+    descriptionJob: "",
+    status: "",
+    password: "",
   });
+
+  useEffect(() => {
+    dispatch(fetchUser(id)).then((action) => {
+      if (fetchUser.fulfilled.match(action)) {
+      if(typeof action === "object" && typeof action.payload !== "string" &&  typeof action.payload !== undefined){
+      setUserId(action.payload)
+      setFormData(action.payload)
+      }
+    }
+    })
+  }, [])
+
 
   const handleChange = (
     e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -57,12 +60,14 @@ export const EditUserPage = () => {
     }));
   };
 
+  console.log(formData)
+
   const handleOnSubmit = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
     e.preventDefault();
 
-    dispatch(updateUser({ id: userId.id, formData: formData }));
+    dispatch(fetchPATCHUser({ id, formData }));
     toast.success("User updated succesfull", {
       position: "bottom-center",
       autoClose: 5000,

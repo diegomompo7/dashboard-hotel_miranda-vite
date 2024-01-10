@@ -1,5 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { getUsersFromApiTrunk } from "./usersTrunk";
+import { fetchDELETEUser, fetchPATCHUser, fetchPOSTUser, fetchUsers} from "./usersTrunk";
 import { UserSliceInitialStateInterface } from "../../../user/UserSliceInterface";
 import { UserInterface } from "../../../user/UserInterface";
 import { RootState } from "../../app/store";
@@ -27,55 +27,68 @@ export const UsersSlice = createSlice({
     getSelect: (state, action): void => {
       state.data = action.payload;
     },
-
-    deleteUser: (state, action): void => {
-      const data = current(state.data);
-      const delUser = data.filter((del) => del.id !== action.payload);
-      state.data = delUser;
-    },
-    updateUser: (state, action): void => {
-      const data = state.data;
-      const index = data.findIndex((update) => update.id === action.payload.id);
-      if (index !== -1) {
-        const updatedData = {
-          ...data[index],
-          photo: action.payload.formData.photo,
-          fullName: action.payload.formData.fullName,
-          job: action.payload.formData.job,
-          email: action.payload.formData.email,
-          phone: action.payload.formData.phone,
-          startDate: action.payload.formData.startDate,
-          descriptionJob: action.payload.formData.descriptionJob,
-          status: action.payload.formData.status,
-          password: action.payload.formData.password,
-        };
-
-        state.data = data.map((item, i) => (i === index ? updatedData : item));
-      }
-    },
-    createUser: (state, action): void => {
-      state.data = [action.payload, ...state.data];
-    },
   },
 
   extraReducers: (builder) => {
     builder
-      .addCase(getUsersFromApiTrunk.fulfilled, (state, action): void => {
+      .addCase(fetchUsers.fulfilled, (state, action): void => {
         state.status = "fulfilled";
         state.data = action.payload;
-        state.changeUser = state.data;
       })
-      .addCase(getUsersFromApiTrunk.rejected, (state, action): void => {
+      .addCase(fetchUsers.rejected, (state, action): void => {
         state.status = "rejected";
         state.error = action.error.message;
       })
-      .addCase(getUsersFromApiTrunk.pending, (state, action): void => {
+      .addCase(fetchUsers.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
+    builder
+      .addCase(fetchPOSTUser.fulfilled, (state, action): void => {
+        state.status = "fulfilled";
+        state.data.push(action.payload);
+      })
+      .addCase(fetchPOSTUser.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchPOSTUser.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
+      builder
+      .addCase(fetchPATCHUser.fulfilled, (state, action): void => {
+        state.status = "fulfilled";
+        const findIndex = state.data.findIndex(user => user._id === action.payload._id)
+        state.data.splice(findIndex, 1, action.payload);
+        console.log(action.payload);
+      })
+      .addCase(fetchPATCHUser.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchPATCHUser.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
+    builder
+      .addCase(fetchDELETEUser.fulfilled, (state, action): void => {
+        console.log(action.payload)
+        state.status = "fulfilled";
+        state.data = state.data.filter(del => del._id !== action.payload._id)
+      })
+      .addCase(fetchDELETEUser.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchDELETEUser.pending, (state, action): void => {
         state.status = "pending";
       });
+      
   },
 });
 
-export const { getEmployee, getSelect, updateUser, createUser, deleteUser } =
+export const { getEmployee, getSelect } =
   UsersSlice.actions;
 export const getUsersDataActive = (state: RootState): UserInterface[] =>
   state.users.data.filter((active) => active.status === "ACTIVE");

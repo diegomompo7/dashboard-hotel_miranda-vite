@@ -25,10 +25,11 @@ import {
   getUsersDataActive,
   getUsersDataInactive,
 } from "../../features/users/usersSlice";
-import { getUsersFromApiTrunk } from "../../features/users/usersTrunk";
+import { fetchUsers } from "../../features/users/usersTrunk";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { UserInterface } from "../../../user/UserInterface";
+import { ToastContainer } from "react-toastify";
 
 export const UserPage = () => {
   const navigate: NavigateFunction = useNavigate();
@@ -49,7 +50,7 @@ export const UserPage = () => {
 
   useEffect(() => {
     if (usersListStatus === "idle") {
-      dispatch(getUsersFromApiTrunk());
+      dispatch(fetchUsers());
     } else if (usersListStatus === "pending") {
       setSpinner(true);
     } else if (usersListStatus === "fulfilled") {
@@ -113,6 +114,7 @@ export const UserPage = () => {
 
   return (
     <>
+    <ToastContainer></ToastContainer>
       {currentUsersListData !== undefined && (
         <>
           <div style={{ display: "flex", flexWrap: "wrap" }}>

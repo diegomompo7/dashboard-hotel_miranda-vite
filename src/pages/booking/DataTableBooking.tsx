@@ -109,7 +109,7 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
           </StyledTableCellBody>
           <StyledTableCellBody>
             <StyledTableCellBodyText typeStyle="title">
-              {data.room.roomNumber}
+              {data.room.roomNumber!}
             </StyledTableCellBodyText>
           </StyledTableCellBody>
           <StyledTableCellBody>

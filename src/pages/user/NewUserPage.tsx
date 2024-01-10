@@ -8,7 +8,6 @@ import {
 } from "../../components/common/StyledForm";
 import { StyledSelect } from "../../components/common/StyledSelect";
 import logo from "../../assets/img/logo.png";
-import { createUser } from "../../features/users/usersSlice";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
@@ -16,12 +15,14 @@ import React, { ChangeEvent, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch } from "../../app/store";
+import { UserInterface } from "../../../user/UserInterface";
+import { fetchPOSTUser } from "../../features/users/usersTrunk";
 
 export const NewUserPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<UserInterface>({
     photo: "",
     fullName: "",
     job: "",
@@ -64,7 +65,7 @@ export const NewUserPage = () => {
       });
     } else {
       e.preventDefault();
-      dispatch(createUser(formData));
+      dispatch(fetchPOSTUser(formData));
       toast.success("User created succesfull", {
         position: "bottom-center",
         autoClose: 5000,

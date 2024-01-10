@@ -14,19 +14,6 @@ export const ContactSlice = createSlice({
   name: "contact",
   initialState,
   reducers: {
-    updateContact: (state, action): void => {
-      const data = state.data;
-      const index = data.findIndex(
-        (archived) => archived._id === action.payload.id
-      );
-      if (index !== -1) {
-        const updatedData = {
-          ...data[index],
-          is_archived: action.payload.is_archived,
-        };
-        state.data = data.map((item, i) => (i === index ? updatedData : item));
-      }
-    },
   },
 
   extraReducers: (builder) => {
@@ -88,7 +75,6 @@ export const ContactSlice = createSlice({
   },
 });
 
-export const { updateContact } = ContactSlice.actions;
 export const getContactData = (state: RootState): ContactInterface[] =>
   state.contact.data;
 export const getContactDataArchive = (state: RootState): ContactInterface[] =>

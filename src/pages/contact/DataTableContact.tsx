@@ -6,7 +6,6 @@ import {
 import { StyledButton } from "../../components/common/StyledButton";
 import { StyledMoreIcon } from "../../components/common/StyledIcons";
 import { useDispatch } from "react-redux";
-import { updateContact } from "../../features/contact/contactSlice";
 import { DataTableContactProps } from "../../interfaces/props/PropsInterface";
 import React from "react";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
