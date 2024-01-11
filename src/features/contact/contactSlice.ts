@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ContactSliceInitialStateInterface } from "../../interfaces/contact/ContactSliceInterface";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
 import { RootState } from "../../app/store";
-import { fetchContacts, fetchDELETEContact, fetchPATCHContact, fetchPOSTContact } from "./contactTrunk";
+import { fetchContact, fetchContacts, fetchDELETEContact, fetchPATCHContact, fetchPOSTContact } from "./contactTrunk";
 
 const initialState: ContactSliceInitialStateInterface = {
   data: [],
@@ -30,6 +30,19 @@ export const ContactSlice = createSlice({
         state.status = "pending";
       })
 
+      builder
+      .addCase(fetchContact.fulfilled, (state, action): void => {
+        state.status = "fulfilled";
+        state.contactId = action.payload
+      })
+      .addCase(fetchContact.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchContact.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
     builder
       .addCase(fetchPOSTContact.fulfilled, (state, action): void => {
         state.status = "fulfilled";
@@ -46,8 +59,7 @@ export const ContactSlice = createSlice({
       builder
       .addCase(fetchPATCHContact.fulfilled, (state, action): void => {
         state.status = "fulfilled";
-        const findIndex = state.data.findIndex(contact => contact._id === action.payload._id)
-        state.data.splice(findIndex, 1, action.payload);
+        state.data.splice(state.data[0]._id!, 1, action.payload);
         
       })
       .addCase(fetchPATCHContact.rejected, (state, action): void => {
@@ -77,6 +89,8 @@ export const ContactSlice = createSlice({
 
 export const getContactData = (state: RootState): ContactInterface[] =>
   state.contact.data;
+  export const getContactId = (state: RootState): ContactInterface =>
+  state.contact.contactId!;
 export const getContactDataArchive = (state: RootState): ContactInterface[] =>
   state.contact.data.filter((contact) => contact.is_archived === true);
 export const getContactStatus = (state: RootState) => state.contact.status;

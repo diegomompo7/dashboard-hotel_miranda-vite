@@ -31,6 +31,7 @@ import { AppDispatch, useAppSelector } from "../../app/store";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { ToastContainer } from "react-toastify";
+import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
 export const RoomsListPage = () => {
   const navigate: NavigateFunction = useNavigate();
@@ -44,6 +45,7 @@ export const RoomsListPage = () => {
 
   const [numberPage, setNumberPage] = useState<number[]>([0, 10]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [error, setError] = useState<string | null>(null);
 
 
   useEffect(() => {
@@ -51,7 +53,12 @@ export const RoomsListPage = () => {
       dispatch(fetchRooms());
     } else if (roomsListStatus === "pending") {
       setSpinner(true);
-    } else if (roomsListStatus === "fulfilled") {
+    }
+    else if (roomsListStatus === "rejected") {
+      setSpinner(true);
+      setError(roomsListError!)
+    }  
+    else if (roomsListStatus === "fulfilled") {
       setSpinner(false);
     }
   }, [dispatch, roomsListData, roomsListStatus]);
@@ -70,12 +77,12 @@ export const RoomsListPage = () => {
 
     switch (e.target.value) {
       case "priceLess":
-        orderSelect = [...currentUsersListData].sort(
+        orderSelect = [...currentRoomsListData].sort(
           (a, b) => a.priceNight - b.priceNight
         );
         break;
       case "priceHigher":
-        orderSelect = [...currentUsersListData].sort(
+        orderSelect = [...currentRoomsListData].sort(
           (a, b) => b.priceNight - a.priceNight
         );
         break;
@@ -86,7 +93,7 @@ export const RoomsListPage = () => {
     setCurrentPage(1);
   };
 
-  const currentUsersListData: RoomInterface[] =
+  const currentRoomsListData: RoomInterface[] =
     currentView === "available"
       ? roomsListData.filter((available) => available.status === "Available")
       : currentView === "booked"
@@ -147,11 +154,14 @@ export const RoomsListPage = () => {
               <StyledTableCellRow></StyledTableCellRow>
             </thead>
             <TableBody>
-              {spinner ? (
+
+              { error !== null ? <StyledSpinner>{error}</StyledSpinner> :
+              
+              spinner ? (
                 <p>Loading...</p>
               ) : (
                 <DataTableRooms
-                  data={currentUsersListData}
+                  data={currentRoomsListData}
                   numberPage={numberPage}
                 ></DataTableRooms>
               )}
@@ -161,19 +171,19 @@ export const RoomsListPage = () => {
             <StyledPaginationText>
               {" "}
               Showing{" "}
-              {currentUsersListData.length !== 0
+              {currentRoomsListData.length !== 0
                 ? numberPage[0] + 1
                 : numberPage[0]}{" "}
               of{" "}
-              {currentUsersListData.length >= numberPage[1]
+              {currentRoomsListData.length >= numberPage[1]
                 ? numberPage[1]
-                : currentUsersListData.length}{" "}
+                : currentRoomsListData.length}{" "}
               data
             </StyledPaginationText>
             <StyledButtonPage>
               <StyledButton
                 name="Prev"
-                disabled={numberPage[0] === 1}
+                disabled={numberPage[0] <= 1}
                 onClick={() => {
                   numberPage[0] -= 10;
                   numberPage[1] -= 10;
@@ -183,7 +193,7 @@ export const RoomsListPage = () => {
                 Prev
               </StyledButton>
               {Array.from(
-                { length: Math.ceil(currentUsersListData.length / 10) },
+                { length: Math.ceil(currentRoomsListData.length / 10) },
                 (_, i) => (
                   <StyledTextPage
                     key={i + 1}
@@ -195,7 +205,7 @@ export const RoomsListPage = () => {
               )}
               <StyledButton
                 name="Next"
-                disabled={numberPage[1] >= currentUsersListData.length}
+                disabled={numberPage[1] >= currentRoomsListData.length}
                 onClick={() => {
                   numberPage[0] += 10;
                   numberPage[1] += 10;

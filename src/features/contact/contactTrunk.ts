@@ -4,16 +4,33 @@ import { fetchDELData, fetchGETData, fetchPATCHData, fetchPOSTData } from "../..
 
 export const fetchContacts = createAsyncThunk<ContactInterface[], void, { state: any, rejectValue: string }>("contacts/getContacts", async (): Promise<ContactInterface[]> => {
     return new Promise(async (resolve, reject) => {
-           resolve(fetchGETData("/contact"))
+        try{
+            const response = await fetchGETData("/contact")
+            if(response.ok){
+                resolve(response.json())
+                }else{
+                    const errorResponse = await response.json()
+                    const error = "Error " + response.status + ": " + errorResponse.message
+                    reject(error);
+                }
+        }catch(e){
+            reject("Error 500: Internal server error")
+        }
     })
 })
 export const fetchContact = createAsyncThunk<ContactInterface, string, { state: any, rejectValue: string }>("contacts/getContact", async (id: string): Promise<ContactInterface> => {
     return new Promise(async (resolve, reject) => {
         try{
             const response = (await fetchGETData(("/contact/" + id)))
-            resolve(response)
+            if(response.ok){
+            resolve(response.json())
+            }else{
+                const errorResponse = await response.json()
+                const error = "Error " + response.status + ": " + errorResponse.message
+                reject(error);
+            }
         }catch(e){
-
+            reject("Error 500: Internal server error")
         }
     })
 })
@@ -24,6 +41,7 @@ export const fetchPOSTContact = createAsyncThunk<ContactInterface, Object, { sta
             const response = await fetchPOSTData("/contact", body);
             resolve(response)
           } catch (error) {
+            reject("Error 500: Internal server error")
         }
     })
 })
@@ -35,6 +53,7 @@ export const fetchPATCHContact = createAsyncThunk<ContactInterface, { id: number
             const response = await fetchPATCHData("/contact/" + id, formData);
             resolve(response)
           } catch (error) {
+            reject("Error 500: Internal server error")
         }
     })
 })
@@ -46,6 +65,7 @@ export const fetchDELETEContact = createAsyncThunk<ContactInterface, number, { s
             const response = await fetchDELData("/contact/", id);
             resolve(response)
           } catch (error) {
+            reject("Error 500: Internal server error")
         }
     })
 })

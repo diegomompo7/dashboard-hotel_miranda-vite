@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DataTableUserProps } from "../../interfaces/props/PropsInterface";
-import { fetchDELETEUser } from "../../features/users/usersTrunk";
+import { fetchDELETEUser, fetchUser } from "../../features/users/usersTrunk";
 import { AppDispatch } from "../../app/store";
 
 export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
@@ -94,7 +94,7 @@ export const DataTableUsers: React.FC<DataTableUserProps> = (props) => {
               }
             ></StyledMoreIcon>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-              <MenuItem onClick={() => navigate(`/createUser/${menuId}`)}>
+              <MenuItem onClick={() =>  { dispatch(fetchUser(`${menuId}`)) , navigate(`/createUser/${menuId}`)}}>
                 Edit
               </MenuItem>
               <MenuItem onClick={() => handleDelete(menuId!)}>Delete</MenuItem>

@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { DataTableRoomsProps } from "../../interfaces/props/PropsInterface";
 import { AppDispatch } from "../../app/store";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
-import { fetchDELETERoom } from "../../features/rooms/roomsTrunk";
+import { fetchDELETERoom, fetchRoom } from "../../features/rooms/roomsTrunk";
 
 export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
   const navigate: NavigateFunction = useNavigate();
@@ -113,7 +113,7 @@ export const DataTableRooms: React.FC<DataTableRoomsProps> = (props) => {
               }
             ></StyledMoreIcon>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-              <MenuItem onClick={() => navigate(`/createRoom/${menuId}`)}>
+              <MenuItem onClick={() =>  { dispatch(fetchRoom(`${menuId}`)) , navigate(`/createRoom/${menuId}`)}}>
                 Edit
               </MenuItem>
               <MenuItem onClick={() => handleDelete(menuId!)}>Delete</MenuItem>

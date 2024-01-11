@@ -36,6 +36,7 @@ export const ContactPage = () => {
   );
 
   const [spinner, setSpinner] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [numberPage, setNumberPage] = useState<number[]>([0, 10]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -46,7 +47,10 @@ export const ContactPage = () => {
       dispatch(fetchContacts());
     } else if (contactListStatus === "pending") {
       setSpinner(true);
-    } else if (contactListStatus === "fulfilled") {
+    } else if (contactListStatus === "rejected") {
+      setSpinner(true);
+      setError(contactListError!)
+    }else if (contactListStatus === "fulfilled") {
       setSpinner(false);
     }
   }, [dispatch, contactListData, contactListStatus]);
@@ -72,7 +76,7 @@ export const ContactPage = () => {
     <>
       {currentContactListData !== undefined && (
         <>
-          {spinner ? (
+          {error !== null ? <StyledSpinner>{error}</StyledSpinner> : spinner ? (
             <StyledSpinner>Loading...</StyledSpinner>
           ) : (
             <CardContact contact={contactListData}></CardContact>
@@ -99,7 +103,7 @@ export const ContactPage = () => {
               <StyledTableCellRow>Comment</StyledTableCellRow>
             </thead>
             <TableBody>
-              {spinner ? (
+              {error !== null ? <StyledSpinner>{error}</StyledSpinner> : spinner ? (
                 <StyledSpinner>Loading...</StyledSpinner>
               ) : (
                 <DataTableContact

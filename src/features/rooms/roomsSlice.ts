@@ -2,7 +2,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 import { RoomSliceInitialStateInterface } from "../../interfaces/room/RoomSliceInterface";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
 import { RootState } from "../../app/store";
-import { fetchDELETERoom, fetchPATCHRoom, fetchPOSTRoom, fetchRooms } from "./roomsTrunk";
+import { fetchDELETERoom, fetchPATCHRoom, fetchPOSTRoom, fetchRoom, fetchRooms } from "./roomsTrunk";
 
 const initialState: RoomSliceInitialStateInterface = {
   data: [],
@@ -33,13 +33,29 @@ export const RoomsSlice = createSlice({
         state.status = "pending";
       })
 
+      builder
+      .addCase(fetchRoom.fulfilled, (state, action): void => {
+        state.status = "fulfilled";
+        state.roomId = action.payload
+      })
+      .addCase(fetchRoom.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchRoom.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
+
     builder
       .addCase(fetchPOSTRoom.fulfilled, (state, action): void => {
         state.status = "fulfilled";
+        
         state.data.push(action.payload);
       })
       .addCase(fetchPOSTRoom.rejected, (state, action): void => {
         state.status = "rejected";
+        console.log(action.error.message)
         state.error = action.error.message;
       })
       .addCase(fetchPOSTRoom.pending, (state, action): void => {
@@ -49,8 +65,8 @@ export const RoomsSlice = createSlice({
       builder
       .addCase(fetchPATCHRoom.fulfilled, (state, action): void => {
         state.status = "fulfilled";
-        const findIndex = state.data.findIndex(room => room._id === action.payload._id)
-        state.data.splice(findIndex, 1, action.payload);
+        if(state.roomId !== undefined)
+        state.data.splice(state.roomId._id!, 1, action.payload);
 
       })
       .addCase(fetchPATCHRoom.rejected, (state, action): void => {
@@ -82,7 +98,7 @@ export const { getSelect} =
 
 export const getRoomsData = (state: RootState): RoomInterface[] =>
   state.rooms.data;
-export const getRoomId = (state: RootState): RoomInterface[] | undefined =>
-  state.rooms.roomId;
+export const getRoomId = (state: RootState): RoomInterface =>
+  state.rooms.roomId!;
 export const getRoomsStatus = (state: RootState) => state.rooms.status;
 export const getRoomsError = (state: RootState) => state.rooms.error;

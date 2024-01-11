@@ -16,15 +16,26 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { UserInterface } from "../../../user/UserInterface";
-import { fetchPATCHUser, fetchUser } from "../../features/users/usersTrunk";
+import { fetchPATCHUser, fetchUser, fetchUsers } from "../../features/users/usersTrunk";
+import { getUserId, getUsersData, getUsersError, getUsersStatus } from "../../features/users/usersSlice";
+import { ErrorPage } from "../error/ErrorPage";
 
 export const EditUserPage = () => {
   const url: URL = new URL(window.location.href);
   const id: string = url.pathname.split("/").slice(2, 3).join("");
 
   const navigate: NavigateFunction = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
-  const [userId, setUserId] =  useState<UserInterface>()!;
+  const dispatch: AppDispatch = useDispatch()
+
+  const usersListData = useAppSelector<UserInterface[]>(getUsersData)!;
+  const usersListDataId = useAppSelector<UserInterface>(getUserId)!;
+  const usersListError = useAppSelector<string | undefined>(
+    getUsersError
+  );
+  const  usersListStatus = useAppSelector<string>((state) => state.users.status);
+  
+  const [error, setError] = useState<string | null>(null);
+  const [spinner, setSpinner] = useState<boolean>(true);
 
   const [formData, setFormData] = useState<UserInterface>({
     photo: "",
@@ -39,16 +50,23 @@ export const EditUserPage = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchUser(id)).then((action) => {
-      if (fetchUser.fulfilled.match(action)) {
-      if(typeof action === "object" && typeof action.payload !== "string" &&  typeof action.payload !== undefined){
-      setUserId(action.payload)
-      setFormData(action.payload)
-      }
+    console.log(usersListStatus)
+    if (usersListStatus === "idle") {
+      dispatch(fetchUser(id));
+      dispatch(fetchUsers())
+    } else if (usersListStatus === "pending") {
+      setSpinner(true);
+    } else if (usersListStatus === "rejected") {
+      setError(usersListError!)
+    } else if (usersListStatus === "fulfilled") {
+      setSpinner(false);
+      setFormData(usersListDataId)
+      setError(null)
     }
-    })
-  }, [])
+  }, [dispatch, usersListDataId, usersListStatus, usersListData, id]);
 
+    console.log(spinner)
+    console.log(usersListDataId)
 
   const handleChange = (
     e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -75,6 +93,8 @@ export const EditUserPage = () => {
   };
 
   return (
+    <>
+    {error !==  null ?   <ErrorPage error={error}></ErrorPage> : usersListDataId !== undefined && (
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
@@ -84,7 +104,7 @@ export const EditUserPage = () => {
         }}
       >
         <StyledTextAreaForm
-          value={formData.photo}
+          value={usersListDataId.photo}
           placeholder="Photo"
           name="photo"
           rows={2}
@@ -93,38 +113,38 @@ export const EditUserPage = () => {
           }}
         ></StyledTextAreaForm>
         <StyledInputForm
-          value={formData.fullName}
+          value={usersListDataId.fullName}
           placeholder="Full Name"
           type="text"
           name="fullName"
         ></StyledInputForm>
         <StyledInputForm
-          value={formData.password}
+          value={usersListDataId.password}
           placeholder="Password"
           type="Password"
           name="password"
         ></StyledInputForm>
         <StyledInputForm
-          value={formData.email}
+          value={usersListDataId.email}
           placeholder="Email"
           type="email"
           name="email"
         ></StyledInputForm>
         <StyledInputForm
-          value={formData.phone}
+          value={usersListDataId.phone}
           placeholder="123456789"
           type="tel"
           name="phone"
           pattern="[0-9]{3}[0-9]{3}[0-9]{3}"
         ></StyledInputForm>
         <StyledInputForm
-          value={formData.startDate}
+          value={usersListDataId.startDate}
           placeholder="YYYY/MM/DD"
           type="text"
           name="startDate"
         ></StyledInputForm>
         <StyledTextAreaForm
-          value={formData.descriptionJob}
+          value={usersListDataId.descriptionJob}
           placeholder="Description about job"
           name="descriptionJob"
           rows={2}
@@ -132,7 +152,7 @@ export const EditUserPage = () => {
         <StyledSelect
           nameSelect="selectCreate"
           name="status"
-          value={formData.status}
+          value={usersListDataId.status}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -147,7 +167,7 @@ export const EditUserPage = () => {
         <StyledSelect
           nameSelect="selectCreate"
           name="job"
-          value={formData.job}
+          value={usersListDataId.job}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -157,7 +177,7 @@ export const EditUserPage = () => {
           </option>
           <option value="Manager">Manager</option>
           <option value="Receptionist">Receptionist</option>
-          <option value="Room Service">Room Service</option>
+          <option value="User Service">User Service</option>
         </StyledSelect>
 
         <StyledButton
@@ -171,5 +191,7 @@ export const EditUserPage = () => {
         </StyledButton>
       </StyledFormContainer>
     </StyledBoxForm>
+    )}
+    </>
   );
 };

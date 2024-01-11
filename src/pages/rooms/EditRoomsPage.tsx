@@ -8,7 +8,7 @@ import {
 } from "../../components/common/StyledForm";
 import { StyledSelect } from "../../components/common/StyledSelect";
 import logo from "../../assets/img/logo.png";
-import { getRoomsData} from "../../features/rooms/roomsSlice";
+import { getRoomId, getRoomsData, getRoomsError, getRoomsStatus} from "../../features/rooms/roomsSlice";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -17,7 +17,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
-import { fetchPATCHRoom, fetchRoom } from "../../features/rooms/roomsTrunk";
+import { fetchPATCHRoom, fetchRoom, fetchRooms } from "../../features/rooms/roomsTrunk";
+import { StyledSpinner } from "../../components/spinner/StyledSpinner";
+import { ErrorPage } from "../error/ErrorPage";
 
 export const EditRoomsPage = () => {
   const url: URL = new URL(window.location.href);
@@ -26,8 +28,15 @@ export const EditRoomsPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
-  const [roomId, setRoomId] =  useState<RoomInterface>()!;
-  const [error, setError] = useState<number | null>(null);
+  const roomsListData= useAppSelector<RoomInterface[]>(getRoomsData);
+  const roomsListDataId = useAppSelector<RoomInterface>(getRoomId);
+  const roomsListError = useAppSelector<string | undefined>(
+    getRoomsError
+  );
+  const roomsListStatus = useAppSelector<string>(getRoomsStatus);
+  const [spinner, setSpinner] = useState<boolean>(true);
+
+  const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<RoomInterface>({
     roomType: '',
@@ -43,24 +52,24 @@ export const EditRoomsPage = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchRoom(id)).then((action) => {
-        console.log(action)
-      if (fetchRoom.fulfilled.match(action)) {
-      if(typeof action === "object" && typeof action.payload !== "string" &&  typeof action.payload !== undefined){
-      setRoomId(action.payload)
-      setFormData(action.payload)
+    if (roomsListStatus === "idle") {
+      dispatch(fetchRoom(id));
+      dispatch(fetchRooms());
+    } else if (roomsListStatus === "pending") {
+      setSpinner(true);
+    } else if (roomsListStatus === "rejected") {
+      setError(roomsListError!)
+    } else if (roomsListStatus === "fulfilled") {
+      setSpinner(false);
+      setFormData(roomsListDataId)
       setError(null)
-      }
-      else{
-        console.log(action)
-
-      }
     }
-    })
-  }, [])
+  }, [dispatch, roomsListData, roomsListDataId, roomsListStatus]);
+
+
 
   const handleChange = (
-    e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement> 
   ) => {
     const { name, value } = e.target;
 
@@ -97,7 +106,7 @@ export const EditRoomsPage = () => {
 
   return (
     <>
-    {roomId &&
+    {error !==  null ?   <ErrorPage error={error}></ErrorPage> : roomsListDataId !== undefined && (
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
@@ -109,7 +118,7 @@ export const EditRoomsPage = () => {
         <StyledSelect
           nameSelect="selectCreate"
           name="roomType"
-          defaultValue={formData.roomType}
+          defaultValue={roomsListDataId.roomType}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -125,7 +134,7 @@ export const EditRoomsPage = () => {
         <StyledSelect
           nameSelect="selectCreate"
           name="offer"
-          defaultValue={formData.offer}
+          defaultValue={roomsListDataId.offer}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -139,9 +148,9 @@ export const EditRoomsPage = () => {
 
         <StyledTextAreaForm
           value={
-            Array.isArray(formData.photos)
-              ? formData.photos.join("\n")
-              : formData.photos
+            Array.isArray(roomsListDataId.photos)
+              ? roomsListDataId.photos.join("\n")
+              : roomsListDataId.photos
           }
           placeholder="Photo"
           name="photos"
@@ -154,39 +163,39 @@ export const EditRoomsPage = () => {
 
         <StyledInputForm
           placeholder="Room Number"
-          value={formData.roomNumber}
+          value={roomsListDataId.roomNumber}
           type="text"
           name="roomNumber"
         ></StyledInputForm>
         <StyledTextAreaForm
           placeholder="Description"
-          value={formData.description}
+          value={roomsListDataId.description}
           name="description"
         ></StyledTextAreaForm>
         <StyledInputForm
-          value={formData.priceNight}
+          value={roomsListDataId.priceNight}
           placeholder="Price per night"
           type="number"
           name="priceNight"
         ></StyledInputForm>
         <StyledInputForm
-          value={formData.discount === null ? "" : formData.discount.toString()}
+          value={roomsListDataId.discount === null ? "" : roomsListDataId.discount.toString()}
           placeholder="Discount"
           type="number"
           name="discount"
         ></StyledInputForm>
         <StyledInputForm
           placeholder="Cancelattion"
-          value={formData.cancellation}
+          value={roomsListDataId.cancellation}
           type="text"
           name="cancellation"
         ></StyledInputForm>
         <StyledTextAreaForm
           placeholder="Amenities"
           value={
-            Array.isArray(formData.amenities)
-              ? formData.amenities.join("\n")
-              : formData.amenities
+            Array.isArray(roomsListDataId.amenities)
+              ? roomsListDataId.amenities.join("\n")
+              : roomsListDataId.amenities
           }
           name="amenities"
           rows={3}
@@ -203,7 +212,7 @@ export const EditRoomsPage = () => {
         </StyledButton>
       </StyledFormContainer>
     </StyledBoxForm>
-    }
+    )}
     </>
   );
 };

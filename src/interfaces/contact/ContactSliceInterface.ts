@@ -11,4 +11,6 @@ export interface ContactSliceInitialStateInterface {
   data: ContactInterface[];
   status: "idle" | "pending" | "fulfilled" | "rejected";
   error: string | undefined;
+  contactId?: ContactInterface;
+
 }

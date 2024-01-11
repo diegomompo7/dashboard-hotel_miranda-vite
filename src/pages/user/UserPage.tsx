@@ -30,6 +30,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { UserInterface } from "../../../user/UserInterface";
 import { ToastContainer } from "react-toastify";
+import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
 export const UserPage = () => {
   const navigate: NavigateFunction = useNavigate();
@@ -47,12 +48,15 @@ export const UserPage = () => {
 
   const [numberPage, setNumberPage] = useState<number[]>([0, 10]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (usersListStatus === "idle") {
       dispatch(fetchUsers());
     } else if (usersListStatus === "pending") {
       setSpinner(true);
+    } else if (usersListStatus === "rejected") {
+      setError(usersListError!)
     } else if (usersListStatus === "fulfilled") {
       setSpinner(false);
     }
@@ -171,7 +175,9 @@ export const UserPage = () => {
               <StyledTableCellRow>Status</StyledTableCellRow>
             </thead>
             <TableBody>
-              {spinner ? (
+              {error !== null ? <StyledSpinner>{error}</StyledSpinner> :
+              
+              spinner ? (
                 <p>Loading...</p>
               ) : (
                 <DataTableUsers
@@ -197,7 +203,7 @@ export const UserPage = () => {
             <StyledButtonPage>
               <StyledButton
                 name="Prev"
-                disabled={numberPage[0] === 1}
+                disabled={numberPage[0] <= 1}
                 onClick={() => {
                   numberPage[0] -= 10;
                   numberPage[1] -= 10;

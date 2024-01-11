@@ -22,13 +22,17 @@ export const DashboardPage = () => {
   const contactListError = useAppSelector<string | undefined>(getContactError);
   const contactListStatus = useAppSelector<string>(getContactStatus);
   const [spinner, setSpinner] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (contactListStatus === "idle") {
       dispatch(fetchContacts());
     } else if (contactListStatus === "pending") {
       setSpinner(true);
-    } else if (contactListStatus === "fulfilled") {
+    } else if (contactListStatus === "rejected") {
+      setSpinner(true);
+      setError(contactListError!)
+    }else if (contactListStatus === "fulfilled") {
       setSpinner(false);
     }
   }, [dispatch, contactListData, contactListStatus]);
@@ -37,7 +41,7 @@ export const DashboardPage = () => {
     <>
       {userLogin === "" && <Navigate to="/login" />}
       <CardKpi></CardKpi>
-      {spinner ? (
+      {error !== null ? <StyledSpinner>{error}</StyledSpinner> : spinner ? (
         <StyledSpinner>Loading...</StyledSpinner>
       ) : (
         <CardContact contact={contactListData}></CardContact>

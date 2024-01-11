@@ -12,4 +12,5 @@ export interface UserSliceInitialStateInterface {
   status: "idle" | "pending" | "fulfilled" | "rejected";
   error: string | undefined;
   changeUser?: UserInterface[];
+  userId? :UserInterface,
 }

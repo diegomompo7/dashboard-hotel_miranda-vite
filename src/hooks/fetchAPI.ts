@@ -8,12 +8,8 @@ export const fetchGETData = async (api:string) => {
         Authorization: `Bearer ${userLogin}`,
       }
     })
-    if (response.ok) {
-      return await response.json()
-    } else{
       return await response
-    }
-}
+  }
 
 export const fetchPOSTData =async (api:string, body:Object) => {
   const response = await fetch(import.meta.env.VITE_API + api, {
