@@ -8,6 +8,7 @@ export const statusOptions = <const>[
 ];
 
 export interface BookingSliceInitialStateInterface {
+  bookingId?: BookingInterface;
   data: BookingInterface[];
   status: "idle" | "pending" | "fulfilled" | "rejected";
   error: string | undefined;

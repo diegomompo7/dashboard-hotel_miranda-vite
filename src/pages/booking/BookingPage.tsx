@@ -31,6 +31,7 @@ import { AppDispatch, useAppSelector } from "../../app/store.ts";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner.ts";
 import { StyledBoxDefault } from "../../components/root/StyledBody.ts";
 import { ToastContainer } from "react-toastify";
+import { getRoomsError } from "../../features/rooms/roomsSlice.ts";
 
 export const BookingPage = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -41,7 +42,7 @@ export const BookingPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   let bookingsListData = useAppSelector<BookingInterface[]>(getBookingsData);
-
+  const bookingsListError = useAppSelector<string | undefined>(getRoomsError);
   const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
   const [spinner, setSpinner] = useState<boolean>(true);
 
@@ -49,13 +50,17 @@ export const BookingPage = () => {
 
   const [numberPage, setNumberPage] = useState<number[]>([0, 10]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (bookingsListStatus === "idle") {
       dispatch(fetchBookings());
     } else if (bookingsListStatus === "pending") {
       setSpinner(true);
-    } else if (bookingsListStatus === "fulfilled") {
+    } else if (bookingsListStatus === "rejected") {
+      setSpinner(true);
+      setError(bookingsListError!)
+    }else if (bookingsListStatus === "fulfilled") {
       setSpinner(false);
     }
   }, [dispatch, bookingsListData, bookingsListStatus]);
@@ -229,7 +234,7 @@ export const BookingPage = () => {
               <StyledTableCellRow></StyledTableCellRow>
             </thead>
             <tbody>
-              {spinner ? (
+              {error !== null ? <StyledSpinner>{error}</StyledSpinner> : spinner ? (
                 <StyledSpinner>Loading...</StyledSpinner>
               ) : (
                 <DataTableBooking

@@ -27,12 +27,10 @@ import { StyledMoreIcon } from "../../components/common/StyledIcons";
 
 import { useDispatch } from "react-redux";
 
-import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
-import { fetchRooms } from "../../features/rooms/roomsTrunk";
+import { getBookingId, getBookingsError, getBookingsStatus} from "../../features/bookings/bookingsSlice";
 import React, { useEffect, useState } from "react";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
-import { RoomInterface } from "../../interfaces/room/RoomInterface";
 import { fetchBooking } from "../../features/bookings/bookingsTrunk";
 
 export const BookingDetailPage = () => {
@@ -42,34 +40,30 @@ export const BookingDetailPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const [spinner, setSpinner] = useState<boolean>(true);
 
-  const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData);
-  const roomsListStatus = useAppSelector<string>(getRoomsStatus);
 
 
-  const [bookingListRoom, setBookingListRoom] = useState<BookingInterface>()
-
-  useEffect(() => {
-    if (roomsListStatus === "idle") {
-      dispatch(fetchRooms());
-    } else if (roomsListStatus === "pending") {
-      setSpinner(true);
-    } else if (roomsListStatus === "fulfilled") {
-      setSpinner(false);
-    }
-  }, [dispatch, roomBoking, roomsListStatus]);
-
-
-
-  useEffect(() => {
-    dispatch(fetchBooking(id)).then((action) => {
-      if (fetchBooking.fulfilled.match(action)) {
-      if(typeof action === "object" && typeof action.payload !== "string" &&  typeof action.payload !== undefined){
-      setBookingListRoom(action.payload)
-      }
-    }
-    })
-  }, [])
+  const bookingListRoom= useAppSelector<BookingInterface>(getBookingId);
+  const bookingsListError = useAppSelector<string | undefined>(
+    getBookingsError)
+  const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
   
+  const [error, setError] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    if (bookingsListStatus === "idle") {
+      dispatch(fetchBooking(id));
+    } else if (bookingsListStatus === "pending") {
+      setSpinner(true);
+    } else if (bookingsListStatus === "rejected") {
+      setError(bookingsListError!)
+    } else if (bookingsListStatus === "fulfilled") {
+      setSpinner(false);
+      setError(null)
+    }
+  }, [dispatch, bookingListRoom, bookingsListStatus]);
+
+  console.log(bookingsListStatus)
 
   return (
     <>
@@ -160,10 +154,10 @@ export const BookingDetailPage = () => {
               {bookingListRoom.status}
             </StyleDetailStatus>
             <StyledDetailTextContainer>
-              <StyledDetailText typeStyle="roomType">
+              <StyledDetailText typeStyle="bookingType">
                 {bookingListRoom.room.roomType}
               </StyledDetailText>
-              <StyledDetailText typeStyle="roomDescription">
+              <StyledDetailText typeStyle="bookingDescription">
                 {bookingListRoom.room.description}
               </StyledDetailText>
             </StyledDetailTextContainer>

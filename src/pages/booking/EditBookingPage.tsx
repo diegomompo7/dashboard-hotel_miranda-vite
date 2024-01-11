@@ -10,6 +10,7 @@ import {
 import { StyledSelect } from "../../components/common/StyledSelect";
 
 import {
+  getBookingId,
   getBookingsData,
   getBookingsError,
   getBookingsStatus,
@@ -18,7 +19,7 @@ import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useEffect, useState } from "react";
 
-import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
+import { getRoomsData, getRoomsError, getRoomsStatus } from "../../features/rooms/roomsSlice";
 import { fetchRooms } from "../../features/rooms/roomsTrunk";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -29,6 +30,7 @@ import { RoomInterface } from "../../interfaces/room/RoomInterface";
 import logo from "../../assets/img/logo.png";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { fetchBooking, fetchBookings, fetchPATCHBooking } from "../../features/bookings/bookingsTrunk";
+import { ErrorPage } from "../error/ErrorPage";
 
 export const EditBookingPage = () => {
 
@@ -46,13 +48,16 @@ export const EditBookingPage = () => {
   const [spinner, setSpinner] = useState<boolean>(true);
 
   const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData);
+  const roomsListError = useAppSelector<string | undefined>(
+    getRoomsError
+  );
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
-  const [selectedRoom, setSelectedRoom] = useState<string>(''); // Set default value here
   const [roomAvailable, setRoomAvailable] = useState<string[]>([]);
 
   const now: Date = new Date();
   const nowDate: string = now.toISOString().slice(0, 16).replace("T", " ");
-  const [bookingId, setBookingId] =  useState<BookingInterface>()
+  const [error, setError] = useState<string | null>(null);
+  const bookingId =  useAppSelector<BookingInterface>(getBookingId);
      const [formData, setFormData] = useState<BookingInterface>({
     name: '',
     orderDate: '',
@@ -83,36 +88,33 @@ export const EditBookingPage = () => {
       dispatch(fetchRooms());
     } else if (roomsListStatus === "pending") {
       setSpinner(true);
-    } else if (roomsListStatus === "fulfilled") {
+    } else if (roomsListStatus === "rejected") {
+      setSpinner(true);
+      setError(roomsListError!)
+    }else if (roomsListStatus === "fulfilled") {
       setSpinner(false);
+      setError(null)
     }
   }, [dispatch, roomBoking, roomsListStatus]);
 
   useEffect(() => {
     if (bookingsListStatus === "idle") {
+      dispatch(fetchBooking(id));
       dispatch(fetchBookings());
     } else if (bookingsListStatus === "pending") {
       setSpinner(true);
+    }else if (bookingsListStatus=== "rejected") {
+        setSpinner(true);
+        setError(bookingsListError!)
     } else if (bookingsListStatus === "fulfilled") {
       setSpinner(false);
+      setFormData(bookingId)
+      setError(null)
     }
-  }, [dispatch, bookingsListData, bookingsListStatus]);
+  }, [dispatch, bookingsListData, bookingId,bookingsListStatus]);
 
+  console.log(bookingId)
 
-
-   useEffect(() => {
-    dispatch(fetchBooking(id)).then((action) => {
-      if (fetchBooking.fulfilled.match(action)) {
-      if(typeof action === "object" && typeof action.payload !== "string" &&  typeof action.payload !== undefined){
-      setBookingId(action.payload)
-      setFormData(action.payload)
-      }
-    }
-    })
-  }, [])
-
-
-  
 
   const handleChange = (
     e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -144,6 +146,7 @@ export const EditBookingPage = () => {
       setRoomAvailable([]);
     }
   };
+
 
   useEffect(() => {
     if (formData.check_in !== "" && formData.check_out !== "") {
@@ -179,7 +182,9 @@ export const EditBookingPage = () => {
       });
 
     }
-  }, [formData!.check_in, formData!.check_out]);
+  }, [[formData!.check_in,  formData!.check_out]]);
+
+
 
   const handleOnUpdate = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -219,7 +224,7 @@ export const EditBookingPage = () => {
   return (
     <>
     <ToastContainer />
-    {bookingId && 
+    {error !==  null ?   <ErrorPage error={error}></ErrorPage> :  bookingId && 
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer

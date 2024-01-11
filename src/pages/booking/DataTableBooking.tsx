@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Action} from "@reduxjs/toolkit";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { DataTableBookingProps } from "../../interfaces/props/PropsInterface";
-import { fetchDELETEBooking } from "../../features/bookings/bookingsTrunk";
+import { fetchBooking, fetchBookings, fetchDELETEBooking } from "../../features/bookings/bookingsTrunk";
 import { AppDispatch } from "../../app/store";
 
 export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
@@ -123,10 +123,10 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
             ></StyledMoreIcon>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
 
-            <MenuItem onClick={() => navigate(`/booking/${menuId}`)}>
+            <MenuItem onClick={() => {fetchBooking(`${menuId}`), navigate(`/booking/${menuId}`)}}>
                 View details
               </MenuItem>
-              <MenuItem onClick={() => navigate(`/editBooking/${menuId}`)}>
+              <MenuItem onClick={() => {navigate(`/editBooking/${menuId})`)}}>
                 Edit
               </MenuItem>
               <MenuItem onClick={() => menuId !== null && handleDelete(menuId)}>Delete</MenuItem>

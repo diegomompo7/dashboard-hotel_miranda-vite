@@ -1,9 +1,8 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { fetchPOSTBooking, fetchBookings, fetchDELETEBooking, fetchPATCHBooking,} from "./bookingsTrunk";
+import { fetchPOSTBooking, fetchBookings, fetchDELETEBooking, fetchPATCHBooking, fetchBooking,} from "./bookingsTrunk";
 import { BookingSliceInitialStateInterface } from "../../interfaces/booking/BookingSliceInterface";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { RootState } from "../../app/store";
-import { fetchPOSTData } from "../../hooks/fetchAPI";
 
 
 const initialState: BookingSliceInitialStateInterface = {
@@ -46,6 +45,20 @@ export const BookingsSlice = createSlice({
         state.status = "pending";
       })
 
+      
+      builder
+      .addCase(fetchBooking.fulfilled, (state, action): void => {
+        state.status = "fulfilled";
+        state.bookingId = action.payload
+      })
+      .addCase(fetchBooking.rejected, (state, action): void => {
+        state.status = "rejected";
+        state.error = action.error.message;
+      })
+      .addCase(fetchBooking.pending, (state, action): void => {
+        state.status = "pending";
+      })
+
     builder
       .addCase(fetchPOSTBooking.fulfilled, (state, action): void => {
         state.status = "fulfilled";
@@ -63,8 +76,8 @@ export const BookingsSlice = createSlice({
       builder
       .addCase(fetchPATCHBooking.fulfilled, (state, action): void => {
         state.status = "fulfilled";
-        const findIndex = state.data.findIndex(booking => booking.room._id === action.payload.room._id)
-        state.data.splice(findIndex, 1, action.payload);
+        if(state.bookingId !== undefined)
+        state.data.splice(state.bookingId._id!, 1, action.payload);
         state.changeBooking = state.data;
       })
       .addCase(fetchPATCHBooking.rejected, (state, action): void => {
@@ -103,6 +116,8 @@ export const getBookingsDataInProgress = (
   );
 export const getBookingsData = (state: RootState): BookingInterface[] =>
   state.bookings.data;
+  export const getBookingId = (state: RootState): BookingInterface =>
+  state.bookings.bookingId!;
 export const getChangeData = (
   state: RootState
 ): BookingInterface[] | undefined => state.bookings.changeBooking;
