@@ -10,6 +10,8 @@ export const fetchGETData = async (api:string) => {
     })
     if (response.ok) {
       return await response.json()
+    } else{
+      return await response
     }
 }
 

@@ -27,6 +27,7 @@ export const EditRoomsPage = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const [roomId, setRoomId] =  useState<RoomInterface>()!;
+  const [error, setError] = useState<number | null>(null);
 
   const [formData, setFormData] = useState<RoomInterface>({
     roomType: '',
@@ -43,10 +44,16 @@ export const EditRoomsPage = () => {
 
   useEffect(() => {
     dispatch(fetchRoom(id)).then((action) => {
+        console.log(action)
       if (fetchRoom.fulfilled.match(action)) {
       if(typeof action === "object" && typeof action.payload !== "string" &&  typeof action.payload !== undefined){
       setRoomId(action.payload)
       setFormData(action.payload)
+      setError(null)
+      }
+      else{
+        console.log(action)
+
       }
     }
     })
