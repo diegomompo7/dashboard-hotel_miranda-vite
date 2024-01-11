@@ -18,7 +18,7 @@ export const fetchRoom = createAsyncThunk<RoomInterface, string, { state: any, r
     })
 })
 export const fetchPOSTRoom = createAsyncThunk<RoomInterface, Object, { state: any, rejectValue: string }>("rooms/postRoom", async (body: Object): Promise<RoomInterface> => {
-    console.log(body)
+   
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchPOSTData("/rooms", body);
@@ -29,7 +29,7 @@ export const fetchPOSTRoom = createAsyncThunk<RoomInterface, Object, { state: an
 })
 
 export const fetchPATCHRoom = createAsyncThunk<RoomInterface, { id: string; formData: Object }, { state: any, rejectValue: string }>("rooms/patchRoom", async ({id, formData}): Promise<RoomInterface> => {
-    console.log(id)
+
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchPATCHData("/rooms/" + id, formData);
@@ -40,7 +40,7 @@ export const fetchPATCHRoom = createAsyncThunk<RoomInterface, { id: string; form
 })
 
 export const fetchDELETERoom = createAsyncThunk<RoomInterface, number, { state: any, rejectValue: string }>("rooms/deleteRoom", async (id: number): Promise<RoomInterface> => {
-    console.log(id)
+  
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchDELData("/rooms/", id);

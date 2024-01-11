@@ -18,7 +18,7 @@ export const fetchUser = createAsyncThunk<UserInterface, string, { state: any, r
     })
 })
 export const fetchPOSTUser = createAsyncThunk<UserInterface, Object, { state: any, rejectValue: string }>("users/postUser", async (body: Object): Promise<UserInterface> => {
-    console.log(body)
+
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchPOSTData("/users", body);
@@ -29,7 +29,7 @@ export const fetchPOSTUser = createAsyncThunk<UserInterface, Object, { state: an
 })
 
 export const fetchPATCHUser = createAsyncThunk<UserInterface, { id: string; formData: Object }, { state: any, rejectValue: string }>("users/patchUser", async ({id, formData}): Promise<UserInterface> => {
-    console.log(id)
+  
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchPATCHData("/users/" + id, formData);
@@ -40,7 +40,7 @@ export const fetchPATCHUser = createAsyncThunk<UserInterface, { id: string; form
 })
 
 export const fetchDELETEUser = createAsyncThunk<UserInterface, number, { state: any, rejectValue: string }>("users/deleteUser", async (id: number): Promise<UserInterface> => {
-    console.log(id)
+
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchDELData("/users/", id);

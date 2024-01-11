@@ -18,7 +18,7 @@ export const fetchContact = createAsyncThunk<ContactInterface, string, { state: 
     })
 })
 export const fetchPOSTContact = createAsyncThunk<ContactInterface, Object, { state: any, rejectValue: string }>("contacts/postContact", async (body: Object): Promise<ContactInterface> => {
-    console.log(body)
+   
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchPOSTData("/contact", body);
@@ -29,7 +29,7 @@ export const fetchPOSTContact = createAsyncThunk<ContactInterface, Object, { sta
 })
 
 export const fetchPATCHContact = createAsyncThunk<ContactInterface, { id: number; formData: Object }, { state: any, rejectValue: string }>("contacts/patchContact", async ({id, formData}): Promise<ContactInterface> => {
-    console.log(id)
+   
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchPATCHData("/contact/" + id, formData);
@@ -40,7 +40,7 @@ export const fetchPATCHContact = createAsyncThunk<ContactInterface, { id: number
 })
 
 export const fetchDELETEContact = createAsyncThunk<ContactInterface, number, { state: any, rejectValue: string }>("contacts/deleteContact", async (id: number): Promise<ContactInterface> => {
-    console.log(id)
+
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchDELData("/contact/", id);

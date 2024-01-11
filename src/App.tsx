@@ -12,7 +12,7 @@ import { RoomsListPage } from "./pages/rooms/RoomsListPage";
 import { Root } from "./pages/root/Root";
 import { UserPage } from "./pages/user/UserPage";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import users from "./data/users.json";
 import { EditRoomsPage } from "./pages/rooms/EditRoomsPage";
 import AuthContext from "./AuthContext";
@@ -70,12 +70,16 @@ function App() {
     } catch (e) {
       console.error("Error", e)
     }
-  };
+  }
+
+  const logout = () => {
+    setUserLogin("")
+  }
 
   return (
     <div className="app">
       <Provider store={store}>
-        <AuthContext.Provider value={{ userLogin }}>
+        <AuthContext.Provider value={{ userLogin, logout }}>
           <BrowserRouter>
             <Routes>
               <Route

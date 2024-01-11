@@ -18,7 +18,6 @@ export const fetchBooking = createAsyncThunk<BookingInterface, string, { state: 
     })
 })
 export const fetchPOSTBooking = createAsyncThunk<BookingInterface, Object, { state: any, rejectValue: string }>("bookings/postBooking", async (body: Object): Promise<BookingInterface> => {
-    console.log(body)
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchPOSTData("/bookings", body);
@@ -29,7 +28,7 @@ export const fetchPOSTBooking = createAsyncThunk<BookingInterface, Object, { sta
 })
 
 export const fetchPATCHBooking = createAsyncThunk<BookingInterface, { id: string; formData: Object }, { state: any, rejectValue: string }>("bookings/patchBooking", async ({id, formData}): Promise<BookingInterface> => {
-    console.log(id)
+   
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchPATCHData("/bookings/" + id, formData);
@@ -40,7 +39,7 @@ export const fetchPATCHBooking = createAsyncThunk<BookingInterface, { id: string
 })
 
 export const fetchDELETEBooking = createAsyncThunk<BookingInterface, number, { state: any, rejectValue: string }>("bookings/deleteBooking", async (id: number): Promise<BookingInterface> => {
-    console.log(id)
+   
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetchDELData("/bookings/", id);

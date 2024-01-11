@@ -51,7 +51,7 @@ export const RoomsSlice = createSlice({
         state.status = "fulfilled";
         const findIndex = state.data.findIndex(room => room._id === action.payload._id)
         state.data.splice(findIndex, 1, action.payload);
-        console.log(action.payload);
+
       })
       .addCase(fetchPATCHRoom.rejected, (state, action): void => {
         state.status = "rejected";
@@ -63,7 +63,6 @@ export const RoomsSlice = createSlice({
 
     builder
       .addCase(fetchDELETERoom.fulfilled, (state, action): void => {
-        console.log(action.payload)
         state.status = "fulfilled";
         state.data = state.data.filter(del => del._id !== action.payload._id)
       })

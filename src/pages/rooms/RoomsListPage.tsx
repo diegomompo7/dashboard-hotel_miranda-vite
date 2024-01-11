@@ -93,8 +93,6 @@ export const RoomsListPage = () => {
       ? roomsListData.filter((booked) => booked.status === "Booked")
       : roomsListData;
 
-  console.log(currentUsersListData);
-
   return (
     <>
       <ToastContainer></ToastContainer>

@@ -36,6 +36,7 @@ export interface DataTableRoomsProps {
 
 export interface AuthContextProps {
   userLogin: string | null;
+  logout: () => void;
 }
 
 export interface HeaderProps {

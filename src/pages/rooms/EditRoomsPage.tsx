@@ -75,13 +75,10 @@ export const EditRoomsPage = () => {
     }
   };
 
-  console.log(formData)
-
   const handleOnSubmit = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
     e.preventDefault();
-    console.log(e.target);
     dispatch(fetchPATCHRoom({ id, formData }));
     toast.success("Room updated succesfull", {
       position: "bottom-center",

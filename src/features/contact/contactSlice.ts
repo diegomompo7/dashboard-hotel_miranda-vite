@@ -48,7 +48,7 @@ export const ContactSlice = createSlice({
         state.status = "fulfilled";
         const findIndex = state.data.findIndex(contact => contact._id === action.payload._id)
         state.data.splice(findIndex, 1, action.payload);
-        console.log(action.payload);
+        
       })
       .addCase(fetchPATCHContact.rejected, (state, action): void => {
         state.status = "rejected";
@@ -60,7 +60,7 @@ export const ContactSlice = createSlice({
 
     builder
       .addCase(fetchDELETEContact.fulfilled, (state, action): void => {
-        console.log(action.payload)
+       
         state.status = "fulfilled";
         state.data = state.data.filter(del => del._id !== action.payload._id)
       })

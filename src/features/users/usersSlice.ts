@@ -61,7 +61,7 @@ export const UsersSlice = createSlice({
         state.status = "fulfilled";
         const findIndex = state.data.findIndex(user => user._id === action.payload._id)
         state.data.splice(findIndex, 1, action.payload);
-        console.log(action.payload);
+
       })
       .addCase(fetchPATCHUser.rejected, (state, action): void => {
         state.status = "rejected";
@@ -73,7 +73,7 @@ export const UsersSlice = createSlice({
 
     builder
       .addCase(fetchDELETEUser.fulfilled, (state, action): void => {
-        console.log(action.payload)
+  
         state.status = "fulfilled";
         state.data = state.data.filter(del => del._id !== action.payload._id)
       })

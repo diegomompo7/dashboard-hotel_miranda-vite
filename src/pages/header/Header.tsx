@@ -36,17 +36,26 @@ import { StyledLink } from "../../components/header/StyledLink";
 import AuthContext from "../../AuthContext";
 import { HeaderProps } from "../../interfaces/props/PropsInterface";
 import { fetchGETData } from "../../hooks/fetchAPI";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 export const Header: React.FC<HeaderProps> =  (props) => {
   const [open, setOpen] = React.useState<boolean>(false);
-  const { userLogin } = useContext(AuthContext);
+  const { userLogin, logout} = useContext(AuthContext);
   const [user, setUser] = React.useState({photo: "", fullName: "", email: "",})
+
+  const navigate: NavigateFunction = useNavigate()
 
   if(open){
     const user = async  () => {
       setUser(await fetchGETData("/header"))
     }
     user()
+  }
+
+
+  const handleLogOut = async () => {
+    localStorage.removeItem("token")
+    logout()
   }
 
   return (
@@ -158,7 +167,7 @@ export const Header: React.FC<HeaderProps> =  (props) => {
         <StyledHeartIcon></StyledHeartIcon>
         <StyledEmailIcon></StyledEmailIcon>
         <StyledBellIcon></StyledBellIcon>
-        <StyledLogOutIcon></StyledLogOutIcon>
+        <StyledLogOutIcon onClick={() => handleLogOut()}></StyledLogOutIcon>
       </StyledBox>
     </div>
   );

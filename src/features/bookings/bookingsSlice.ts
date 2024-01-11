@@ -65,7 +65,6 @@ export const BookingsSlice = createSlice({
         state.status = "fulfilled";
         const findIndex = state.data.findIndex(booking => booking.room._id === action.payload.room._id)
         state.data.splice(findIndex, 1, action.payload);
-        console.log(action.payload);
         state.changeBooking = state.data;
       })
       .addCase(fetchPATCHBooking.rejected, (state, action): void => {
@@ -78,7 +77,6 @@ export const BookingsSlice = createSlice({
 
     builder
       .addCase(fetchDELETEBooking.fulfilled, (state, action): void => {
-        console.log(action.payload)
         state.status = "fulfilled";
         state.data = state.data.filter(del => del._id !== action.payload._id)
         state.changeBooking = state.data;

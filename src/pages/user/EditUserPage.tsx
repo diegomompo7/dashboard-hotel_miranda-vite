@@ -60,8 +60,6 @@ export const EditUserPage = () => {
     }));
   };
 
-  console.log(formData)
-
   const handleOnSubmit = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {

@@ -97,7 +97,6 @@ export const NewBookingPage = () => {
   ): void => {
     const { name, value } = e.target;
 
-    console.log(value)
 
 
     if (
@@ -132,32 +131,25 @@ export const NewBookingPage = () => {
           (booking: BookingInterface) => booking.room._id === rooms._id
         );
 
-        console.log(idBook)
-
 
         if (idBook.length === 0) {
           roomAvailable.push(rooms.roomNumber);
         }
 
         idBook.every((checkDate) => {
-          console.log(rooms.roomNumber)
           if (
             checkDate.check_in > formData.check_out ||
             checkDate.check_out < formData.check_in
           ) {
-            console.log("SI")
             if(!roomAvailable.includes(rooms.roomNumber)){
             roomAvailable.push(rooms.roomNumber);
             }
           } else{
             let delRoom = roomAvailable.findIndex( room => room == rooms.roomNumber)
             roomAvailable.splice(delRoom, 1);
-            console.log("NO")
-            console.log("1", roomAvailable)
             return false
 
           }
-          console.log("2", roomAvailable)
         });
       });
 
