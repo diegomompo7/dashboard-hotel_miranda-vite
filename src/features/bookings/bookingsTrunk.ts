@@ -21,7 +21,7 @@ export const fetchBookings = createAsyncThunk<BookingInterface[], void, { state:
 export const fetchBooking = createAsyncThunk<BookingInterface, string, { state: any, rejectValue: string }>("bookings/getBooking", async (id: string): Promise<BookingInterface> => {
     return new Promise(async (resolve, reject) => {
         try{
-            const response = (await fetchGETData(("/bookings/" + id)))
+            const response = (await fetchGETData("/bookings/" + id))
             if(response.ok){
             resolve(response.json())
             }else{

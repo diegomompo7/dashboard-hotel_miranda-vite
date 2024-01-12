@@ -57,7 +57,8 @@ export const EditBookingPage = () => {
   const now: Date = new Date();
   const nowDate: string = now.toISOString().slice(0, 16).replace("T", " ");
   const [error, setError] = useState<string | null>(null);
-  const bookingId =  useAppSelector<BookingInterface>(getBookingId);
+  const [bookingId, setBookingId] = useState<BookingInterface>()
+  const bookingDataId =  useAppSelector<BookingInterface>(getBookingId);
      const [formData, setFormData] = useState<BookingInterface>({
     name: '',
     orderDate: '',
@@ -108,10 +109,11 @@ export const EditBookingPage = () => {
         setError(bookingsListError!)
     } else if (bookingsListStatus === "fulfilled") {
       setSpinner(false);
-      setFormData(bookingId)
+      setBookingId(bookingDataId)
+      setFormData(bookingId!)
       setError(null)
     }
-  }, [dispatch, bookingsListData, bookingId,bookingsListStatus]);
+  }, [dispatch, bookingsListData, bookingDataId,bookingsListStatus]);
 
   console.log(bookingId)
 
@@ -182,7 +184,7 @@ export const EditBookingPage = () => {
       });
 
     }
-  }, [[formData!.check_in,  formData!.check_out]]);
+  }, [[bookingId!.check_in,  bookingId!.check_out]]);
 
 
 

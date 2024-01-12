@@ -123,10 +123,10 @@ export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {
             ></StyledMoreIcon>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
 
-            <MenuItem onClick={() => {fetchBooking(`${menuId}`), navigate(`/booking/${menuId}`)}}>
+            <MenuItem onClick={() => {dispatch(fetchBooking(`${menuId}`)), navigate(`/booking/${menuId}`)}}>
                 View details
               </MenuItem>
-              <MenuItem onClick={() => {navigate(`/editBooking/${menuId})`)}}>
+              <MenuItem onClick={() => {dispatch(fetchBooking(`${menuId}`)), navigate(`/editBooking/${menuId}`)}}>
                 Edit
               </MenuItem>
               <MenuItem onClick={() => menuId !== null && handleDelete(menuId)}>Delete</MenuItem>
