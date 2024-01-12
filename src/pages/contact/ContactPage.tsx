@@ -43,17 +43,8 @@ export const ContactPage = () => {
   const [currentView, setCurrentView] = useState<string>("all");
 
   useEffect(() => {
-    if (contactListStatus === "idle") {
-      dispatch(fetchContacts());
-    } else if (contactListStatus === "pending") {
-      setSpinner(true);
-    } else if (contactListStatus === "rejected") {
-      setSpinner(true);
-      setError(contactListError!)
-    }else if (contactListStatus === "fulfilled") {
-      setSpinner(false);
-    }
-  }, [dispatch, contactListData, contactListStatus]);
+    dispatch(fetchContacts()).unwrap().then(() => setError(null)).catch(() => setError(contactListError!))
+  }, [dispatch]);
 
   const handleClick = (nav: string): void => {
     switch (nav) {
@@ -64,105 +55,112 @@ export const ContactPage = () => {
         setCurrentView("archived");
         break;
     }
-    numberPage[0] = 0;
-    numberPage[1] = 10;
+    setNumberPage([0, 10])
     setCurrentPage(1);
   };
 
   const currentContactListData: ContactInterface[] =
     currentView === "archived" ? currentContactListArchived : contactListData;
 
-  return (
-    <>
-      {currentContactListData !== undefined && (
-        <>
-          {error !== null ? <StyledSpinner>{error}</StyledSpinner> : spinner ? (
-            <StyledSpinner>Loading...</StyledSpinner>
-          ) : (
-            <CardContact contact={contactListData}></CardContact>
-          )}
 
-          <StyledNav>
-            <StyledNavText
-              onClick={() => handleClick("all")}
-              isActive={currentView === "all"}
-            >
-              All Contacts
-            </StyledNavText>
-            <StyledNavText
-              onClick={() => setCurrentView("archived")}
-              isActive={currentView === "archived"}
-            >
-              Archived
-            </StyledNavText>
-          </StyledNav>
-          <StyledTable>
-            <thead>
-              <StyledTableCellRow>Date & ID</StyledTableCellRow>
-              <StyledTableCellRow>Customer</StyledTableCellRow>
-              <StyledTableCellRow>Comment</StyledTableCellRow>
-            </thead>
-            <TableBody>
-              {error !== null ? <StyledSpinner>{error}</StyledSpinner> : spinner ? (
-                <StyledSpinner>Loading...</StyledSpinner>
-              ) : (
-                <DataTableContact
-                  data={currentContactListData}
-                  numberPage={numberPage}
-                  setCurrentPage={setCurrentPage}
-                  setCurrentView={setCurrentView}
-                ></DataTableContact>
-              )}
-            </TableBody>
-          </StyledTable>
-          <StyledPagination>
-            <StyledPaginationText>
-              {" "}
-              Showing{" "}
-              {currentContactListData.length !== 0
-                ? numberPage[0] + 1
-                : numberPage[0]}{" "}
-              of{" "}
-              {currentContactListData.length >= numberPage[1]
-                ? numberPage[1]
-                : currentContactListData.length}{" "}
-              data
-            </StyledPaginationText>
-            <StyledButtonPage>
-              <StyledButton
-                name="Prev"
-                disabled={numberPage[0] <= 1}
-                onClick={() => {
-                  numberPage[0] -= 10;
-                  numberPage[1] -= 10;
-                  setCurrentPage((next) => next - 1);
-                }}
+  if (contactListStatus === "rejected") {
+
+    <StyledSpinner>{error}</StyledSpinner>
+
+  } else {
+
+    return (
+      <>
+        {currentContactListData !== undefined && (
+          <>
+            {contactListStatus === "pending" ? (
+              <StyledSpinner>Loading...</StyledSpinner>
+            ) : (
+              <CardContact contact={contactListData}></CardContact>
+            )}
+
+            <StyledNav>
+              <StyledNavText
+                onClick={() => handleClick("all")}
+                isActive={currentView === "all"}
               >
-                Prev
-              </StyledButton>
-              {Array.from(
-                { length: Math.ceil(currentContactListData.length / 10) },
-                (_, i) => (
-                  <StyledTextPage key={i} isCurrentPage={i + 1 === currentPage}>
-                    {i + 1}
-                  </StyledTextPage>
-                )
-              )}
-              <StyledButton
-                name="Next"
-                disabled={numberPage[1] >= currentContactListData.length}
-                onClick={() => {
-                  numberPage[0] += 10;
-                  numberPage[1] += 10;
-                  setCurrentPage((next) => next + 1);
-                }}
+                All Contacts
+              </StyledNavText>
+              <StyledNavText
+                onClick={() => setCurrentView("archived")}
+                isActive={currentView === "archived"}
               >
-                Next
-              </StyledButton>
-            </StyledButtonPage>
-          </StyledPagination>
-        </>
-      )}
-    </>
-  );
+                Archived
+              </StyledNavText>
+            </StyledNav>
+            <StyledTable>
+              <thead>
+                <StyledTableCellRow>Date & ID</StyledTableCellRow>
+                <StyledTableCellRow>Customer</StyledTableCellRow>
+                <StyledTableCellRow>Comment</StyledTableCellRow>
+              </thead>
+              <TableBody>
+                {error !== null ? <StyledSpinner>{error}</StyledSpinner> : spinner ? (
+                  <StyledSpinner>Loading...</StyledSpinner>
+                ) : (
+                  <DataTableContact
+                    data={currentContactListData}
+                    numberPage={numberPage}
+                    setCurrentPage={setCurrentPage}
+                    setCurrentView={setCurrentView}
+                  ></DataTableContact>
+                )}
+              </TableBody>
+            </StyledTable>
+            <StyledPagination>
+              <StyledPaginationText>
+                {" "}
+                Showing{" "}
+                {currentContactListData.length !== 0
+                  ? numberPage[0] + 1
+                  : numberPage[0]}{" "}
+                of{" "}
+                {currentContactListData.length >= numberPage[1]
+                  ? numberPage[1]
+                  : currentContactListData.length}{" "}
+                data
+              </StyledPaginationText>
+              <StyledButtonPage>
+                <StyledButton
+                  name="Prev"
+                  disabled={numberPage[0] <= 1}
+                  onClick={() => {
+                    numberPage[0] -= 10;
+                    numberPage[1] -= 10;
+                    setCurrentPage((next) => next - 1);
+                  }}
+                >
+                  Prev
+                </StyledButton>
+                {Array.from(
+                  { length: Math.ceil(currentContactListData.length / 10) },
+                  (_, i) => (
+                    <StyledTextPage key={i} isCurrentPage={i + 1 === currentPage}>
+                      {i + 1}
+                    </StyledTextPage>
+                  )
+                )}
+                <StyledButton
+                  name="Next"
+                  disabled={numberPage[1] >= currentContactListData.length}
+                  onClick={() => {
+                    numberPage[0] += 10;
+                    numberPage[1] += 10;
+                    setCurrentPage((next) => next + 1);
+                  }}
+                >
+                  Next
+                </StyledButton>
+              </StyledButtonPage>
+            </StyledPagination>
+          </>
+        )}
+      </>
+    );
+  }
 };
