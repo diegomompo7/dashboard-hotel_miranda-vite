@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
-import { fetchDELData, fetchGETData, fetchPATCHData, fetchPOSTData } from "../../hooks/fetchAPI";
+import { fetchData } from "../../hooks/fetchAPI";
 
 export const fetchContacts = createAsyncThunk<ContactInterface[], void, { state: any, rejectValue: string }>("contacts/getContacts", async (): Promise<ContactInterface[]> => {
     return new Promise(async (resolve, reject) => {
         try{
-            const response = await fetchGETData("/contact")
+            const response = await fetchData("/contact", "GET", null)
             if(response.ok){
                 resolve(response.json())
                 }else{
@@ -21,7 +21,7 @@ export const fetchContacts = createAsyncThunk<ContactInterface[], void, { state:
 export const fetchContact = createAsyncThunk<ContactInterface, string, { state: any, rejectValue: string }>("contacts/getContact", async (id: string): Promise<ContactInterface> => {
     return new Promise(async (resolve, reject) => {
         try{
-            const response = (await fetchGETData(("/contact/" + id)))
+            const response = (await fetchData("/contact/" + id, "GET", null))
             if(response.ok){
             resolve(response.json())
             }else{
@@ -38,8 +38,8 @@ export const fetchPOSTContact = createAsyncThunk<ContactInterface, Object, { sta
    
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchPOSTData("/contact", body);
-            resolve(response)
+            const response = await fetchData("/contact", "POST", body);
+            resolve(response.json())
           } catch (error) {
             reject("Error 500: Internal server error")
         }
@@ -50,8 +50,8 @@ export const fetchPATCHContact = createAsyncThunk<ContactInterface, { id: number
    
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchPATCHData("/contact/" + id, formData);
-            resolve(response)
+            const response = await fetchData("/contact/" + id, "PATCH", formData);
+            resolve(response.json())
           } catch (error) {
             reject("Error 500: Internal server error")
         }
@@ -62,8 +62,8 @@ export const fetchDELETEContact = createAsyncThunk<ContactInterface, number, { s
 
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchDELData("/contact/", id);
-            resolve(response)
+            const response = await fetchData("/contact/" + id, "DELETE", null);
+            resolve(response.json())
           } catch (error) {
             reject("Error 500: Internal server error")
         }

@@ -29,6 +29,7 @@ import { RoomInterface } from "../../interfaces/room/RoomInterface";
 import logo from "../../assets/img/logo.png";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { fetchBookings, fetchPOSTBooking } from "../../features/bookings/bookingsTrunk";
+import { ErrorPage } from "../error/ErrorPage";
 
 export const NewBookingPage = () => {
   const navigate: NavigateFunction = useNavigate();
@@ -44,29 +45,18 @@ export const NewBookingPage = () => {
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
 
   const [roomAvailable, setRoomAvailable] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const now: Date = new Date();
   const nowDate: string = now.toISOString().slice(0, 16).replace("T", " ");
 
   useEffect(() => {
-    if (roomsListStatus === "idle") {
-      dispatch(fetchRooms());
-    } else if (roomsListStatus === "pending") {
-      setSpinner(true);
-    } else if (roomsListStatus === "fulfilled") {
-      setSpinner(false);
-    }
-  }, [dispatch, roomBoking, roomsListStatus]);
+    dispatch(fetchRooms()).unwrap().then(() => setError(null)).catch(() => setError(bookingsListError!))
+}, []);
 
   useEffect(() => {
-    if (bookingsListStatus === "idle") {
-      dispatch(fetchBookings());
-    } else if (bookingsListStatus === "pending") {
-      setSpinner(true);
-    } else if (bookingsListStatus === "fulfilled") {
-      setSpinner(false);
-    }
-  }, [dispatch, bookingsListData, bookingsListStatus]);
+    dispatch(fetchBookings()).unwrap().then(() => setError(null)).catch(() => setError(bookingsListError!))
+}, []);
 
   const [formData, setFormData] = useState<BookingInterface>({
     name: "",
@@ -193,6 +183,7 @@ export const NewBookingPage = () => {
   return (
     <>
     <ToastContainer />
+    {error !== null ?   <ErrorPage error={error}></ErrorPage> : ( 
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
       <StyledFormContainer
@@ -275,6 +266,7 @@ export const NewBookingPage = () => {
         </StyledButton>
       </StyledFormContainer>
     </StyledBoxForm>
+    )}
     </>
   );
 };

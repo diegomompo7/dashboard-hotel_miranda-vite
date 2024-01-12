@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
-import { fetchDELData, fetchGETData, fetchPATCHData, fetchPOSTData } from "../../hooks/fetchAPI";
+import { fetchData } from "../../hooks/fetchAPI";
 
 export const fetchBookings = createAsyncThunk<BookingInterface[], void, { state: any, rejectValue: string }>("bookings/getBookings", async (): Promise<BookingInterface[]> => {
     return new Promise(async (resolve, reject) => {
         try{
-            const response = await fetchGETData("/bookings")
+            const response = await fetchData("/bookings", "GET", null)
             if(response.ok){
                 resolve(response.json())
                 }else{
@@ -21,7 +21,7 @@ export const fetchBookings = createAsyncThunk<BookingInterface[], void, { state:
 export const fetchBooking = createAsyncThunk<BookingInterface, string, { state: any, rejectValue: string }>("bookings/getBooking", async (id: string): Promise<BookingInterface> => {
     return new Promise(async (resolve, reject) => {
         try{
-            const response = (await fetchGETData("/bookings/" + id))
+            const response = (await fetchData("/bookings/" + id, "GET", null))
             if(response.ok){
             resolve(response.json())
             }else{
@@ -37,8 +37,8 @@ export const fetchBooking = createAsyncThunk<BookingInterface, string, { state: 
 export const fetchPOSTBooking = createAsyncThunk<BookingInterface, Object, { state: any, rejectValue: string }>("bookings/postBooking", async (body: Object): Promise<BookingInterface> => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchPOSTData("/bookings", body);
-            resolve(response)
+            const response = await fetchData("/bookings", "POST", body);
+            resolve(response.json())
           } catch (error) {
             reject("Error 500: Internal server error")
         }
@@ -49,8 +49,8 @@ export const fetchPATCHBooking = createAsyncThunk<BookingInterface, { id: string
    
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchPATCHData("/bookings/" + id, formData);
-            resolve(response)
+            const response = await fetchData("/bookings/" + id, "PATCH", formData);
+            resolve(response.json())
           } catch (error) {
             reject("Error 500: Internal server error")
         }
@@ -61,8 +61,8 @@ export const fetchDELETEBooking = createAsyncThunk<BookingInterface, number, { s
    
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchDELData("/bookings/", id);
-            resolve(response)
+            const response = await fetchData("/bookings/" + id, "DELETE", null);
+            resolve(response.json())
           } catch (error) {
             reject("Error 500: Internal server error")
         }

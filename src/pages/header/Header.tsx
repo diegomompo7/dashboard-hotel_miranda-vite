@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   StyledBox,
   StyledMenuBox,
@@ -35,22 +35,32 @@ import { StyledButton } from "../../components/common/StyledButton";
 import { StyledLink } from "../../components/header/StyledLink";
 import AuthContext from "../../AuthContext";
 import { HeaderProps } from "../../interfaces/props/PropsInterface";
-import { fetchGETData } from "../../hooks/fetchAPI";
+import { fetchData } from "../../hooks/fetchAPI";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../app/store";
+import { useDispatch } from "react-redux";
 
-export const Header: React.FC<HeaderProps> =  (props) => {
+export const Header: React.FC<HeaderProps> = (props) => {
   const [open, setOpen] = React.useState<boolean>(false);
-  const { userLogin, logout} = useContext(AuthContext);
-  const [user, setUser] = React.useState({photo: "", fullName: "", email: "",})
+  const { userLogin, logout } = useContext(AuthContext);
+  const [user, setUser] = React.useState({ photo: "", fullName: "", email: "", })
+  const [error, setError] = useState<string | null>(null);
 
-  const navigate: NavigateFunction = useNavigate()
 
-  if(open){
-    const user = async  () => {
-      setUser(await fetchGETData("/header"))
+useEffect(() => {
+    const userLogged = async () => {
+      try {
+        const response = await fetchData("/header", "GET", null)
+        const userId = await response.json()
+        if(response.ok){
+        setUser({ photo: userId.photo, fullName: userId.fullName, email: userId.email })
+        }
+      } catch (error) {
+        setError("Error 500: Internal server error")
+      }
     }
-    user()
-  }
+    userLogged()
+  },[])
 
 
   const handleLogOut = async () => {

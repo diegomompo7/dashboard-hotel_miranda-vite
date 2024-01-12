@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
-import { fetchDELData, fetchGETData, fetchPATCHData, fetchPOSTData } from "../../hooks/fetchAPI";
+import { fetchData} from "../../hooks/fetchAPI";
 import { Await } from "react-router-dom";
 import { ErrorResponseImpl } from "@remix-run/router/dist/utils";
 
 export const fetchRooms = createAsyncThunk<RoomInterface[], void, { state: any, rejectValue: string }>("rooms/getRooms", async (): Promise<RoomInterface[]> => {
     return new Promise(async (resolve, reject) => {
         try{
-            const response = await fetchGETData("/rooms")
+            const response = await fetchData("/rooms", "GET", null)
             if(response.ok){
                 resolve(response.json())
                 }else{
@@ -23,7 +23,7 @@ export const fetchRooms = createAsyncThunk<RoomInterface[], void, { state: any, 
 export const fetchRoom = createAsyncThunk<RoomInterface, string, { state: any, rejectValue: string }>("rooms/getRoom", async (id: string, {rejectWithValue}): Promise<RoomInterface> => {
     return new Promise(async (resolve, reject) => {
         try{
-            const response = (await fetchGETData(("/rooms/" + id)))
+            const response = (await fetchData("/rooms/" + id, "GET", null))
             if(response.ok){
             resolve(response.json())
             }else{
@@ -40,8 +40,8 @@ export const fetchPOSTRoom = createAsyncThunk<RoomInterface, Object, { state: an
     console.log(body)
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchPOSTData("/rooms", body);
-            resolve(response)
+            const response = await fetchData("/rooms", "POST", body);
+            resolve(response.json())
           } catch (error) {
         }
     })
@@ -51,8 +51,8 @@ export const fetchPATCHRoom = createAsyncThunk<RoomInterface, { id: string; form
     console.log(id)
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchPATCHData("/rooms/" + id, formData);
-            resolve(response)
+            const response = await fetchData("/rooms/" + id, "PATCH", formData);
+            resolve(response.json());
           } catch (error) {
             reject("Error 500: Internal server error")
         }
@@ -63,8 +63,8 @@ export const fetchDELETERoom = createAsyncThunk<RoomInterface, number, { state: 
     console.log(id)
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchDELData("/rooms/", id);
-            resolve(response)
+            const response = await fetchData("/rooms/" + id, "DELETE", null);
+            resolve(response.json())
           } catch (error) {
             reject("Error 500: Internal server error")
         }

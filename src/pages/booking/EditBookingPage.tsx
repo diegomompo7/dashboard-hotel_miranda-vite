@@ -31,6 +31,8 @@ import logo from "../../assets/img/logo.png";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { fetchBooking, fetchBookings, fetchPATCHBooking } from "../../features/bookings/bookingsTrunk";
 import { ErrorPage } from "../error/ErrorPage";
+import { StyledSpinner } from "../../components/spinner/StyledSpinner";
+import { IoMdBook } from "react-icons/io";
 
 export const EditBookingPage = () => {
 
@@ -54,12 +56,12 @@ export const EditBookingPage = () => {
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
   const [roomAvailable, setRoomAvailable] = useState<string[]>([]);
 
+  const [bookingId, setBookingId] = useState<BookingInterface>();
+
   const now: Date = new Date();
   const nowDate: string = now.toISOString().slice(0, 16).replace("T", " ");
   const [error, setError] = useState<string | null>(null);
-  const [bookingId, setBookingId] = useState<BookingInterface>()
-  const bookingDataId =  useAppSelector<BookingInterface>(getBookingId);
-     const [formData, setFormData] = useState<BookingInterface>({
+  const [formData, setFormData] = useState<BookingInterface>({
     name: '',
     orderDate: '',
     check_in: '',
@@ -83,39 +85,20 @@ export const EditBookingPage = () => {
   });
 
 
-  
   useEffect(() => {
-    if (roomsListStatus === "idle") {
-      dispatch(fetchRooms());
-    } else if (roomsListStatus === "pending") {
-      setSpinner(true);
-    } else if (roomsListStatus === "rejected") {
-      setSpinner(true);
-      setError(roomsListError!)
-    }else if (roomsListStatus === "fulfilled") {
-      setSpinner(false);
-      setError(null)
-    }
-  }, [dispatch, roomBoking, roomsListStatus]);
+      dispatch(fetchBooking(id)).unwrap().then((user) => {
+        setFormData(user)
+        setBookingId(user)
+      }).catch(() => setError(bookingsListError!))
+  }, [dispatch, id]);
 
   useEffect(() => {
-    if (bookingsListStatus === "idle") {
-      dispatch(fetchBooking(id));
-      dispatch(fetchBookings());
-    } else if (bookingsListStatus === "pending") {
-      setSpinner(true);
-    }else if (bookingsListStatus=== "rejected") {
-        setSpinner(true);
-        setError(bookingsListError!)
-    } else if (bookingsListStatus === "fulfilled") {
-      setSpinner(false);
-      setBookingId(bookingDataId)
-      setFormData(bookingId!)
-      setError(null)
-    }
-  }, [dispatch, bookingsListData, bookingDataId,bookingsListStatus]);
+    dispatch(fetchRooms()).unwrap().then(() => setError(null)).catch(() => setError(bookingsListError!))
+}, []);
 
-  console.log(bookingId)
+  useEffect(() => {
+    dispatch(fetchBookings()).unwrap().then(() => setError(null)).catch(() => setError(bookingsListError!))
+}, []);
 
 
   const handleChange = (
@@ -149,22 +132,24 @@ export const EditBookingPage = () => {
     }
   };
 
-
   useEffect(() => {
+    console.log(bookingsListData)
     if (formData.check_in !== "" && formData.check_out !== "") {
       roomBoking.forEach((rooms: RoomInterface) => {
         const idBook: BookingInterface[] = bookingsListData.filter(
           (booking: BookingInterface) => booking.room._id === rooms._id
         );
 
+        console.log(rooms.roomNumber, idBook) 
 
 
-
-        if (idBook.length === 0) {
-          roomAvailable.push(rooms.roomNumber);
-        }
-
+        if (idBook.length === 0 && !roomAvailable.includes(rooms.roomNumber)) {
+          roomAvailable.push(rooms.roomNumber); 
+        } 
+  
+        else {
         idBook.every((checkDate) => {
+
 
           if (
             checkDate.check_in > formData.check_out ||
@@ -181,11 +166,14 @@ export const EditBookingPage = () => {
 
           }
         });
+        }
       });
 
     }
-  }, [[bookingId!.check_in,  bookingId!.check_out]]);
 
+  }, [[formData!.check_in,  formData!.check_out]]);
+
+  console.log(roomAvailable) 
 
 
   const handleOnUpdate = (
@@ -226,9 +214,10 @@ export const EditBookingPage = () => {
   return (
     <>
     <ToastContainer />
-    {error !==  null ?   <ErrorPage error={error}></ErrorPage> :  bookingId && 
+    {error !== null ?   <ErrorPage error={error}></ErrorPage> : ( 
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
+      {bookingsListStatus === "pending" ?   <StyledSpinner>Loading...</StyledSpinner> : bookingId && (
       <StyledFormContainer
         name="createForm"
         onChange={(e: ChangeEvent<HTMLFormElement>) => handleChange(e)}
@@ -238,7 +227,7 @@ export const EditBookingPage = () => {
           type="text"
           alignInput="center"
           name="name"
-          defaultValue={bookingId!.name}
+          defaultValue={formData!.name}
         ></StyledInputForm>
 
         <StyledInputDate>
@@ -247,34 +236,34 @@ export const EditBookingPage = () => {
             placeholder="Check In"
             type="date"
             name="check_in"
-            defaultValue={bookingId!.check_in}
+            defaultValue={formData!.check_in}
           ></StyledInputForm>
           <label htmlFor="">Hour In: </label>
           <StyledInputForm
             placeholder="Hour In"
             type="time"
             name="hour_in"
-            defaultValue={bookingId!.hour_in}
+            defaultValue={formData!.hour_in}
           ></StyledInputForm>
           <label htmlFor="">Check Out: </label>
           <StyledInputForm
             placeholder="Check Out"
             type="date"
             name="check_out"
-            defaultValue={bookingId!.check_out}
+            defaultValue={formData!.check_out}
           ></StyledInputForm>
           <label htmlFor="">Hour Out: </label>
           <StyledInputForm
             placeholder="Hour Out"
             type="time"
             name="hour_out"
-            defaultValue={bookingId!.hour_out}
+            defaultValue={formData!.hour_out}
           ></StyledInputForm>
         </StyledInputDate>
         <StyledTextAreaForm
           placeholder="Special Request"
           name="specialRequest"
-          defaultValue={bookingId!.specialRequest}
+          defaultValue={formData!.specialRequest}
         ></StyledTextAreaForm>
 
         <StyledSelect
@@ -294,26 +283,20 @@ export const EditBookingPage = () => {
               );
 
                 if (room !== undefined) {
-                  if(roomAva === bookingId!.room.roomNumber){
-                    return (
-                    <option key={room._id} value={JSON.stringify(room)} selected>
-                    {roomAva}
-                  </option> )
-                  }else{
-                    return (
+                  return (
                   <option key={room._id} value={JSON.stringify(room)}>
                     {roomAva}
                   </option>
                   )}
-                }
-              })
-            })
+                })
+              }
+
         </StyledSelect>
 
         <StyledSelect
           nameSelect="selectRoom"
           name="status"
-          defaultValue={bookingId!.status}
+           defaultValue={formData?.status}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -337,8 +320,9 @@ export const EditBookingPage = () => {
           UPDATE ROOM
         </StyledButton>
       </StyledFormContainer>
+      )}
     </StyledBoxForm>
-    }
+    )}
     </>
   );
 }

@@ -40,7 +40,7 @@ function App() {
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const response = await fetch("https://k9mgwp50x0.execute-api.eu-south-2.amazonaws.com/dev" + "/login", {
+      const response = await fetch(import.meta.env.VITE_API + "/login", {
         method: "POST",
         headers: {
           'Accept': 'application/json',

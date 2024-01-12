@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UserInterface } from "../../interfaces/user/UserInterface";
-import { fetchDELData, fetchGETData, fetchPATCHData, fetchPOSTData } from "../../hooks/fetchAPI";
+import { fetchData } from "../../hooks/fetchAPI";
 
 export const fetchUsers = createAsyncThunk<UserInterface[], void, { state: any, rejectValue: string }>("users/getUsers", async (): Promise<UserInterface[]> => {
     return new Promise(async (resolve, reject) => {
         try{
-            const response = await fetchGETData("/users")
+            const response = await fetchData("/users", "GET", null)
             if(response.ok){
                 resolve(response.json())
                 }else{
@@ -21,7 +21,7 @@ export const fetchUsers = createAsyncThunk<UserInterface[], void, { state: any, 
 export const fetchUser = createAsyncThunk<UserInterface, string, { state: any, rejectValue: string }>("users/getUser", async (id: string): Promise<UserInterface> => {
     return new Promise(async (resolve, reject) => {
         try{
-            const response = (await fetchGETData(("/users/" + id)))
+            const response = (await fetchData("/users/" + id, "GET", null))
             if(response.ok){
             resolve(response.json())
             }else{
@@ -38,8 +38,8 @@ export const fetchPOSTUser = createAsyncThunk<UserInterface, Object, { state: an
 
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchPOSTData("/users", body);
-            resolve(response)
+            const response = await fetchData("/users", "POST", body);
+            resolve(response.json())
           } catch (error) {
             reject("Error 500: Internal server error")
         }
@@ -50,8 +50,8 @@ export const fetchPATCHUser = createAsyncThunk<UserInterface, { id: string; form
   
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchPATCHData("/users/" + id, formData);
-            resolve(response)
+            const response = await fetchData("/users/" + id, "PATCH", formData);
+            resolve(response.json())
           } catch (error) {
             reject("Error 500: Internal server error")
         }
@@ -62,8 +62,8 @@ export const fetchDELETEUser = createAsyncThunk<UserInterface, number, { state: 
 
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetchDELData("/users/", id);
-            resolve(response)
+            const response = await fetchData("/users/" + id, "DELETE", null);
+            resolve(response.json())
           } catch (error) {
             reject("Error 500: Internal server error")
         }
