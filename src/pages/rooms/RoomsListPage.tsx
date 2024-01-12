@@ -49,26 +49,14 @@ export const RoomsListPage = () => {
 
 
   useEffect(() => {
-    if (roomsListStatus === "idle") {
-      dispatch(fetchRooms());
-    } else if (roomsListStatus === "pending") {
-      setSpinner(true);
-    }
-    else if (roomsListStatus === "rejected") {
-      setSpinner(true);
-      setError(roomsListError!)
-    }  
-    else if (roomsListStatus === "fulfilled") {
-      setSpinner(false);
-    }
-  }, [dispatch, roomsListData, roomsListStatus]);
+    dispatch(fetchRooms()).unwrap().then(() => setError(null)).catch(() => setError(roomsListError!))
+  }, [dispatch]);
 
 
-  const handleClick = (click: React.SetStateAction<string>): void => {
+  const handleTag = (click: React.SetStateAction<string>): void => {
     setCurrentView(click);
 
-    numberPage[0] = 0;
-    numberPage[1] = 10;
+    setNumberPage([0,10])
     setCurrentPage(1);
   };
 
@@ -88,8 +76,7 @@ export const RoomsListPage = () => {
         break;
     }
     dispatch(getSelect(orderSelect));
-    numberPage[0] = 0;
-    numberPage[1] = 10;
+    setNumberPage([0,10])
     setCurrentPage(1);
   };
 
@@ -100,6 +87,12 @@ export const RoomsListPage = () => {
       ? roomsListData.filter((booked) => booked.status === "Booked")
       : roomsListData;
 
+      if (roomsListStatus === "rejected") {
+
+        <StyledSpinner>{error}</StyledSpinner>
+
+      } else{
+
   return (
     <>
       <ToastContainer></ToastContainer>
@@ -108,19 +101,19 @@ export const RoomsListPage = () => {
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             <StyledNav>
               <StyledNavText
-                onClick={() => handleClick("all")}
+                onClick={() => handleTag("all")}
                 isActive={currentView === "all"}
               >
                 All Bookings
               </StyledNavText>
               <StyledNavText
-                onClick={() => handleClick("available")}
+                onClick={() => handleTag("available")}
                 isActive={currentView === "available"}
               >
                 Available
               </StyledNavText>
               <StyledNavText
-                onClick={() => handleClick("booked")}
+                onClick={() => handleTag("booked")}
                 isActive={currentView === "booked"}
               >
                 Booked
@@ -155,11 +148,9 @@ export const RoomsListPage = () => {
             </thead>
             <TableBody>
 
-              { error !== null ? <StyledSpinner>{error}</StyledSpinner> :
-              
-              spinner ? (
-                <p>Loading...</p>
-              ) : (
+              { roomsListStatus === "pending" ? (
+                    <StyledSpinner>Loading...</StyledSpinner>
+                  ) : (
                 <DataTableRooms
                   data={currentRoomsListData}
                   numberPage={numberPage}
@@ -220,4 +211,5 @@ export const RoomsListPage = () => {
       )}
     </>
   );
+  }
 };

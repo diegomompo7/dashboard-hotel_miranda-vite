@@ -35,6 +35,7 @@ export const EditRoomsPage = () => {
   );
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
   const [spinner, setSpinner] = useState<boolean>(true);
+  const [roomId, setRoomId] = useState<RoomInterface>();
 
   const [error, setError] = useState<string | null>(null);
 
@@ -51,20 +52,17 @@ export const EditRoomsPage = () => {
     status:'',
   });
 
+
   useEffect(() => {
-    if (roomsListStatus === "idle") {
-      dispatch(fetchRoom(id));
-      dispatch(fetchRooms());
-    } else if (roomsListStatus === "pending") {
-      setSpinner(true);
-    } else if (roomsListStatus === "rejected") {
-      setError(roomsListError!)
-    } else if (roomsListStatus === "fulfilled") {
-      setSpinner(false);
-      setFormData(roomsListDataId)
-      setError(null)
-    }
-  }, [dispatch, roomsListData, roomsListDataId, roomsListStatus]);
+    dispatch(fetchRoom(id)).unwrap().then((room) => {
+      setFormData(room)
+      setRoomId(room)
+    }).catch(() => setError(roomsListError!))
+}, [dispatch, id]);
+
+useEffect(() => {
+  dispatch(fetchRooms()).unwrap().then(() => setError(null)).catch(() => setError(roomsListError!))
+}, []);
 
 
 
@@ -106,9 +104,10 @@ export const EditRoomsPage = () => {
 
   return (
     <>
-    {error !==  null ?   <ErrorPage error={error}></ErrorPage> : roomsListDataId !== undefined && (
+    {error !==  null ?   <ErrorPage error={error}></ErrorPage> : (
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
+      {roomsListStatus === "pending" ?   <StyledSpinner>Loading...</StyledSpinner> : roomId &&(
       <StyledFormContainer
         name="createForm"
         onChange={(e: ChangeEvent<HTMLFormElement>) => {
@@ -118,7 +117,7 @@ export const EditRoomsPage = () => {
         <StyledSelect
           nameSelect="selectCreate"
           name="roomType"
-          defaultValue={roomsListDataId.roomType}
+          defaultValue={roomId!.roomType}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -134,7 +133,7 @@ export const EditRoomsPage = () => {
         <StyledSelect
           nameSelect="selectCreate"
           name="offer"
-          defaultValue={roomsListDataId.offer}
+          defaultValue={roomId!.offer}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -148,9 +147,9 @@ export const EditRoomsPage = () => {
 
         <StyledTextAreaForm
           value={
-            Array.isArray(roomsListDataId.photos)
-              ? roomsListDataId.photos.join("\n")
-              : roomsListDataId.photos
+            Array.isArray(formData.photos)
+              ? formData.photos.join("\n")
+              : formData.photos
           }
           placeholder="Photo"
           name="photos"
@@ -163,39 +162,39 @@ export const EditRoomsPage = () => {
 
         <StyledInputForm
           placeholder="Room Number"
-          value={roomsListDataId.roomNumber}
+          value={formData.roomNumber}
           type="text"
           name="roomNumber"
         ></StyledInputForm>
         <StyledTextAreaForm
           placeholder="Description"
-          value={roomsListDataId.description}
+          value={formData.description}
           name="description"
         ></StyledTextAreaForm>
         <StyledInputForm
-          value={roomsListDataId.priceNight}
+          value={formData.priceNight}
           placeholder="Price per night"
           type="number"
           name="priceNight"
         ></StyledInputForm>
         <StyledInputForm
-          value={roomsListDataId.discount === null ? "" : roomsListDataId.discount.toString()}
+          value={formData.discount === null ? "" : formData.discount.toString()}
           placeholder="Discount"
           type="number"
           name="discount"
         ></StyledInputForm>
         <StyledInputForm
           placeholder="Cancelattion"
-          value={roomsListDataId.cancellation}
+          value={formData.cancellation}
           type="text"
           name="cancellation"
         ></StyledInputForm>
         <StyledTextAreaForm
           placeholder="Amenities"
           value={
-            Array.isArray(roomsListDataId.amenities)
-              ? roomsListDataId.amenities.join("\n")
-              : roomsListDataId.amenities
+            Array.isArray(formData.amenities)
+              ? formData.amenities.join("\n")
+              : formData.amenities
           }
           name="amenities"
           rows={3}
@@ -211,6 +210,7 @@ export const EditRoomsPage = () => {
           UPDATE ROOM
         </StyledButton>
       </StyledFormContainer>
+        )}
     </StyledBoxForm>
     )}
     </>

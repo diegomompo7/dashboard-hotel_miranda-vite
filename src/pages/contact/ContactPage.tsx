@@ -101,7 +101,7 @@ export const ContactPage = () => {
                 <StyledTableCellRow>Comment</StyledTableCellRow>
               </thead>
               <TableBody>
-                {error !== null ? <StyledSpinner>{error}</StyledSpinner> : spinner ? (
+                {contactListStatus === "pending" ? (
                   <StyledSpinner>Loading...</StyledSpinner>
                 ) : (
                   <DataTableContact
