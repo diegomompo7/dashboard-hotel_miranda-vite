@@ -36,11 +36,12 @@ export const ContactPage = () => {
   );
 
   const [spinner, setSpinner] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   const [numberPage, setNumberPage] = useState<number[]>([0, 10]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentView, setCurrentView] = useState<string>("all");
+
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(fetchContacts()).unwrap().then(() => setError(null)).catch(() => setError(contactListError!))
