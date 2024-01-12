@@ -25,7 +25,7 @@ export const DashboardPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    dispatch(fetchContacts()).unwrap().then(() => setError(null)).catch(() => setError(contactListError!))
+    dispatch(fetchContacts()).unwrap().then(() => setError(null)).catch((err) => setError(err.message))
   }, [dispatch]);
 
   if (contactListStatus === "rejected") {

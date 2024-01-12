@@ -51,11 +51,11 @@ export const NewBookingPage = () => {
   const nowDate: string = now.toISOString().slice(0, 16).replace("T", " ");
 
   useEffect(() => {
-    dispatch(fetchRooms()).unwrap().then(() => setError(null)).catch(() => setError(bookingsListError!))
+    dispatch(fetchRooms()).unwrap().then(() => setError(null)).catch((err) => setError(err.message))
 }, []);
 
   useEffect(() => {
-    dispatch(fetchBookings()).unwrap().then(() => setError(null)).catch(() => setError(bookingsListError!))
+    dispatch(fetchBookings()).unwrap().then(() => setError(null)).catch((err) => setError(err.message))
 }, []);
 
   const [formData, setFormData] = useState<BookingInterface>({

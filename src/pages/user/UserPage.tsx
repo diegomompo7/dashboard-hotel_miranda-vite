@@ -51,22 +51,13 @@ export const UserPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (usersListStatus === "idle") {
-      dispatch(fetchUsers());
-    } else if (usersListStatus === "pending") {
-      setSpinner(true);
-    } else if (usersListStatus === "rejected") {
-      setError(usersListError!)
-    } else if (usersListStatus === "fulfilled") {
-      setSpinner(false);
-    }
-  }, [dispatch, usersListData, usersListStatus]);
+    dispatch(fetchUsers()).unwrap().then(() => setError(null)).catch(() => setError(usersListError!))
+  }, [dispatch]);
 
-  const handleClick = (click: React.SetStateAction<string>): void => {
+  const handleTag = (click: React.SetStateAction<string>): void => {
     setCurrentView(click);
 
-    numberPage[0] = 0;
-    numberPage[1] = 10;
+    setNumberPage([0,10])
     setCurrentPage(1);
   };
 
@@ -104,8 +95,7 @@ export const UserPage = () => {
         break;
     }
     dispatch(getSelect(orderSelect));
-    numberPage[0] = 0;
-    numberPage[1] = 10;
+    setNumberPage([0,10])
     setCurrentPage(1);
   };
 
@@ -116,6 +106,12 @@ export const UserPage = () => {
       ? usersListInactive
       : usersListData;
 
+      if (usersListStatus === "rejected") {
+
+        <StyledSpinner>{error}</StyledSpinner>
+    
+      } else {
+
   return (
     <>
     <ToastContainer></ToastContainer>
@@ -124,19 +120,19 @@ export const UserPage = () => {
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             <StyledNav>
               <StyledNavText
-                onClick={() => handleClick("all")}
+                onClick={() => handleTag("all")}
                 isActive={currentView === "all"}
               >
                 All Employee
               </StyledNavText>
               <StyledNavText
-                onClick={() => handleClick("active")}
+                onClick={() => handleTag("active")}
                 isActive={currentView === "active"}
               >
                 Active Employee
               </StyledNavText>
               <StyledNavText
-                onClick={() => handleClick("inactive")}
+                onClick={() => handleTag("inactive")}
                 isActive={currentView === "inactive"}
               >
                 Inactive Employee
@@ -175,11 +171,9 @@ export const UserPage = () => {
               <StyledTableCellRow>Status</StyledTableCellRow>
             </thead>
             <TableBody>
-              {error !== null ? <StyledSpinner>{error}</StyledSpinner> :
-              
-              spinner ? (
-                <p>Loading...</p>
-              ) : (
+              { usersListStatus === "pending" ? (
+                    <StyledSpinner>Loading...</StyledSpinner>
+                  ) : (
                 <DataTableUsers
                   data={currentUsersListData}
                   numberPage={numberPage}
@@ -237,4 +231,5 @@ export const UserPage = () => {
       )}
     </>
   );
+  }
 };

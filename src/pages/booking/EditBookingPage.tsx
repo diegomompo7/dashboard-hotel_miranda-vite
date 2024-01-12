@@ -89,15 +89,15 @@ export const EditBookingPage = () => {
       dispatch(fetchBooking(id)).unwrap().then((book) => {
         setFormData(book)
         setBookingId(book)
-      }).catch(() => setError(bookingsListError!))
+      }).catch((err) => setError(err.message))
   }, [dispatch, id]);
 
   useEffect(() => {
-    dispatch(fetchRooms()).unwrap().then(() => setError(null)).catch(() => setError(bookingsListError!))
+    dispatch(fetchRooms())
 }, []);
 
   useEffect(() => {
-    dispatch(fetchBookings()).unwrap().then(() => setError(null)).catch(() => setError(bookingsListError!))
+    dispatch(fetchBookings())
 }, []);
 
 

@@ -19,6 +19,7 @@ import { UserInterface } from "../../../user/UserInterface";
 import { fetchPATCHUser, fetchUser, fetchUsers } from "../../features/users/usersTrunk";
 import { getUserId, getUsersData, getUsersError, getUsersStatus } from "../../features/users/usersSlice";
 import { ErrorPage } from "../error/ErrorPage";
+import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
 export const EditUserPage = () => {
   const url: URL = new URL(window.location.href);
@@ -36,6 +37,7 @@ export const EditUserPage = () => {
   
   const [error, setError] = useState<string | null>(null);
   const [spinner, setSpinner] = useState<boolean>(true);
+  const [userId, setUserId] = useState<UserInterface>();
 
   const [formData, setFormData] = useState<UserInterface>({
     photo: "",
@@ -50,23 +52,15 @@ export const EditUserPage = () => {
   });
 
   useEffect(() => {
-    console.log(usersListStatus)
-    if (usersListStatus === "idle") {
-      dispatch(fetchUser(id));
-      dispatch(fetchUsers())
-    } else if (usersListStatus === "pending") {
-      setSpinner(true);
-    } else if (usersListStatus === "rejected") {
-      setError(usersListError!)
-    } else if (usersListStatus === "fulfilled") {
-      setSpinner(false);
-      setFormData(usersListDataId)
-      setError(null)
-    }
-  }, [dispatch, usersListDataId, usersListStatus, usersListData, id]);
+    dispatch(fetchUser(id)).unwrap().then((user) => {
+      setFormData(user)
+      setUserId(user)
+    }).catch((err) => setError(err.message))
+}, [dispatch, id]);
+
 
     console.log(spinner)
-    console.log(usersListDataId)
+    console.log(usersListStatus)
 
   const handleChange = (
     e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -94,9 +88,10 @@ export const EditUserPage = () => {
 
   return (
     <>
-    {error !==  null ?   <ErrorPage error={error}></ErrorPage> : usersListDataId !== undefined && (
+    {usersListStatus === "rejected"  ?   <ErrorPage error={error}></ErrorPage> : ( 
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
+      {usersListStatus === "pending" ?   <StyledSpinner>Loading...</StyledSpinner> : userId && (
       <StyledFormContainer
         name="createForm"
         onChange={(e: ChangeEvent<HTMLFormElement>) => {
@@ -104,7 +99,7 @@ export const EditUserPage = () => {
         }}
       >
         <StyledTextAreaForm
-          value={usersListDataId.photo}
+          value={formData.photo}
           placeholder="Photo"
           name="photo"
           rows={2}
@@ -113,38 +108,38 @@ export const EditUserPage = () => {
           }}
         ></StyledTextAreaForm>
         <StyledInputForm
-          value={usersListDataId.fullName}
+          value={formData.fullName}
           placeholder="Full Name"
           type="text"
           name="fullName"
         ></StyledInputForm>
         <StyledInputForm
-          value={usersListDataId.password}
+          value={formData.password}
           placeholder="Password"
           type="Password"
           name="password"
         ></StyledInputForm>
         <StyledInputForm
-          value={usersListDataId.email}
+          value={formData.email}
           placeholder="Email"
           type="email"
           name="email"
         ></StyledInputForm>
         <StyledInputForm
-          value={usersListDataId.phone}
+          value={formData.phone}
           placeholder="123456789"
           type="tel"
           name="phone"
           pattern="[0-9]{3}[0-9]{3}[0-9]{3}"
         ></StyledInputForm>
         <StyledInputForm
-          value={usersListDataId.startDate}
+          value={formData.startDate}
           placeholder="YYYY/MM/DD"
           type="text"
           name="startDate"
         ></StyledInputForm>
         <StyledTextAreaForm
-          value={usersListDataId.descriptionJob}
+          value={formData.descriptionJob}
           placeholder="Description about job"
           name="descriptionJob"
           rows={2}
@@ -152,7 +147,7 @@ export const EditUserPage = () => {
         <StyledSelect
           nameSelect="selectCreate"
           name="status"
-          value={usersListDataId.status}
+          value={userId.status}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -167,7 +162,7 @@ export const EditUserPage = () => {
         <StyledSelect
           nameSelect="selectCreate"
           name="job"
-          value={usersListDataId.job}
+          value={formData.job}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             handleChange(e);
           }}
@@ -190,6 +185,7 @@ export const EditUserPage = () => {
           UPDATE EMPLOYEE
         </StyledButton>
       </StyledFormContainer>
+      )}
     </StyledBoxForm>
     )}
     </>

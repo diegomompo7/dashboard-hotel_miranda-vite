@@ -49,7 +49,7 @@ export const RoomsListPage = () => {
 
 
   useEffect(() => {
-    dispatch(fetchRooms()).unwrap().then(() => setError(null)).catch(() => setError(roomsListError!))
+    dispatch(fetchRooms()).unwrap().then(() => setError(null)).catch((err) => setError(err.message))
   }, [dispatch]);
 
 

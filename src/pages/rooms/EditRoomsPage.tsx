@@ -57,13 +57,8 @@ export const EditRoomsPage = () => {
     dispatch(fetchRoom(id)).unwrap().then((room) => {
       setFormData(room)
       setRoomId(room)
-    }).catch(() => setError(roomsListError!))
+    }).catch((err) => setError(err.message))
 }, [dispatch, id]);
-
-useEffect(() => {
-  dispatch(fetchRooms()).unwrap().then(() => setError(null)).catch(() => setError(roomsListError!))
-}, []);
-
 
 
   const handleChange = (

@@ -53,7 +53,7 @@ export const BookingPage = () => {
 
 
   useEffect(() => {
-    dispatch(fetchBookings()).unwrap().then(() => setError(null)).catch(() => setError(bookingsListError!))
+    dispatch(fetchBookings()).unwrap().then(() => setError(null)).catch((err) => setError(err.message))
   }, [dispatch]);
 
 
