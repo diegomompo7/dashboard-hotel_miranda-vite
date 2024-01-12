@@ -16,8 +16,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { UserInterface } from "../../../user/UserInterface";
-import { fetchPATCHUser, fetchUser, fetchUsers } from "../../features/users/usersTrunk";
-import { getUserId, getUsersData, getUsersError, getUsersStatus } from "../../features/users/usersSlice";
+import { fetchPATCHUser, fetchUser} from "../../features/users/usersTrunk";
 import { ErrorPage } from "../error/ErrorPage";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
@@ -28,15 +27,10 @@ export const EditUserPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch()
 
-  const usersListData = useAppSelector<UserInterface[]>(getUsersData)!;
-  const usersListDataId = useAppSelector<UserInterface>(getUserId)!;
-  const usersListError = useAppSelector<string | undefined>(
-    getUsersError
-  );
+
   const  usersListStatus = useAppSelector<string>((state) => state.users.status);
   
   const [error, setError] = useState<string | null>(null);
-  const [spinner, setSpinner] = useState<boolean>(true);
   const [userId, setUserId] = useState<UserInterface>();
 
   const [formData, setFormData] = useState<UserInterface>({
@@ -57,10 +51,6 @@ export const EditUserPage = () => {
       setUserId(user)
     }).catch((err) => setError(err.message))
 }, [dispatch, id]);
-
-
-    console.log(spinner)
-    console.log(usersListStatus)
 
   const handleChange = (
     e: ChangeEvent<HTMLFormElement | HTMLSelectElement | HTMLTextAreaElement>

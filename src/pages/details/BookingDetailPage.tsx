@@ -27,56 +27,45 @@ import { StyledMoreIcon } from "../../components/common/StyledIcons";
 
 import { useDispatch } from "react-redux";
 
-import { getBookingId, getBookingsError, getBookingsStatus} from "../../features/bookings/bookingsSlice";
+import {getBookingsStatus} from "../../features/bookings/bookingsSlice";
 import React, { useEffect, useState } from "react";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { fetchBooking } from "../../features/bookings/bookingsTrunk";
+import { ErrorPage } from "../error/ErrorPage";
+import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
 export const BookingDetailPage = () => {
   const url: URL = new URL(window.location.href);
   const id: string = url.pathname.split("/").slice(2, 3).join("");
 
   const dispatch: AppDispatch = useDispatch();
-  const [spinner, setSpinner] = useState<boolean>(true);
-
-
-
-  const bookingListRoom= useAppSelector<BookingInterface>(getBookingId);
-  const bookingsListError = useAppSelector<string | undefined>(
-    getBookingsError)
+  const [bookingId, setBookingId] = useState<BookingInterface>();
   const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
+
   
   const [error, setError] = useState<string | null>(null);
 
 
   useEffect(() => {
-    if (bookingsListStatus === "idle") {
-      dispatch(fetchBooking(id));
-    } else if (bookingsListStatus === "pending") {
-      setSpinner(true);
-    } else if (bookingsListStatus === "rejected") {
-      setError(bookingsListError!)
-    } else if (bookingsListStatus === "fulfilled") {
-      setSpinner(false);
-      setError(null)
-    }
-  }, [dispatch, bookingListRoom, bookingsListStatus]);
+    dispatch(fetchBooking(id)).unwrap().then((book) => {
+      setBookingId(book)
+    }).catch((err) => setError(err.message))
+}, [dispatch, id]);
 
-  console.log(bookingsListStatus)
 
   return (
     <>
-    { bookingListRoom &&
-    <StyledDetailContainer key={bookingListRoom._id}>
+    {bookingsListStatus === "rejected"  ?   <ErrorPage error={error}></ErrorPage> : bookingsListStatus === "pending" ?   <StyledSpinner>Loading...</StyledSpinner> : bookingId &&
+    <StyledDetailContainer key={bookingId._id}>
       <StyledDetailContent>
         <StyledDetailContentPerson>
           <StyledDetailPersonText>
             <StyledDetailText typeStyle="semibold">
-              {bookingListRoom.name}
+              {bookingId.name}
             </StyledDetailText>
             <StyledDetailText typeStyle="id">
-              ID {bookingListRoom._id}
+              ID {bookingId._id}
             </StyledDetailText>
             <StyledDetailActions>
               <StyledDetailIconPhone></StyledDetailIconPhone>
@@ -95,13 +84,13 @@ export const BookingDetailPage = () => {
             <StyledDetailText typeStyle="normal"> Check In</StyledDetailText>
             <StyledDetailText typeStyle="checkMedium">
               {" "}
-              {bookingListRoom.check_in} | {bookingListRoom.hour_in}{" "}
+              {bookingId.check_in} | {bookingId.hour_in}{" "}
             </StyledDetailText>
           </div>
           <div>
             <StyledDetailText typeStyle="normal"> Check out</StyledDetailText>
             <StyledDetailText typeStyle="checkMedium">
-              {bookingListRoom.check_out} | {bookingListRoom.hour_out}{" "}
+              {bookingId.check_out} | {bookingId.hour_out}{" "}
             </StyledDetailText>
           </div>
         </StyleDetailCheck>
@@ -110,7 +99,7 @@ export const BookingDetailPage = () => {
           <StyledDetailInfoRoom>
             <StyledDetailText typeStyle="normal">Room Info</StyledDetailText>
             <StyledDetailText typeStyle="infoMedium">
-              {bookingListRoom.room.roomNumber}
+              {bookingId.room.roomNumber}
             </StyledDetailText>
           </StyledDetailInfoRoom>
           <StyledDetailInfoPrice>
@@ -118,21 +107,21 @@ export const BookingDetailPage = () => {
 
             <div style={{ display: "flex" }}>
               <StyledDetailText typeStyle="infoMedium">
-                ${bookingListRoom.room.priceNight}
+                ${bookingId.room.priceNight}
               </StyledDetailText>
               <StyledDetailText typeStyle="perNight"> /night</StyledDetailText>
             </div>
           </StyledDetailInfoPrice>
         </StyledDetailInfo>
         <StyledDetailText typeStyle="normalDesc">
-          {bookingListRoom.specialRequest}
+          {bookingId.specialRequest}
         </StyledDetailText>
         <StyledDetailAmeContainer>
           <StyledDetailText typeStyle="normalFacilities">
             Facilites
           </StyledDetailText>
           <StyledDetailAmenities>
-            {bookingListRoom.room.amenities.map((amenities) => (
+            {bookingId.room.amenities.map((amenities) => (
               <StyledDetailText key={amenities} typeStyle="amenities">
                 {amenities}
               </StyledDetailText>
@@ -148,17 +137,17 @@ export const BookingDetailPage = () => {
         modules={[Navigation]}
         className="mySwiper"
       >
-        {bookingListRoom.room.photos.map((element) => (
+        {bookingId.room.photos.map((element) => (
           <StyledDetailSwiperSlide key={element} img={element}>
-            <StyleDetailStatus typeStyle={bookingListRoom.status}>
-              {bookingListRoom.status}
+            <StyleDetailStatus typeStyle={bookingId.status}>
+              {bookingId.status}
             </StyleDetailStatus>
             <StyledDetailTextContainer>
               <StyledDetailText typeStyle="bookingType">
-                {bookingListRoom.room.roomType}
+                {bookingId.room.roomType}
               </StyledDetailText>
               <StyledDetailText typeStyle="bookingDescription">
-                {bookingListRoom.room.description}
+                {bookingId.room.description}
               </StyledDetailText>
             </StyledDetailTextContainer>
           </StyledDetailSwiperSlide>

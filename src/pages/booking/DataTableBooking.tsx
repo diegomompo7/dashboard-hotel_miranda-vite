@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Action} from "@reduxjs/toolkit";
 import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { DataTableBookingProps } from "../../interfaces/props/PropsInterface";
-import { fetchBooking, fetchBookings, fetchDELETEBooking } from "../../features/bookings/bookingsTrunk";
+import { fetchBooking,  fetchDELETEBooking } from "../../features/bookings/bookingsTrunk";
 import { AppDispatch } from "../../app/store";
 
 export const DataTableBooking: React.FC<DataTableBookingProps> = (props) => {

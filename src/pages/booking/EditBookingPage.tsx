@@ -10,16 +10,14 @@ import {
 import { StyledSelect } from "../../components/common/StyledSelect";
 
 import {
-  getBookingId,
   getBookingsData,
-  getBookingsError,
   getBookingsStatus,
 } from "../../features/bookings/bookingsSlice";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useEffect, useState } from "react";
 
-import { getRoomsData, getRoomsError, getRoomsStatus } from "../../features/rooms/roomsSlice";
+import { getRoomsData } from "../../features/rooms/roomsSlice";
 import { fetchRooms } from "../../features/rooms/roomsTrunk";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -32,7 +30,6 @@ import { AppDispatch, useAppSelector } from "../../app/store";
 import { fetchBooking, fetchBookings, fetchPATCHBooking } from "../../features/bookings/bookingsTrunk";
 import { ErrorPage } from "../error/ErrorPage";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner";
-import { IoMdBook } from "react-icons/io";
 
 export const EditBookingPage = () => {
 
@@ -43,17 +40,9 @@ export const EditBookingPage = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const bookingsListData = useAppSelector<BookingInterface[]>(getBookingsData);
-  const bookingsListError = useAppSelector<string | undefined>(
-    getBookingsError
-  );
   const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
-  const [spinner, setSpinner] = useState<boolean>(true);
 
   const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData);
-  const roomsListError = useAppSelector<string | undefined>(
-    getRoomsError
-  );
-  const roomsListStatus = useAppSelector<string>(getRoomsStatus);
   const [roomAvailable, setRoomAvailable] = useState<string[]>([]);
 
   const [bookingId, setBookingId] = useState<BookingInterface>();
@@ -133,14 +122,12 @@ export const EditBookingPage = () => {
   };
 
   useEffect(() => {
-    console.log(bookingsListData)
     if (formData.check_in !== "" && formData.check_out !== "") {
       roomBoking.forEach((rooms: RoomInterface) => {
         const idBook: BookingInterface[] = bookingsListData.filter(
           (booking: BookingInterface) => booking.room._id === rooms._id
         );
 
-        console.log(rooms.roomNumber, idBook) 
 
 
         if (idBook.length === 0 && !roomAvailable.includes(rooms.roomNumber)) {
@@ -172,9 +159,6 @@ export const EditBookingPage = () => {
     }
 
   }, [[formData!.check_in,  formData!.check_out]]);
-
-  console.log(roomAvailable) 
-
 
   const handleOnUpdate = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -214,7 +198,7 @@ export const EditBookingPage = () => {
   return (
     <>
     <ToastContainer />
-    {error !== null ?   <ErrorPage error={error}></ErrorPage> : ( 
+    {bookingsListStatus === "rejected" ?   <ErrorPage error={error}></ErrorPage> : ( 
     <StyledBoxForm name="createForm">
       <StyledImgForm src={logo}></StyledImgForm>
       {bookingsListStatus === "pending" ?   <StyledSpinner>Loading...</StyledSpinner> : bookingId && (

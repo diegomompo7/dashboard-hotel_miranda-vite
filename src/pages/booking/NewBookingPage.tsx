@@ -10,15 +10,13 @@ import {
 import { StyledSelect } from "../../components/common/StyledSelect";
 
 import {
-  getBookingsData,
-  getBookingsError,
-  getBookingsStatus,
+  getBookingsData
 } from "../../features/bookings/bookingsSlice";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useEffect, useState } from "react";
 
-import { getRoomsData, getRoomsStatus } from "../../features/rooms/roomsSlice";
+import { getRoomsData} from "../../features/rooms/roomsSlice";
 import { fetchRooms } from "../../features/rooms/roomsTrunk";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -35,14 +33,8 @@ export const NewBookingPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const bookingsListData = useAppSelector<BookingInterface[]>(getBookingsData);
-  const bookingsListError = useAppSelector<string | undefined>(
-    getBookingsError
-  );
-  const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
-  const [spinner, setSpinner] = useState<boolean>(true);
 
   const roomBoking = useAppSelector<RoomInterface[]>(getRoomsData);
-  const roomsListStatus = useAppSelector<string>(getRoomsStatus);
 
   const [roomAvailable, setRoomAvailable] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);

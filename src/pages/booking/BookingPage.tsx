@@ -31,7 +31,7 @@ import { AppDispatch, useAppSelector } from "../../app/store.ts";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner.ts";
 import { StyledBoxDefault } from "../../components/root/StyledBody.ts";
 import { ToastContainer } from "react-toastify";
-import { getBookingsError } from "../../features/bookings/bookingsSlice.ts";
+import { ErrorPage } from "../error/ErrorPage.tsx";
 
 export const BookingPage = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -42,7 +42,6 @@ export const BookingPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   let bookingsListData = useAppSelector<BookingInterface[]>(getBookingsData);
-  const bookingsListError = useAppSelector<string | undefined>(getBookingsError);
   const bookingsListStatus = useAppSelector<string>(getBookingsStatus);
 
   const [currentView, setCurrentView] = useState<string>("all");
@@ -151,7 +150,7 @@ export const BookingPage = () => {
 
   if (bookingsListStatus === "rejected") {
 
-    <StyledSpinner>{error}</StyledSpinner>
+    <ErrorPage error={error}></ErrorPage>
 
   } else {
 

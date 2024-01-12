@@ -14,7 +14,6 @@ import { ToastContainer } from "react-toastify";
 export const LoginPage: React.FC<LoginProps> = ({
   handleOnSubmit,
   userLogin,
-  checkLogin
 }) => {
   const url: string | null = localStorage.getItem("lastRoute");
 

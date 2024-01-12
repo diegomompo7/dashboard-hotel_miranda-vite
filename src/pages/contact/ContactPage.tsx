@@ -18,24 +18,22 @@ import { useDispatch } from "react-redux";
 import {
   getContactData,
   getContactDataArchive,
-  getContactError,
   getContactStatus,
 } from "../../features/contact/contactSlice";
 import { fetchContacts } from "../../features/contact/contactTrunk";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner";
+import { ErrorPage } from "../error/ErrorPage";
 
 export const ContactPage = () => {
   const dispatch: AppDispatch = useDispatch();
   let contactListData = useAppSelector<ContactInterface[]>(getContactData);
-  const contactListError = useAppSelector<string | undefined>(getContactError);
   const contactListStatus = useAppSelector<string>(getContactStatus);
   const currentContactListArchived = useAppSelector<ContactInterface[]>(
     getContactDataArchive
   );
 
-  const [spinner, setSpinner] = useState<boolean>(true);
 
   const [numberPage, setNumberPage] = useState<number[]>([0, 10]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -66,7 +64,7 @@ export const ContactPage = () => {
 
   if (contactListStatus === "rejected") {
 
-    <StyledSpinner>{error}</StyledSpinner>
+    <ErrorPage error={error}></ErrorPage>
 
   } else {
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 import "./App.css";
 import { ContactPage } from "./pages/contact/ContactPage";
-import { DashboardPage } from "./pages/dashboard/DashboardPage";
+import { DashboardPage } from "./pages/details/DashboardPage";
 import { BookingDetailPage } from "./pages/details/BookingDetailPage";
 import { BookingPage } from "./pages/booking/BookingPage";
 import { LoginPage } from "./pages/login/LoginPage";
@@ -11,9 +11,8 @@ import { NewRoomPage } from "./pages/rooms/NewRoomPage";
 import { RoomsListPage } from "./pages/rooms/RoomsListPage";
 import { Root } from "./pages/root/Root";
 import { UserPage } from "./pages/user/UserPage";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import React, { useEffect, useMemo, useState } from "react";
-import users from "./data/users.json";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { EditRoomsPage } from "./pages/rooms/EditRoomsPage";
 import AuthContext from "./AuthContext";
 import { NewBookingPage } from "./pages/booking/NewBookingPage";

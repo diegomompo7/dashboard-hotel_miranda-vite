@@ -36,13 +36,9 @@ import { StyledLink } from "../../components/header/StyledLink";
 import AuthContext from "../../AuthContext";
 import { HeaderProps } from "../../interfaces/props/PropsInterface";
 import { fetchData } from "../../hooks/fetchAPI";
-import { NavigateFunction, useNavigate } from "react-router-dom";
-import { AppDispatch } from "../../app/store";
-import { useDispatch } from "react-redux";
-
 export const Header: React.FC<HeaderProps> = (props) => {
   const [open, setOpen] = React.useState<boolean>(false);
-  const { userLogin, logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const [user, setUser] = React.useState({ photo: "", fullName: "", email: "", })
   const [error, setError] = useState<string | null>(null);
 

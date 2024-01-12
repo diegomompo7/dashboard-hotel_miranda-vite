@@ -42,8 +42,6 @@ export const UserPage = () => {
   const usersListInactive =
     useAppSelector<UserInterface[]>(getUsersDataInactive);
 
-  const [spinner, setSpinner] = useState<boolean>(true);
-
   const [currentView, setCurrentView] = useState<string>("all");
 
   const [numberPage, setNumberPage] = useState<number[]>([0, 10]);

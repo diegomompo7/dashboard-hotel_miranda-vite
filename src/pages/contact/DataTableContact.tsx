@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { DataTableContactProps } from "../../interfaces/props/PropsInterface";
 import React from "react";
 import { ContactInterface } from "../../interfaces/contact/ContactInterface";
-import { Dispatch } from "@reduxjs/toolkit";
 import { fetchPATCHContact } from "../../features/contact/contactTrunk";
 import { AppDispatch } from "../../app/store";
 

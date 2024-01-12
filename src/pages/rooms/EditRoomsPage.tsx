@@ -8,7 +8,7 @@ import {
 } from "../../components/common/StyledForm";
 import { StyledSelect } from "../../components/common/StyledSelect";
 import logo from "../../assets/img/logo.png";
-import { getRoomId, getRoomsData, getRoomsError, getRoomsStatus} from "../../features/rooms/roomsSlice";
+import {getRoomsStatus} from "../../features/rooms/roomsSlice";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
-import { fetchPATCHRoom, fetchRoom, fetchRooms } from "../../features/rooms/roomsTrunk";
+import { fetchPATCHRoom, fetchRoom } from "../../features/rooms/roomsTrunk";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 import { ErrorPage } from "../error/ErrorPage";
 
@@ -28,13 +28,7 @@ export const EditRoomsPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
-  const roomsListData= useAppSelector<RoomInterface[]>(getRoomsData);
-  const roomsListDataId = useAppSelector<RoomInterface>(getRoomId);
-  const roomsListError = useAppSelector<string | undefined>(
-    getRoomsError
-  );
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
-  const [spinner, setSpinner] = useState<boolean>(true);
   const [roomId, setRoomId] = useState<RoomInterface>();
 
   const [error, setError] = useState<string | null>(null);

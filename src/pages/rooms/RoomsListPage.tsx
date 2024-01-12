@@ -17,19 +17,13 @@ import { StyledButton } from "../../components/common/StyledButton";
 import { useDispatch } from "react-redux";
 import {
   getRoomsData,
-  getRoomsError,
   getRoomsStatus,
   getSelect,
 } from "../../features/rooms/roomsSlice";
 import { fetchRooms } from "../../features/rooms/roomsTrunk";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import {
-  getBookingsData,
-  getBookingsStatus,
-} from "../../features/bookings/bookingsSlice";
 import { AppDispatch, useAppSelector } from "../../app/store";
 import { RoomInterface } from "../../interfaces/room/RoomInterface";
-import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { ToastContainer } from "react-toastify";
 import { StyledSpinner } from "../../components/spinner/StyledSpinner";
 
@@ -37,9 +31,7 @@ export const RoomsListPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const roomsListData = useAppSelector<RoomInterface[]>(getRoomsData);
-  const roomsListError = useAppSelector<string | undefined>(getRoomsError);
   const roomsListStatus = useAppSelector<string>(getRoomsStatus);
-  const [spinner, setSpinner] = useState(true);
 
   const [currentView, setCurrentView] = useState<string>("all");
 
