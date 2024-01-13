@@ -185,7 +185,7 @@ export const NewBookingPage = () => {
         <StyledInputForm
           placeholder="Name and surname"
           type="text"
-          alignInput="center"
+      
           name="name"
         ></StyledInputForm>
 

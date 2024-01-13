@@ -45,7 +45,7 @@ export const StyledFormContainer = styled.form<{ name?: string }>`
 
 `}
 `;
-export const StyledInputForm = styled.input<{ alignInput?: string }>`
+export const StyledInputForm = styled.input<{ alignInput?: string, name?:string }>`
     height: 1.687em;
     background: none;
     font-family: "Poppins", sans-serif;
@@ -59,6 +59,12 @@ export const StyledInputForm = styled.input<{ alignInput?: string }>`
       props.alignInput === "center" &&
       `
         margin: 0 30% 1.875rem 30%;
+    `}
+    ${(props) =>
+      props.name === "name" &&
+      `
+      width: 100%;
+
     `}
 
 `;

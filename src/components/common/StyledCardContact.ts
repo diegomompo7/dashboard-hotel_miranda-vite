@@ -9,6 +9,7 @@ export const StyledSwiperSlide = styled(SwiperSlide)`
 `;
 
 export const StyledSwiper = styled(Swiper)`
+    backgrpund: red;
   & .swiper-button-next,
   .swiper-button-prev {
     color: #ffffff;
@@ -21,7 +22,6 @@ export const StyledSwiper = styled(Swiper)`
       font-size: 1rem;
     }
   }
-  margin-bottom: 5.438em;
 `;
 
 export const StyledSSText = styled.p<{ name: string }>`

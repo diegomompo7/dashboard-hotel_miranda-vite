@@ -152,11 +152,11 @@ export const NewRoomPage = () => {
           type="number"
           name="discount"
         ></StyledInputForm>
-        <StyledInputForm
+        <StyledTextAreaForm
           placeholder="Cancelattion"
-          type="text"
           name="cancellation"
-        ></StyledInputForm>
+          rows={2}
+        ></StyledTextAreaForm>
         <StyledTextAreaForm
           placeholder="Amenities. Introduce each amenitie on a new line"
           name="amenities"

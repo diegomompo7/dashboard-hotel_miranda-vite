@@ -225,7 +225,7 @@ export const StyledDetailSwiper = styled(Swiper)`
     background: #c8c8c8;
     border-radius: 0.7em;
     border: 5px solid #d2d2d2;
-    top: 40.625em;
+    top: 70%;
     margin-left: 3.375em;
     margin-right: 2.062em;
     width: 2.5em;
@@ -265,15 +265,15 @@ export const StyledDetailSwiperSlide = styled(SwiperSlide)<{ img: string }>`
 export const StyledDetailTextContainer = styled.div``;
 export const StyleDetailStatus = styled.div<{ typeStyle: string }>`
   position: relative;
-  left: 10%;
+  left: 3.75em;
   margin-left: auto;
   top: 1em;
   transform: rotate(40deg);
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 1rem;
-  margin-right: 0;
-  padding: 1.125em 0;
+  margin-right: 0px;
+  padding: 1em 0;
   text-align: center;
   width: 12.75em;
 

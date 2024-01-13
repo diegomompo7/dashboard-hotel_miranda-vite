@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 import "./App.css";
 import { ContactPage } from "./pages/contact/ContactPage";
-import { DashboardPage } from "./pages/details/DashboardPage";
+import { DashboardPage } from "./pages/dashboard/DashboardPage";
 import { BookingDetailPage } from "./pages/details/BookingDetailPage";
 import { BookingPage } from "./pages/booking/BookingPage";
 import { LoginPage } from "./pages/login/LoginPage";
@@ -36,41 +36,6 @@ function App() {
     userLogged && setUserLogin(userLogged), (checkLogin = true);
   }, []);
 
-  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    try {
-      const response = await fetch(import.meta.env.VITE_API + "/login", {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: (e.target as any)[0].value,
-          password: (e.target as any)[1].value
-        })
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        localStorage.setItem("token", data);
-        checkLogin = true;
-        (e.target as HTMLFormElement).submit()
-
-      } else {
-        toast.error("Invalid username or password", {
-          position: "bottom-center",
-          autoClose: 5000,
-          closeOnClick: true,
-          theme: "colored",
-        });
-        checkLogin = false;
-      }
-    } catch (e) {
-      console.error("Error", e)
-    }
-  }
-
   const logout = () => {
     setUserLogin("")
   }
@@ -85,9 +50,9 @@ function App() {
                 path="/login"
                 element={
                   <LoginPage
-                    handleOnSubmit={handleOnSubmit}
                     checkLogin={checkLogin}
                     userLogin={userLogin}
+                    setUserLogin={setUserLogin}
                   />
                 }
               />

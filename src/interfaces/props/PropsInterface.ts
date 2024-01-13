@@ -47,7 +47,7 @@ export interface HeaderProps {
 }
 
 export interface LoginProps {
-  handleOnSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   checkLogin: boolean;
   userLogin: string;
+  setUserLogin: (request: "") => void;
 }

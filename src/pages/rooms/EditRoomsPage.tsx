@@ -172,12 +172,11 @@ export const EditRoomsPage = () => {
           type="number"
           name="discount"
         ></StyledInputForm>
-        <StyledInputForm
+        <StyledTextAreaForm
           placeholder="Cancelattion"
           value={formData.cancellation}
-          type="text"
           name="cancellation"
-        ></StyledInputForm>
+        ></StyledTextAreaForm>
         <StyledTextAreaForm
           placeholder="Amenities"
           value={

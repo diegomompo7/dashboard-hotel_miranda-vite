@@ -17,8 +17,10 @@ export const StyledSelect = styled.select<{
     props.nameSelect === "selectCreate" &&
     `
         margin: 0 auto 1.875em auto;
-
-
-      
     `}
+    ${(props) =>
+      props.nameSelect === "selectRoom" &&
+      `
+          margin: 0 auto 1.875em auto;
+      `}    
 `;

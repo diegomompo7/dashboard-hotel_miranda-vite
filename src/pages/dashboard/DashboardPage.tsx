@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CardContact } from "../contact/CardContact";
-import { CardKpi } from "../dashboard/CardKpi";
+import { CardKpi } from "./CardKpi";
 import { useDispatch } from "react-redux";
 import {
   getContactData,

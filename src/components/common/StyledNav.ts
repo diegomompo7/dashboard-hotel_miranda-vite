@@ -4,6 +4,7 @@ export const StyledNav = styled.nav`
   display: flex;
   width: 34%;
   min-width: 31.25em;
+  margin-top: 5.438em;
   margin-bottom: 2.188em;
   border-bottom: 1px solid #d4d4d4;
 `;

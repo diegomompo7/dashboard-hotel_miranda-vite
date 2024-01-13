@@ -209,7 +209,6 @@ export const EditBookingPage = () => {
         <StyledInputForm
           placeholder="Name and surname"
           type="text"
-          alignInput="center"
           name="name"
           defaultValue={formData!.name}
         ></StyledInputForm>

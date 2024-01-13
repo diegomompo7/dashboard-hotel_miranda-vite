@@ -143,10 +143,10 @@ export const BookingDetailPage = () => {
               {bookingId.status}
             </StyleDetailStatus>
             <StyledDetailTextContainer>
-              <StyledDetailText typeStyle="bookingType">
+              <StyledDetailText typeStyle="roomType">
                 {bookingId.room.roomType}
               </StyledDetailText>
-              <StyledDetailText typeStyle="bookingDescription">
+              <StyledDetailText typeStyle="roomDescription">
                 {bookingId.room.description}
               </StyledDetailText>
             </StyledDetailTextContainer>
