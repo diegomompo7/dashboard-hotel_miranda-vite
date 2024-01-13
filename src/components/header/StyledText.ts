@@ -40,10 +40,10 @@ export const StyledTextUserMenu = styled.p<StyledTextProps>`
 export const StyledTextFooter = styled.p<{ name: string }>`
   font-family: "Poppins", sans-serif;
   padding-left: 16.2%;
-  vertical-align: 100%;
   ${(props) =>
     props.name === "travl" &&
-    `   
+    `
+        margin-top: 3.875em;
         margin-bottom: 0.313em;
         color: #212121;
         font-size: 1rem;

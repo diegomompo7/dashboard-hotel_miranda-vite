@@ -78,7 +78,7 @@ export const ContactPage = () => {
               <CardContact contact={contactListData}></CardContact>
             )}
 
-            <StyledNav>
+            <StyledNav page="contact">
               <StyledNavText
                 onClick={() => handleClick("all")}
                 isActive={currentView === "all"}

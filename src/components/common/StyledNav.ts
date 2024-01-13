@@ -1,12 +1,15 @@
 import styled from "styled-components";
 
-export const StyledNav = styled.nav`
+export const StyledNav = styled.nav<{page?: string}>`
   display: flex;
   width: 34%;
   min-width: 31.25em;
-  margin-top: 5.438em;
   margin-bottom: 2.188em;
   border-bottom: 1px solid #d4d4d4;
+  ${(props) =>
+    props.page === "contact" &&
+    `
+    margin-top: 5.438em;`};
 `;
 export const StyledNavText = styled.p<{ isActive: boolean }>`
   white-space: nowrap;
