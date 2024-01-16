@@ -32,7 +32,7 @@ function App() {
   
 
   useEffect(() => {
-    const userLogged: string | null = localStorage.getItem("token");
+    const userLogged: string = localStorage.getItem("token")!;
     userLogged && setUserLogin(userLogged), (checkLogin = true);
   }, []);
 
