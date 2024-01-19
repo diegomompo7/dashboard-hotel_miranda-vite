@@ -13,7 +13,15 @@
     "priceNight": 189,
     "discount": 30,
     "cancellation": "Flexible",
-    "amenities": ["Vistas a la ciudad", "Baño privado", "Ventanas panorámicas", "Cama cómoda", "Mesa de trabajo", "Cafetera", "Armario espacioso"],
+    "amenities": [
+      "Vistas a la ciudad",
+      "Baño privado",
+      "Ventanas panorámicas",
+      "Cama cómoda",
+      "Mesa de trabajo",
+      "Cafetera",
+      "Armario espacioso"
+    ],
     "status": "Available"
   },
   {
@@ -30,7 +38,15 @@
     "priceNight": 66,
     "discount": null,
     "cancellation": "Moderate",
-    "amenities": ["Vistas al jardín", "Baño amplio", "Ventilación natural", "Cama espaciosa", "Sala de estar", "Comedor privado", "Baño de lujo"],
+    "amenities": [
+      "Vistas al jardín",
+      "Baño amplio",
+      "Ventilación natural",
+      "Cama espaciosa",
+      "Sala de estar",
+      "Comedor privado",
+      "Baño de lujo"
+    ],
     "status": "Available"
   },
   {
@@ -46,10 +62,17 @@
     "offer": "YES",
     "priceNight": 114,
     "discount": 10,
-    "amenities": ["Vistas panorámicas", "Baño de lujo", "Amplio espacio", "Cama king-size", "Sala de estar", "Terraza privada", "Armario empotrado"],
+    "amenities": [
+      "Vistas panorámicas",
+      "Baño de lujo",
+      "Amplio espacio",
+      "Cama king-size",
+      "Sala de estar",
+      "Terraza privada",
+      "Armario empotrado"
+    ],
     "cancellation": "Strict",
     "status": "Available"
-
   },
   {
     "id": 4,
@@ -65,7 +88,15 @@
     "priceNight": 101,
     "discount": 20,
     "cancellation": "Flexible",
-    "amenities": ["Vistas panorámicas", "Suite de lujo", "Dormitorio separado", "Sala de estar", "Baño de lujo", "Espacio amplio", "Ventanas panorámicas"],
+    "amenities": [
+      "Vistas panorámicas",
+      "Suite de lujo",
+      "Dormitorio separado",
+      "Sala de estar",
+      "Baño de lujo",
+      "Espacio amplio",
+      "Ventanas panorámicas"
+    ],
     "status": "Available"
   },
   {
@@ -82,7 +113,15 @@
     "priceNight": 85,
     "discount": null,
     "cancellation": "Moderate",
-    "amenities": ["Vistas relajantes", "Baño privado", "Cama cómoda", "Escritorio", "Espacio tranquilo", "Iluminación natural", "Armario espacioso"],
+    "amenities": [
+      "Vistas relajantes",
+      "Baño privado",
+      "Cama cómoda",
+      "Escritorio",
+      "Espacio tranquilo",
+      "Iluminación natural",
+      "Armario espacioso"
+    ],
     "status": "Available"
   },
   {
@@ -99,7 +138,15 @@
     "priceNight": 120,
     "discount": 15,
     "cancellation": "Flexible",
-    "amenities": ["Vistas al océano", "Baño amplio", "Ventanas panorámicas", "Cama espaciosa", "Sala de estar", "Wi-Fi gratuito", "Armario empotrado"],
+    "amenities": [
+      "Vistas al océano",
+      "Baño amplio",
+      "Ventanas panorámicas",
+      "Cama espaciosa",
+      "Sala de estar",
+      "Wi-Fi gratuito",
+      "Armario empotrado"
+    ],
     "status": "Booked"
   },
   {
@@ -116,7 +163,15 @@
     "priceNight": 95,
     "discount": 25,
     "cancellation": "Moderate",
-    "amenities": ["Vistas a la ciudad", "Baño privado", "Ventanas panorámicas", "Cama cómoda", "Mesa de trabajo", "Cafetera", "Armario espacioso"],
+    "amenities": [
+      "Vistas a la ciudad",
+      "Baño privado",
+      "Ventanas panorámicas",
+      "Cama cómoda",
+      "Mesa de trabajo",
+      "Cafetera",
+      "Armario espacioso"
+    ],
     "status": "Booked"
   },
   {
@@ -132,7 +187,15 @@
     "offer": "YES",
     "priceNight": 150,
     "discount": 12,
-    "amenities": ["Vistas a la montaña", "Baño de lujo", "Amplio espacio", "Cama king-size", "Sala de estar", "Terraza privada", "Armario empotrado"],
+    "amenities": [
+      "Vistas a la montaña",
+      "Baño de lujo",
+      "Amplio espacio",
+      "Cama king-size",
+      "Sala de estar",
+      "Terraza privada",
+      "Armario empotrado"
+    ],
     "cancellation": "Strict",
     "status": "Booked"
   },
@@ -150,7 +213,15 @@
     "priceNight": 180,
     "discount": 18,
     "cancellation": "Flexible",
-    "amenities": ["Vistas panorámicas", "Suite de lujo", "Dormitorio separado", "Sala de estar", "Baño de lujo", "Espacio amplio", "Ventanas panorámicas"],
+    "amenities": [
+      "Vistas panorámicas",
+      "Suite de lujo",
+      "Dormitorio separado",
+      "Sala de estar",
+      "Baño de lujo",
+      "Espacio amplio",
+      "Ventanas panorámicas"
+    ],
     "status": "Booked"
   },
   {
@@ -167,7 +238,15 @@
     "priceNight": 80,
     "discount": null,
     "cancellation": "Moderate",
-    "amenities": ["Vistas al amanecer", "Baño privado", "Cama cómoda", "Escritorio", "Espacio tranquilo", "Iluminación natural", "Armario espacioso"],
+    "amenities": [
+      "Vistas al amanecer",
+      "Baño privado",
+      "Cama cómoda",
+      "Escritorio",
+      "Espacio tranquilo",
+      "Iluminación natural",
+      "Armario espacioso"
+    ],
     "status": "Booked"
   },
   {
@@ -184,7 +263,15 @@
     "priceNight": 110,
     "discount": 22,
     "cancellation": "Strict",
-    "amenities": ["Vistas al bosque", "Baño amplio", "Ventanas panorámicas", "Cama espaciosa", "Sala de estar", "Wi-Fi gratuito", "Armario empotrado"],
+    "amenities": [
+      "Vistas al bosque",
+      "Baño amplio",
+      "Ventanas panorámicas",
+      "Cama espaciosa",
+      "Sala de estar",
+      "Wi-Fi gratuito",
+      "Armario empotrado"
+    ],
     "status": "Available"
   },
   {
@@ -200,7 +287,15 @@
     "offer": "NO",
     "priceNight": 130,
     "discount": null,
-    "amenities": ["Jardín privado", "Baño de lujo", "Amplio espacio", "Cama king-size", "Sala de estar", "Terraza privada", "Armario empotrado"],
+    "amenities": [
+      "Jardín privado",
+      "Baño de lujo",
+      "Amplio espacio",
+      "Cama king-size",
+      "Sala de estar",
+      "Terraza privada",
+      "Armario empotrado"
+    ],
     "cancellation": "Moderate",
     "status": "Available"
   },
@@ -218,7 +313,15 @@
     "priceNight": 159,
     "discount": 20,
     "cancellation": "Moderate",
-    "amenities": ["Vistas al jardín", "Baño privado", "TV de pantalla plana", "Armario", "Escritorio", "Secador de pelo", "Wi-Fi"],
+    "amenities": [
+      "Vistas al jardín",
+      "Baño privado",
+      "TV de pantalla plana",
+      "Armario",
+      "Escritorio",
+      "Secador de pelo",
+      "Wi-Fi"
+    ],
     "status": "Booked"
   },
   {
@@ -235,7 +338,15 @@
     "priceNight": 299,
     "discount": 40,
     "cancellation": "Strict",
-    "amenities": ["Vistas panorámicas", "Cama king-size", "Sala de estar", "Jacuzzi privado", "Cafetera Nespresso", "Mini bar", "Servicio a la habitación"],
+    "amenities": [
+      "Vistas panorámicas",
+      "Cama king-size",
+      "Sala de estar",
+      "Jacuzzi privado",
+      "Cafetera Nespresso",
+      "Mini bar",
+      "Servicio a la habitación"
+    ],
     "status": "Booked"
   },
   {
@@ -252,7 +363,14 @@
     "priceNight": 179,
     "discount": 25,
     "cancellation": "Flexible",
-    "amenities": ["Vistas a la montaña", "Baño privado", "Aire acondicionado", "Escritorio", "Televisión", "Wi-Fi"],
+    "amenities": [
+      "Vistas a la montaña",
+      "Baño privado",
+      "Aire acondicionado",
+      "Escritorio",
+      "Televisión",
+      "Wi-Fi"
+    ],
     "status": "Available"
   }
 ]

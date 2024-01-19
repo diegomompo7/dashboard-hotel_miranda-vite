@@ -9,10 +9,10 @@
     "check_out": "2023-12-15",
     "hour_out": "16:00",
     "specialRequest": "Alice Johnson ha solicitado un check-in temprano para su reserva en la habitación Double Superior (Overview Room - 601) del 10 de diciembre de 2023 al 15 de diciembre de 2023.",
-    "roomId": 3,
+    "room": { "id": 3 },
     "status": "Check In"
   },
-    {
+  {
     "id": 2,
     "name": "Bob Smith",
     "orderDate": "2023-11-23 10:30",
@@ -21,7 +21,7 @@
     "check_out": "2023-12-17",
     "hour_out": "12:00",
     "specialRequest": "Bob Smith ha solicitado una cama adicional para su reserva en la habitación Suite Junior - 402 del 12 de diciembre de 2023 al 17 de diciembre de 2023.",
-    "roomId": 2,
+    "room": { "id": 2 },
     "status": "Check In"
   },
   {
@@ -33,7 +33,7 @@
     "check_out": "2023-12-13",
     "hour_out": "11:00",
     "specialRequest": "Charlie Brown ha solicitado una habitación con vistas al bosque para su reserva en la habitación Forest View - 301 del 8 de diciembre de 2023 al 13 de diciembre de 2023.",
-    "roomId": 11,
+    "room": { "id": 11 },
     "status": "Check In"
   },
   {
@@ -45,7 +45,7 @@
     "check_out": "2023-12-19",
     "hour_out": "10:30",
     "specialRequest": "David Clark ha solicitado una habitación con jacuzzi privado para su reserva en la habitación Luxury-Suite - 302 del 14 de diciembre de 2023 al 19 de diciembre de 2023.",
-    "roomId": 14,
+    "room": { "id": 14 },
     "status": "Check In"
   },
   {
@@ -57,7 +57,7 @@
     "check_out": "2023-12-25",
     "hour_out": "14:30",
     "specialRequest": "Emma Davis ha solicitado una habitación con vistas al amanecer para su reserva en la habitación Sunrise Retreat - 210 del 20 de diciembre de 2023 al 25 de diciembre de 2023.",
-    "roomId": 10,
+    "room": { "id": 10 },
     "status": "Check In"
   },
   {
@@ -69,7 +69,7 @@
     "check_out": "2023-11-30",
     "hour_out": "09:45",
     "specialRequest": "Frank Evans ha solicitado una habitación con terraza privada para su reserva en la habitación Garden Retreat - 710 del 25 de noviembre de 2023 al 30 de noviembre de 2023.",
-    "roomId": 12,
+    "room": { "id": 12 },
     "status": "Check Out"
   },
   {
@@ -81,7 +81,7 @@
     "check_out": "2023-11-28",
     "hour_out": "11:30",
     "specialRequest": "Grace Fisher ha solicitado una habitación con vistas a la montaña para su reserva en la habitación Standard-Room - 203 del 22 de noviembre de 2023 al 28 de noviembre de 2023.",
-    "roomId": 15,
+    "room": { "id": 15 },
     "status": "Check Out"
   },
   {
@@ -93,7 +93,7 @@
     "check_out": "2023-11-25",
     "hour_out": "10:00",
     "specialRequest": "Henry Graham ha solicitado una habitación con sala de estar para su reserva en la habitación Suite - 512 del 20 de noviembre de 2023 al 25 de noviembre de 2023.",
-    "roomId": 9,
+    "room": { "id": 9 },
     "status": "Check Out"
   },
   {
@@ -105,7 +105,7 @@
     "check_out": "2023-11-30",
     "hour_out": "12:15",
     "specialRequest": "Isabel Harris ha solicitado una habitación con vistas al océano para su reserva en la habitación Ocean View - 503 del 29 de noviembre de 2023 al 30 de noviembre de 2024.",
-    "roomId": 6,
+    "room": { "id": 6 },
     "status": "Check Out"
   },
   {
@@ -117,7 +117,7 @@
     "check_out": "2023-11-29",
     "hour_out": "14:45",
     "specialRequest": "Jack Irwin ha solicitado una habitación con Wi-Fi gratuito para su reserva en la habitación City-View - 405 del 26 de noviembre de enero de 2023 al 29 de noviembre de 2024.",
-    "roomId": 5,
+    "room": { "id": 5 },
     "status": "Check Out"
   },
   {
@@ -129,7 +129,7 @@
     "check_out": "2023-12-05",
     "hour_out": "11:30",
     "specialRequest": "Karen Johnson ha solicitado una habitación con minibar para su reserva en la habitación Deluxe-Room - 102 del 25 de noviembre de 2023 al 15 de diciembre de 2023.",
-    "roomId": 3,
+    "room": { "id": 3 },
     "status": "In Progress"
   },
   {
@@ -141,7 +141,7 @@
     "check_out": "2023-12-02",
     "hour_out": "10:00",
     "specialRequest": "Leo Keller ha solicitado una habitación con servicio a la habitación para su reserva en la habitación Standard-Room - 201 del 12 de noviembre de 2023 al 12 de diciembre de 2023.",
-    "roomId": 1,
+    "room": { "id": 1 },
     "status": "In Progress"
   },
   {
@@ -153,7 +153,7 @@
     "check_out": "2023-12-10",
     "hour_out": "12:30",
     "specialRequest": "Mia Lawson ha solicitado una habitación con TV de pantalla plana para su reserva en la habitación Comfort-Room - 304 del 29 de noviembre de 2023 al 10 de diciembre de 2023.",
-    "roomId": 8,
+    "room": { "id": 8 },
     "status": "In Progress"
   },
   {
@@ -165,7 +165,7 @@
     "check_out": "2023-12-10",
     "hour_out": "11:00",
     "specialRequest": "Noah Mills ha solicitado una habitación con caja fuerte para su reserva en la habitación Safe-Haven - 601 del 29 de noviembre de 2023 al 10 de diciembre de 2023.",
-    "roomId": 7,
+    "room": { "id": 7 },
     "status": "In Progress"
   },
   {
@@ -177,8 +177,7 @@
     "check_out": "2023-12-07",
     "hour_out": "09:15",
     "specialRequest": "Olivia Nelson ha solicitado una habitación con gimnasio en el lugar para su reserva en la habitación Fitness-Suite - 502 del 26 de noviembre de 2023 al 7 de diciembre de 2023.",
-    "roomId": 13,
+    "room": { "id": 13 },
     "status": "In Progress"
   }
-  
 ]
