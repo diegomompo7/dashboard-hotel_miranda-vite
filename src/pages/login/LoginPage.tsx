@@ -77,6 +77,8 @@ export const LoginPage: React.FC<LoginProps> = ({
         <StyledButton name="login" type="submit" data-cy="loginButton">
           LOGIN
         </StyledButton>
+        <p>email: andrea83@gmail.com</p>
+        <p>password: matumevalifopid</p>
       </StyledFormContainer>
     </StyledBoxForm>
     </>
