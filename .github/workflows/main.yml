@@ -31,4 +31,4 @@ jobs:
           SOURCE_DIR: 'public'      # optional: defaults to entire repository
 
       - name: Run Cypress tests
-        run: npm run cypress:test
+        run: npm run cypress:open
