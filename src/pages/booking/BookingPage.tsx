@@ -2,19 +2,19 @@ import { DataTableBooking } from "./DataTableBooking";
 import {
   StyledTable,
   StyledTableCellRow,
-} from "../../components/common/StyledTable.ts";
+} from "../../components/common/StyledTable";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { StyledNav, StyledNavText } from "../../components/common/StyledNav.ts";
-import { StyledTextField } from "../../components/common/StyledTextField.ts";
-import { StyledSelect } from "../../components/common/StyledSelect.ts";
+import { StyledNav, StyledNavText } from "../../components/common/StyledNav";
+import { StyledTextField } from "../../components/common/StyledTextField";
+import { StyledSelect } from "../../components/common/StyledSelect";
 import {
   StyledPagination,
   StyledPaginationText,
   StyledButtonPage,
   StyledTextPage,
-} from "../../components/common/StyledPagination.ts";
-import { StyledButton } from "../../components/common/StyledButton.ts";
-import { ModalComponent } from "../../components/ModalComponent/ModalComponent.tsx";
+} from "../../components/common/StyledPagination";
+import { StyledButton } from "../../components/common/StyledButton";
+import { ModalComponent } from "../../components/ModalComponent/ModalComponent";
 import { useDispatch } from "react-redux";
 
 import {
@@ -22,16 +22,16 @@ import {
   getBookingsStatus,
   getClient,
   getSelect,
-} from "../../features/bookings/bookingsSlice.ts";
-import { fetchBookings } from "../../features/bookings/bookingsTrunk.ts";
+} from "../../features/bookings/bookingsSlice";
+import { fetchBookings } from "../../features/bookings/bookingsTrunk";
 import { useNavigate } from "react-router";
-import { BookingInterface } from "../../interfaces/booking/BookingInterface.ts";
+import { BookingInterface } from "../../interfaces/booking/BookingInterface";
 import { NavigateFunction } from "react-router-dom";
-import { AppDispatch, useAppSelector } from "../../app/store.ts";
-import { StyledSpinner } from "../../components/spinner/StyledSpinner.ts";
-import { StyledBoxDefault } from "../../components/root/StyledBody.ts";
+import { AppDispatch, useAppSelector } from "../../app/store";
+import { StyledSpinner } from "../../components/spinner/StyledSpinner";
+import { StyledBoxDefault } from "../../components/root/StyledBody";
 import { ToastContainer } from "react-toastify";
-import { ErrorPage } from "../error/ErrorPage.tsx";
+import { ErrorPage } from "../error/ErrorPage";
 
 export const BookingPage = () => {
   const [open, setOpen] = useState<boolean>(false);

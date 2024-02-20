@@ -160,7 +160,7 @@ export const NewUserPage = () => {
         <StyledButton
           name="new"
           type="submit"
-          onClick={(e) => {
+          onClick={(e: any) => {
             handleOnCreate(e);
           }}
         >

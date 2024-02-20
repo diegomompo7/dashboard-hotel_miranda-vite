@@ -168,7 +168,7 @@ export const EditUserPage = () => {
         <StyledButton
           name="new"
           type="submit"
-          onClick={(e) => {
+          onClick={(e : any) => {
             handleOnSubmit(e), navigate("/users");
           }}
         >
