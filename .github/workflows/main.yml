@@ -29,4 +29,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           VITE_API_KEY: ${{secrets.VITE_API_KEY}}
           AWS_REGION: 'eu-south-2'   # optional: defaults to us-east-1
-          SOURCE_DIR: 'dist'      # optional: defaults to entire repository
+          SOURCE_DIR: 'public'      # optional: defaults to entire repository
