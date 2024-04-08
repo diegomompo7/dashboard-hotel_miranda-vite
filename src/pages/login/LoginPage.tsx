@@ -23,7 +23,7 @@ export const LoginPage: React.FC<LoginProps> = ({
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const response = await fetch(import.meta.env.VITE_API + "/login", {
+      const response = await fetch(import.meta.env.VITE_API + "auth/user/", {
         method: "POST",
         headers: {
           'Accept': 'application/json',
