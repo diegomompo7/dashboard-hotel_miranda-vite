@@ -23,32 +23,26 @@ export const LoginPage: React.FC<LoginProps> = ({
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const response = await fetch(import.meta.env.VITE_API + "auth/user/", {
+      const response = await fetch('http://15.188.49.158/admin/login/?next=/admin/', {
         method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({
-          email: (e.target as any)[0].value,
-          password: (e.target as any)[1].value
-        })
+        body: `username=${encodeURIComponent((e.target as any)[0].value)}&password=${encodeURIComponent((e.target as any)[1].value)}`,
+        credentials: 'include'
       })
 
-      if (response.ok) {
-        const data = await response.json()
-        localStorage.setItem("token", data);
-        checkLogin = true;
-        setUserLogin(data);
-
+      if (response.redirected && response.url.includes('/admin/')) {
+        // Redireccionar al panel de administración
+        window.location.href = response.url;
       } else {
+        // El inicio de sesión falló
         toast.error("Invalid username or password", {
-          position: "bottom-center",
-          autoClose: 5000,
-          closeOnClick: true,
-          theme: "colored",
+            position: "bottom-center",
+            autoClose: 5000,
+            closeOnClick: true,
+            theme: "colored",
         });
-        checkLogin = false;
       }
     } catch (e) {
       console.error("Error", e)
@@ -66,7 +60,7 @@ export const LoginPage: React.FC<LoginProps> = ({
       >
         <StyledInputForm
           placeholder="Email"
-          type="email"
+          type="text"
           data-cy="inputUserEmail"
         ></StyledInputForm>
         <StyledInputForm
