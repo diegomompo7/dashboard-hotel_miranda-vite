@@ -23,11 +23,16 @@ export const LoginPage: React.FC<LoginProps> = ({
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const response = await fetch('http://15.188.49.158/admin/login/?next=/admin/', {
+      const csrfToken = getCookie('csrftoken');
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    if (csrfToken) {
+        headers['X-CSRFToken'] = csrfToken;
+    }
+      const response = await fetch('http://15.188.49.158/admin/', {
         method: "POST",
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
+        headers,
         body: `username=${encodeURIComponent((e.target as any)[0].value)}&password=${encodeURIComponent((e.target as any)[1].value)}`,
         credentials: 'include'
       })
@@ -48,6 +53,11 @@ export const LoginPage: React.FC<LoginProps> = ({
       console.error("Error", e)
     }
   }
+
+function getCookie(name:any) {
+    const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return cookieValue ? cookieValue.pop() : '';
+}
 
   return (
     <>
